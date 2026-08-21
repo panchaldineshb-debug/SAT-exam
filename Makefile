@@ -1,10 +1,42 @@
-BUCKET_NAME ?= sat-exam-app-bucket
-ALLOWED_IP ?= 203.0.113.50/32
 DEMO_ENV_DIR ?= terraform/environments/demo
 
-.PHONY: all build deploy restrict-ip tf-cost tf-inventory local-demo kill-local-demo expose-local share-demo tf-init-demo tf-create-demo
+.PHONY: help install clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo tf-cost tf-inventory
 
-all: build deploy
+# Default target: show help
+help:
+	@echo "SAT Exam App Makefile commands:"
+	@echo ""
+	@echo "Usage:"
+	@echo "  make <target>"
+	@echo ""
+	@echo "Local Development:"
+	@echo "  install          Install project dependencies (npm install)"
+	@echo "  build            Compile React frontend"
+	@echo "  clean            Remove build artifacts (dist/)"
+	@echo "  local-demo       Start the Vite local development server"
+	@echo "  kill-local-demo  Kill any running local dev server on port 5173"
+	@echo "  expose-local     Generate a temporary public URL for local server via localtunnel"
+	@echo "  share-demo       Start dev server and localtunnel simultaneously"
+	@echo ""
+	@echo "AWS Serverless Deployment:"
+	@echo "  tf-init-demo     Initialize Terraform in the DEMO environment"
+	@echo "  tf-plan-demo     Run Terraform plan for the DEMO environment"
+	@echo "  tf-create-demo   Apply Terraform, build app, sync to S3, and invalidate CloudFront"
+	@echo "  tf-destroy-demo  Manually destroy the DEMO environment"
+	@echo "  tf-inventory     Cross-check live AWS resources against Terraform state"
+	@echo "  tf-cost          Report month-to-date AWS spend by service"
+	@echo ""
+
+install:
+	npm install
+
+clean:
+	@echo "Cleaning build artifacts..."
+	rm -rf dist
+
+build: clean
+	cp -r data public/
+	npm run build
 
 local-demo:
 	cp -r data public/
@@ -23,16 +55,11 @@ share-demo:
 	cp -r data public/
 	npx concurrently "npm run dev" "sleep 2 && npx localtunnel --port 5173"
 
-build:
-	cp -r data public/
-	npm run build
-
-deploy:
-	aws s3 sync dist/ s3://$(BUCKET_NAME)
-	@echo "Deployment complete."
-
 tf-init-demo:
 	cd $(DEMO_ENV_DIR) && terraform init
+
+tf-plan-demo:
+	cd $(DEMO_ENV_DIR) && terraform plan
 
 tf-create-demo: build
 	cd $(DEMO_ENV_DIR) && terraform apply --auto-approve
@@ -44,29 +71,8 @@ tf-create-demo: build
 	@URL=$$(cd $(DEMO_ENV_DIR) && terraform output -raw cloudfront_domain) && \
 	echo "DEMO UI deployed successfully! Access it at: https://$$URL"
 
-restrict-ip:
-	@echo "Generating bucket-policy.json for IP restriction..."
-	@echo '{ \
-		"Version": "2012-10-17", \
-		"Statement": [ \
-			{ \
-				"Sid": "AllowSpecificIPs", \
-				"Effect": "Allow", \
-				"Principal": "*", \
-				"Action": "s3:GetObject", \
-				"Resource": "arn:aws:s3:::$(BUCKET_NAME)/*", \
-				"Condition": { \
-					"IpAddress": { \
-						"aws:SourceIp": [ \
-							"$(ALLOWED_IP)" \
-						] \
-					} \
-				} \
-			} \
-		] \
-	}' > bucket-policy.json
-	aws s3api put-bucket-policy --bucket $(BUCKET_NAME) --policy file://bucket-policy.json
-	@echo "Bucket policy applied restricting access to $(ALLOWED_IP)"
+tf-destroy-demo:
+	cd $(DEMO_ENV_DIR) && terraform destroy --auto-approve
 
 tf-cost:
 	python3 scripts/tf_cost.py $(if $(NOTIFY),--notify,)

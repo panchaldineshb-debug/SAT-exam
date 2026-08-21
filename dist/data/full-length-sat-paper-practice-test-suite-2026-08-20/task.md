@@ -1,5 +1,0 @@
-- `[x]` Create the `practice-test.md` file with the exam questions.
-- `[x]` Create the `answers.md` file with the correct answers.
-- `[x]` Create the `scoring.md` file with the scoring rubric.
-- `[x]` Update `data/drills_registry.json`.
-- `[x]` Create walkthrough.md.

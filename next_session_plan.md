@@ -30,3 +30,21 @@
 2. **The Boring Answer Rule:** The moderate, cautious answer (*may, contributes to, does not fully account for*) is almost always right.
 3. **The 2-Second Sanity Check:** Check that every math grid-in makes logical sense before writing it down.
 4. **Desmos One-Line Rule:** Never round intermediate decimals—type the full expression in Desmos at once.
+
+---
+
+## 🛠️ Developer / Architecture Tasks (Next Offline Session)
+
+**1. AWS Cognito "Forgot Password" Flow Implementation:**
+*   **Step 1:** Add a "Forgot Password?" link to the `LoginScreen.jsx` UI (under the password input).
+*   **Step 2:** Create a new React state (`authState === 'FORGOT_PASSWORD'`) to render an email input form.
+*   **Step 3:** Use Amplify's `resetPassword({ username })` API to trigger Cognito to send a 6-digit recovery code to the user's email.
+*   **Step 4:** Create a `CONFIRM_RESET` UI state asking for the 6-digit code and a new password.
+*   **Step 5:** Use Amplify's `confirmResetPassword({ username, confirmationCode, newPassword })` to finalize the reset and seamlessly transition them back to the Sign-In screen.
+
+**2. Security & Compliance (COPPA & GDPR/CCPA):**
+*   Add an "I agree to Terms & Privacy Policy" and "I am over 13" checkbox requirement during account creation.
+*   Implement a "Delete My Data" Lambda trigger in user settings.
+
+**3. Cost Optimization & Rate Limiting:**
+*   Deploy AWS WAF in front of API Gateway to rate limit traffic and prevent brute-force login attempts (to keep the Serverless bill strictly Free Tier).
