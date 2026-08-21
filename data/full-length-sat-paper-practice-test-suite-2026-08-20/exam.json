@@ -1,0 +1,381 @@
+[
+  {
+    "id": "full-length-sat-paper-practice-test-suite-2026-08-20-verbal",
+    "subject": "verbal",
+    "title": "SAT Practice Test Suite (2026-08-20) - Reading & Writing (20 Minutes, 15 Questions)",
+    "questions": [
+      {
+        "id": 1,
+        "globalId": 1,
+        "passage": "In 1990, historians widely believed that the rapid collapse of the Mayan civilization in the 9th century was entirely driven by an unprecedented, decades-long drought that decimated agricultural yields. The lack of water, they argued, made survival completely impossible.\n\nRecent paleoclimatology studies confirm that severe droughts did occur during the 9th century in the Maya lowlands. However, archaeologists emphasize that the collapse was not uniform; northern cities like Chichen Itza actually thrived during this period. The collapse was likely a complex interplay of shifting trade routes, internal political warfare, and climate stress, rather than a single environmental catastrophe.",
+        "prompt": "Based on the texts, how would the author of Text 2 most likely respond to the historians in Text 1?",
+        "options": [
+          "A. By claiming that the Mayan civilization never experienced any droughts during the 9th century.",
+          "B. By arguing that the collapse was completely caused by internal political warfare rather than climate.",
+          "C. By asserting that the historians\u2019 focus on drought ignores the multifaceted causes of the collapse and the survival of certain cities.",
+          "D. By proving that the Mayan civilization is entirely a myth fabricated by 20th-century scholars."
+        ],
+        "key": "C"
+      },
+      {
+        "id": 2,
+        "globalId": 2,
+        "passage": null,
+        "prompt": "The CEO of the tech startup decided to restructure the entire engineering department, ______ to accelerate the deployment of the new software platform.\nWhich choice completes the text so that it conforms to the conventions of Standard English?",
+        "options": [
+          "A. hoping",
+          "B. hoped",
+          "C. hopes",
+          "D. to hope"
+        ],
+        "key": "A"
+      },
+      {
+        "id": 3,
+        "globalId": 3,
+        "passage": null,
+        "prompt": "While researching a topic, a student has taken the following notes:\n* The rings of Saturn are primarily composed of billions of small chunks of ice and rock.\n* The Cassini spacecraft observed these rings closely between 2004 and 2017.\n* Recent data suggests the rings are losing mass and raining down into Saturn's atmosphere at an astonishing rate.\n* Scientists estimate that the rings could completely disappear in 100 million years.\n\nThe student wants to **emphasize the impermanence of Saturn's rings**. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+        "options": [
+          "A. Between 2004 and 2017, the Cassini spacecraft observed that Saturn's rings are made of ice and rock.",
+          "B. Although they are composed of billions of chunks of ice and rock, Saturn's rings are a fascinating subject for scientists.",
+          "C. Data from the Cassini spacecraft indicates that Saturn's rings are losing mass so rapidly that they may completely disappear within 100 million years.",
+          "D. Saturn's rings are raining down into its atmosphere, which was a discovery made by the Cassini spacecraft in 2017."
+        ],
+        "key": "C"
+      },
+      {
+        "id": 4,
+        "globalId": 4,
+        "passage": "Critics of urban light rail systems often argue that they are a complete waste of municipal funds. Because ridership numbers rarely meet the initial, highly optimistic projections within the first five years, these critics insist that the entire concept of public rail transit is fundamentally flawed and should never be funded.\n\nTransit economists point out that light rail systems require at least a decade to fundamentally shift urban commuting habits. While initial ridership may be lower than projected, the presence of the rail lines often spurs high-density, transit-oriented development over time, eventually creating a reliable ridership base and reducing overall carbon emissions.",
+        "prompt": "Based on the texts, how would the author of Text 2 most likely evaluate the critics' claim in Text 1?",
+        "options": [
+          "A. As a valid assessment that proves public transit will never succeed in modern cities.",
+          "B. As an extreme conclusion that fails to account for the long-term timeline required for transit systems to alter commuting habits.",
+          "C. As a completely fabricated argument designed by the automotive industry to sell more cars.",
+          "D. As undeniable evidence that urban planners completely misunderstood the economic realities of transit."
+        ],
+        "key": "B"
+      },
+      {
+        "id": 5,
+        "globalId": 5,
+        "passage": null,
+        "prompt": "Despite the heavy rainfall that had persisted throughout the week, the structural integrity of the ancient stone bridge ______ completely unaffected by the rising river.\nWhich choice completes the text so that it conforms to the conventions of Standard English?",
+        "options": [
+          "A. were",
+          "B. are",
+          "C. have remained",
+          "D. remained"
+        ],
+        "key": "D"
+      },
+      {
+        "id": 6,
+        "globalId": 6,
+        "passage": null,
+        "prompt": "Many scientists initially hypothesized that the newly discovered exoplanet, situated in the \"habitable zone\" of its star, would harbor liquid water. ______ spectral analysis from the James Webb Space Telescope revealed an atmosphere composed entirely of toxic sulfuric acid, crushing hopes of finding life.\nWhich choice completes the text with the most logically appropriate transition?",
+        "options": [
+          "A. Furthermore,",
+          "B. However,",
+          "C. Consequently,",
+          "D. In addition,"
+        ],
+        "key": "B"
+      },
+      {
+        "id": 7,
+        "globalId": 7,
+        "passage": null,
+        "prompt": "The novelist's writing style is known for being incredibly ______, often utilizing highly obscure vocabulary and complex, meandering sentence structures that alienate casual readers.\nWhich choice completes the text with the most logical and precise word or phrase?",
+        "options": [
+          "A. accessible",
+          "B. opaque",
+          "C. streamlined",
+          "D. objective"
+        ],
+        "key": "B"
+      },
+      {
+        "id": 8,
+        "globalId": 8,
+        "passage": "Some fitness influencers assert that the only way to lose weight is by entirely eliminating carbohydrates from one's diet. They argue that carbohydrates are exclusively responsible for all body fat storage and that eating them will always result in immediate weight gain.\n\nNutrition scientists agree that reducing refined sugars can aid in weight management. However, carbohydrates are the brain's primary energy source. Long-term studies show that sustainable weight loss is best achieved through a balanced caloric deficit, not the extreme restriction of a single macronutrient.",
+        "prompt": "Based on the texts, how would the author of Text 2 most likely respond to the influencers in Text 1?",
+        "options": [
+          "A. By arguing that people should eat exclusively carbohydrates if they wish to lose weight.",
+          "B. By claiming that carbohydrates never cause any weight gain under any circumstances.",
+          "C. By asserting that the influencers\u2019 view is dangerously extreme and ignores the fundamental biological need for carbohydrates.",
+          "D. By suggesting that all body fat is entirely caused by the consumption of dietary fats and proteins."
+        ],
+        "key": "C"
+      },
+      {
+        "id": 9,
+        "globalId": 9,
+        "passage": null,
+        "prompt": "The intricate tapestries woven by the indigenous artisans of the Andes mountains ______ centuries of cultural history, blending traditional folklore with subtle political commentary.\nWhich choice completes the text so that it conforms to the conventions of Standard English?",
+        "options": [
+          "A. depicts",
+          "B. depict",
+          "C. is depicting",
+          "D. has depicted"
+        ],
+        "key": "B"
+      },
+      {
+        "id": 10,
+        "globalId": 10,
+        "passage": null,
+        "prompt": "The laboratory's central centrifuge, which is crucial for separating the dense isotopic compounds required for the experiment, ______ currently undergoing scheduled maintenance.\nWhich choice completes the text so that it conforms to the conventions of Standard English?",
+        "options": [
+          "A. are",
+          "B. is",
+          "C. were",
+          "D. have been"
+        ],
+        "key": "B"
+      },
+      {
+        "id": 11,
+        "globalId": 11,
+        "passage": null,
+        "prompt": "The young prodigy played the piano with an unexpected level of ______, demonstrating an emotional depth that surprised the seasoned judges at the conservatory.\nWhich choice completes the text with the most logical and precise word or phrase?",
+        "options": [
+          "A. apathy",
+          "B. virtuosity",
+          "C. incompetence",
+          "D. hesitation"
+        ],
+        "key": "B"
+      },
+      {
+        "id": 12,
+        "globalId": 12,
+        "passage": null,
+        "prompt": "Several major tech companies have recently mandated a return to five days of in-office work, arguing that physical presence is strictly necessary for team collaboration. ______ numerous studies tracking productivity during the remote work era have shown that flexible arrangements often lead to higher overall output and employee retention.\nWhich choice completes the text with the most logically appropriate transition?",
+        "options": [
+          "A. Similarly,",
+          "B. Therefore,",
+          "C. Nevertheless,",
+          "D. For example,"
+        ],
+        "key": "C"
+      },
+      {
+        "id": 13,
+        "globalId": 13,
+        "passage": "Some historical sociologists argue that the invention of the printing press completely eradicated the oral storytelling traditions of Europe, causing people to instantly abandon spoken folklore in favor of printed text.\n\nWhile the printing press drastically increased the availability of written materials, oral traditions remained a vital part of European culture for centuries. Printed broadsides and ballads were often read aloud in public squares and taverns, blending the new technology with the deeply entrenched habits of communal listening.",
+        "prompt": "Based on the texts, how would the author of Text 2 most likely evaluate the claim in Text 1?",
+        "options": [
+          "A. As a view that correctly identifies the immediate and total destruction of spoken folklore.",
+          "B. As an argument that ignores how printed text was incorporated into existing oral and communal traditions.",
+          "C. As a completely fabricated theory that has no basis in historical reality.",
+          "D. As an assumption that people in the Renaissance were entirely incapable of reading."
+        ],
+        "key": "B"
+      },
+      {
+        "id": 14,
+        "globalId": 14,
+        "passage": null,
+        "prompt": "The professor required three distinct pieces of evidence for the thesis ______ a primary source document, a peer-reviewed article, and a statistical analysis.\nWhich choice completes the text so that it conforms to the conventions of Standard English?",
+        "options": [
+          "A. thesis;",
+          "B. thesis:",
+          "C. thesis,",
+          "D. thesis"
+        ],
+        "key": "B"
+      },
+      {
+        "id": 15,
+        "globalId": 15,
+        "passage": null,
+        "prompt": "While researching a topic, a student has taken the following notes:\n* The Kakapo is a large, flightless parrot native to New Zealand.\n* It is nocturnal and critically endangered, with a population of only around 250 individuals.\n* To protect the species, conservationists have relocated all surviving Kakapos to predator-free island sanctuaries.\n* These islands have been cleared of introduced predators like stoats and rats.\n\nThe student wants to **explain the specific conservation strategy used to protect the Kakapo**. Which choice most effectively uses relevant information from the notes to accomplish this goal?",
+        "options": [
+          "A. The Kakapo is a flightless, nocturnal parrot from New Zealand with a population of about 250.",
+          "B. To protect the critically endangered Kakapo, conservationists have moved the remaining population to island sanctuaries cleared of predators like stoats and rats.",
+          "C. There are only 250 Kakapos left, making them one of the most critically endangered flightless birds in the world.",
+          "D. Introduced predators such as stoats and rats have severely impacted the population of the nocturnal Kakapo.\n\n---"
+        ],
+        "key": "B"
+      }
+    ]
+  },
+  {
+    "id": "full-length-sat-paper-practice-test-suite-2026-08-20-math",
+    "subject": "math",
+    "title": "SAT Practice Test Suite (2026-08-20) - Math (20 Minutes, 15 Questions)",
+    "questions": [
+      {
+        "id": 16,
+        "globalId": 16,
+        "passage": null,
+        "prompt": "A local library has 14,000 physical books. The total number of physical books, $B(y)$, decreases by 4.5% every year due to natural wear and space limitations. Which function models the number of books after $y$ years?",
+        "options": [
+          "A. $B(y) = 14000(0.955)^y$",
+          "B. $B(y) = 14000(1.045)^y$",
+          "C. $B(y) = 14000(4.5)^y$",
+          "D. $B(y) = 14000 - 4.5y$"
+        ],
+        "key": "A"
+      },
+      {
+        "id": 17,
+        "globalId": 17,
+        "passage": null,
+        "prompt": "$$ \\begin{cases} 4x - 7y = -10 \\\\ -2x + 5y = 14 \\end{cases} $$\nIf $(x, y)$ is the solution to the system of equations above, what is the value of **$y - x$**?",
+        "options": [
+          "A. 4",
+          "B. 6",
+          "C. -2",
+          "D. -8"
+        ],
+        "key": "C"
+      },
+      {
+        "id": 18,
+        "globalId": 18,
+        "passage": null,
+        "prompt": "The total revenue $R(x)$, in dollars, from selling $x$ custom-built computers is modeled by $R(x) = -3x^2 + 150x - 400$. What is the **maximum revenue**, in dollars, the company can earn?",
+        "options": [
+          "A. 25",
+          "B. 1475",
+          "C. 1875",
+          "D. 2275"
+        ],
+        "key": "B"
+      },
+      {
+        "id": 19,
+        "globalId": 19,
+        "passage": null,
+        "prompt": "If $9^{x-4} = 27^{x+1}$, what is the value of $x$?",
+        "options": [
+          "A. -11",
+          "B. -5",
+          "C. 1",
+          "D. 11"
+        ],
+        "key": "A"
+      },
+      {
+        "id": 20,
+        "globalId": 20,
+        "passage": null,
+        "prompt": "$$ \\begin{cases} -6x + 8y = 15 \\\\ 9x - 12y = c \\end{cases} $$\nIn the system of equations above, $c$ is a constant. If the system has **infinitely many solutions**, what is the value of $c$?",
+        "options": [
+          "A. -22.5",
+          "B. -15",
+          "C. 15",
+          "D. 22.5"
+        ],
+        "key": "A"
+      },
+      {
+        "id": 21,
+        "globalId": 21,
+        "passage": null,
+        "prompt": "An investment of \\$4,500 earns 5.2% annual interest, compounded annually. Another investment of \\$4,500 earns \\$234 in simple interest every year. Which statement correctly compares the value of the two investments after 10 years?",
+        "options": [
+          "A. Both investments will have the exact same value.",
+          "B. The simple interest investment will be worth exactly \\$52 more than the compounded investment.",
+          "C. The compounded investment will be worth approximately \\$1,116 more than the simple interest investment.",
+          "D. The compounded investment will be worth approximately \\$520 more than the simple interest investment."
+        ],
+        "key": "C"
+      },
+      {
+        "id": 22,
+        "globalId": 22,
+        "passage": null,
+        "prompt": "If the expression $\\frac{8x^2 + 10x - 7}{2x + 5}$ is written in the form $4x + A + \\frac{B}{2x + 5}$, where $A$ and $B$ are constants, what is the value of $B$?",
+        "options": [
+          "A. -5",
+          "B. 8",
+          "C. 18",
+          "D. 32"
+        ],
+        "key": "C"
+      },
+      {
+        "id": 23,
+        "globalId": 23,
+        "passage": null,
+        "prompt": "A survey of 1,200 high school students in a district of 25,000 found that 42% support a change in the starting time of the school day. The survey has a margin of error of 2.8%. What is the **minimum estimated number** of students in the district who support the change?",
+        "options": [
+          "A. 9,800",
+          "B. 10,500",
+          "C. 11,200",
+          "D. 25,000"
+        ],
+        "key": "A"
+      },
+      {
+        "id": 24,
+        "globalId": 24,
+        "passage": null,
+        "prompt": "In the $xy$-plane, the graph of the quadratic function $f(x) = x^2 - 10x + c$ intersects the $x$-axis at exactly one point. What is the value of $c$?",
+        "options": [
+          "A. -25",
+          "B. -10",
+          "C. 10",
+          "D. 25"
+        ],
+        "key": "D"
+      },
+      {
+        "id": 25,
+        "globalId": 25,
+        "passage": null,
+        "prompt": "$$ \\begin{cases} \\frac{1}{2}x + \\frac{1}{3}y = 7 \\\\ \\frac{1}{4}x - \\frac{1}{2}y = -5 \\end{cases} $$\nIf $(x, y)$ is the solution to the system of equations above, what is the value of $x + y$?",
+        "options": [
+          "A. 8",
+          "B. 14",
+          "C. 17",
+          "D. 24"
+        ],
+        "key": "C"
+      },
+      {
+        "id": 26,
+        "globalId": 26,
+        "passage": null,
+        "prompt": "Account A is opened with an initial deposit of \\$8,000 and earns 6.45% annual interest, compounded annually. Account B is opened with an initial deposit of \\$8,000 and earns 5.15% annual interest, compounded annually. Assuming no other deposits or withdrawals are made, how much more money is in Account A than in Account B after **18 years**?\n*(Round your final answer to the nearest whole dollar.)*",
+        "options": [],
+        "key": "4952"
+      },
+      {
+        "id": 27,
+        "globalId": 27,
+        "passage": null,
+        "prompt": "$$ \\begin{cases} 7x + 3y = 48 \\\\ 2x - y = -1 \\end{cases} $$\nIf $(x, y)$ is the solution to the system of equations above, what is the value of **$y$**?",
+        "options": [],
+        "key": "7"
+      },
+      {
+        "id": 28,
+        "globalId": 28,
+        "passage": null,
+        "prompt": "The equation of a circle in the $xy$-plane is $x^2 + y^2 + 8x - 12y + 3 = 0$. What is the **radius** of the circle?",
+        "options": [],
+        "key": "7"
+      },
+      {
+        "id": 29,
+        "globalId": 29,
+        "passage": null,
+        "prompt": "A species of bacteria is grown in a lab. The population is initially 2,500. After 3 hours, the population has grown to 20,000. Assuming the population grows exponentially in the form $P(t) = P_0(r)^t$, what is the value of $r$ (the hourly growth factor)?",
+        "options": [],
+        "key": "2"
+      },
+      {
+        "id": 30,
+        "globalId": 30,
+        "passage": null,
+        "prompt": "$$ \\begin{cases} -15x + 10y = 55 \\\\ 6x - cy = 14 \\end{cases} $$\nIn the system of equations above, $c$ is a constant. If the system has **no solution**, what is the value of $c$?",
+        "options": [],
+        "key": "4"
+      }
+    ]
+  }
+]
