@@ -6,9 +6,13 @@ const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler = async (event) => {
   try {
-    const userId = event.requestContext.authorizer.jwt.claims.sub;
+    const authorizer = event.requestContext?.authorizer || {};
+    const claims = authorizer.jwt?.claims || authorizer.claims || {};
+    const userId = claims.sub;
+    const email = claims.email || userId;
     const body = JSON.parse(event.body);
-    const { testId, answers } = body; // answers is an object: { questionId: "A" }
+    let { testId, answers } = body; // answers is an object: { questionId: "A" }
+    testId = String(testId);
 
     if (!testId || !answers) {
       return {
@@ -74,6 +78,26 @@ export const handler = async (event) => {
     });
     
     await docClient.send(putProgressCmd);
+
+    // 3. Log to Activity Table
+    const timestamp = new Date().toISOString();
+    if (process.env.ACTIVITY_TABLE) {
+      try {
+        const putActivityCmd = new PutCommand({
+          TableName: process.env.ACTIVITY_TABLE,
+          Item: {
+            date: timestamp.split("T")[0],
+            timestamp: timestamp,
+            email: email,
+            action: "TEST_COMPLETED",
+            details: `User completed test ${testId} with score ${score}/${totalQuestions}`
+          }
+        });
+        await docClient.send(putActivityCmd);
+      } catch (logErr) {
+        console.error("Failed to write to activity log:", logErr);
+      }
+    }
 
     return {
       statusCode: 200,

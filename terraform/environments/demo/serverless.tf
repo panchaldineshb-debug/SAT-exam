@@ -14,6 +14,10 @@ resource "aws_cognito_user_pool" "sat_pool" {
     require_symbols   = false
     require_uppercase = true
   }
+
+  lambda_config {
+    post_authentication = aws_lambda_function.log_auth.arn
+  }
 }
 
 resource "aws_cognito_user_pool_client" "sat_client" {
@@ -28,8 +32,10 @@ resource "aws_cognito_user_pool_client" "sat_client" {
 # AWS DynamoDB Tables
 # ---------------------------------------------------------
 resource "aws_dynamodb_table" "users" {
-  name         = "sat_users-${random_id.bucket_suffix.hex}"
-  billing_mode = "PAY_PER_REQUEST"
+  name           = "sat_users-${random_id.bucket_suffix.hex}"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
   hash_key     = "userId"
 
   attribute {
@@ -39,8 +45,10 @@ resource "aws_dynamodb_table" "users" {
 }
 
 resource "aws_dynamodb_table" "tests" {
-  name         = "sat_tests-${random_id.bucket_suffix.hex}"
-  billing_mode = "PAY_PER_REQUEST"
+  name           = "sat_tests-${random_id.bucket_suffix.hex}"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
   hash_key     = "testId"
 
   attribute {
@@ -50,8 +58,10 @@ resource "aws_dynamodb_table" "tests" {
 }
 
 resource "aws_dynamodb_table" "progress" {
-  name         = "sat_progress-${random_id.bucket_suffix.hex}"
-  billing_mode = "PAY_PER_REQUEST"
+  name           = "sat_progress-${random_id.bucket_suffix.hex}"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
   hash_key     = "userId"
   range_key    = "testId"
 
@@ -62,6 +72,25 @@ resource "aws_dynamodb_table" "progress" {
 
   attribute {
     name = "testId"
+    type = "S"
+  }
+}
+
+resource "aws_dynamodb_table" "activity_log" {
+  name           = "sat_activity_log-${random_id.bucket_suffix.hex}"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 1
+  write_capacity = 1
+  hash_key       = "date"
+  range_key      = "timestamp"
+
+  attribute {
+    name = "date"
+    type = "S"
+  }
+
+  attribute {
+    name = "timestamp"
     type = "S"
   }
 }
@@ -102,7 +131,8 @@ resource "aws_iam_policy" "lambda_dynamo" {
         Resource = [
           aws_dynamodb_table.users.arn,
           aws_dynamodb_table.tests.arn,
-          aws_dynamodb_table.progress.arn
+          aws_dynamodb_table.progress.arn,
+          aws_dynamodb_table.activity_log.arn
         ]
       },
       {
@@ -113,6 +143,14 @@ resource "aws_iam_policy" "lambda_dynamo" {
         ]
         Effect   = "Allow"
         Resource = "arn:aws:logs:*:*:*"
+      },
+      {
+        Action = [
+          "ses:SendEmail",
+          "ses:SendRawEmail"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
       }
     ]
   })
@@ -137,7 +175,7 @@ resource "aws_lambda_function" "fetch_dashboard" {
   function_name    = "sat_fetch_dashboard-${random_id.bucket_suffix.hex}"
   role             = aws_iam_role.lambda_exec.arn
   handler          = "index.handler"
-  runtime          = "nodejs20.x"
+  runtime          = "nodejs22.x"
   source_code_hash = data.archive_file.fetch_dashboard_zip.output_base64sha256
 
   environment {
@@ -145,6 +183,35 @@ resource "aws_lambda_function" "fetch_dashboard" {
       PROGRESS_TABLE = aws_dynamodb_table.progress.name
     }
   }
+}
+
+data "archive_file" "log_auth_zip" {
+  type        = "zip"
+  source_dir  = "${path.module}/../../../backend/lambdas/log_auth"
+  output_path = "${path.module}/log_auth.zip"
+}
+
+resource "aws_lambda_function" "log_auth" {
+  filename         = data.archive_file.log_auth_zip.output_path
+  function_name    = "sat_log_auth-${random_id.bucket_suffix.hex}"
+  role             = aws_iam_role.lambda_exec.arn
+  handler          = "index.handler"
+  runtime          = "nodejs22.x"
+  source_code_hash = data.archive_file.log_auth_zip.output_base64sha256
+
+  environment {
+    variables = {
+      ACTIVITY_TABLE = aws_dynamodb_table.activity_log.name
+    }
+  }
+}
+
+resource "aws_lambda_permission" "allow_cognito" {
+  statement_id  = "AllowExecutionFromCognito"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.log_auth.function_name
+  principal     = "cognito-idp.amazonaws.com"
+  source_arn    = aws_cognito_user_pool.sat_pool.arn
 }
 
 data "archive_file" "submit_test_zip" {
@@ -158,13 +225,14 @@ resource "aws_lambda_function" "submit_test" {
   function_name    = "sat_submit_test-${random_id.bucket_suffix.hex}"
   role             = aws_iam_role.lambda_exec.arn
   handler          = "index.handler"
-  runtime          = "nodejs20.x"
+  runtime          = "nodejs22.x"
   source_code_hash = data.archive_file.submit_test_zip.output_base64sha256
 
   environment {
     variables = {
       TESTS_TABLE    = aws_dynamodb_table.tests.name
       PROGRESS_TABLE = aws_dynamodb_table.progress.name
+      ACTIVITY_TABLE = aws_dynamodb_table.activity_log.name
     }
   }
 }
@@ -249,3 +317,53 @@ resource "aws_apigatewayv2_stage" "default" {
   name        = "$default"
   auto_deploy = true
 }
+
+# ---------------------------------------------------------
+# SES and Daily Summary (EventBridge)
+# ---------------------------------------------------------
+resource "aws_ses_email_identity" "admin" {
+  email = "panchaldineshb@gmail.com"
+}
+
+data "archive_file" "daily_summary_zip" {
+  type        = "zip"
+  source_dir  = "${path.module}/../../../backend/lambdas/daily_summary"
+  output_path = "${path.module}/daily_summary.zip"
+}
+
+resource "aws_lambda_function" "daily_summary" {
+  filename         = data.archive_file.daily_summary_zip.output_path
+  function_name    = "sat_daily_summary-${random_id.bucket_suffix.hex}"
+  role             = aws_iam_role.lambda_exec.arn
+  handler          = "index.handler"
+  runtime          = "nodejs22.x"
+  source_code_hash = data.archive_file.daily_summary_zip.output_base64sha256
+
+  environment {
+    variables = {
+      ACTIVITY_TABLE = aws_dynamodb_table.activity_log.name
+      SES_EMAIL      = aws_ses_email_identity.admin.email
+    }
+  }
+}
+
+resource "aws_cloudwatch_event_rule" "daily_summary_cron" {
+  name                = "sat-daily-summary-cron"
+  description         = "Triggers daily summary lambda every night at 8 PM EST"
+  schedule_expression = "cron(0 0 * * ? *)" # Midnight UTC (8 PM EDT / 7 PM EST)
+}
+
+resource "aws_cloudwatch_event_target" "daily_summary_target" {
+  rule      = aws_cloudwatch_event_rule.daily_summary_cron.name
+  target_id = "daily_summary_lambda"
+  arn       = aws_lambda_function.daily_summary.arn
+}
+
+resource "aws_lambda_permission" "allow_eventbridge" {
+  statement_id  = "AllowExecutionFromEventBridge"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.daily_summary.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.daily_summary_cron.arn
+}
+

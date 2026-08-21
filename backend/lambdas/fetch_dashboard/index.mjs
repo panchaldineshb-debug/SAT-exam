@@ -6,7 +6,9 @@ const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler = async (event) => {
   try {
-    const userId = event.requestContext.authorizer.jwt.claims.sub;
+    const authorizer = event.requestContext?.authorizer || {};
+    const claims = authorizer.jwt?.claims || authorizer.claims || {};
+    const userId = claims.sub;
 
     const command = new QueryCommand({
       TableName: process.env.PROGRESS_TABLE,

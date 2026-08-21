@@ -1,6 +1,6 @@
 DEMO_ENV_DIR ?= terraform/environments/demo
 
-.PHONY: help install clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo tf-cost tf-inventory
+.PHONY: help install install-test clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo tf-cost tf-inventory test-e2e test-e2e-ui set-test-credentials get-test-credentials
 
 # Default target: show help
 help:
@@ -11,6 +11,11 @@ help:
 	@echo ""
 	@echo "Local Development:"
 	@echo "  install          Install project dependencies (npm install)"
+	@echo "  install-test     Install python e2e test dependencies"
+	@echo "  set-test-credentials Set test credentials in keyring"
+	@echo "  get-test-credentials Get test credentials from keyring"
+	@echo "  test-e2e         Run Playwright BDD tests"
+	@echo "  test-e2e-ui      Run Playwright BDD tests visually (browser opens)"
 	@echo "  build            Compile React frontend"
 	@echo "  clean            Remove build artifacts (dist/)"
 	@echo "  local-demo       Start the Vite local development server"
@@ -25,11 +30,27 @@ help:
 	@echo "  tf-destroy-demo  Manually destroy the DEMO environment"
 	@echo "  tf-inventory     Cross-check live AWS resources against Terraform state"
 	@echo "  tf-cost          Report month-to-date AWS spend by service"
+	@echo "  send-daily-summary Manually trigger the daily summary email via AWS Lambda"
 	@echo ""
 
 install:
 	npm install
 
+install-test:
+	./.venv/bin/pip install -r requirements-test.txt
+	./.venv/bin/playwright install --with-deps chromium
+
+set-test-credentials:
+	./.venv/bin/python keyring/set_credentials.py
+
+get-test-credentials:
+	./.venv/bin/python keyring/get_credentials.py
+
+test-e2e:
+	./.venv/bin/pytest tests/
+
+test-e2e-ui:
+	HEADLESS=false ./.venv/bin/pytest tests/
 clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf dist
@@ -79,3 +100,9 @@ tf-cost:
 
 tf-inventory:
 	-python3 scripts/tf_inventory.py $(if $(NOTIFY),--notify,)
+
+send-daily-summary:
+	@echo "Triggering the SAT Exam Daily Summary Email..."
+	@FUNC=$$(cd $(DEMO_ENV_DIR) && aws lambda list-functions --query "Functions[?contains(FunctionName, 'sat_daily_summary')].FunctionName" --output text) && \
+	aws lambda invoke --function-name $$FUNC response.json && \
+	cat response.json && rm response.json
