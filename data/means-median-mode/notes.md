@@ -1,6 +1,6 @@
 # SAT Prep: Mean, Median, and Mode - Personal Study & Improvement Notes
 
-**Student:** Sameer (11th Grade, JP Stevens High School, Edison, NJ)  
+**Student:** Student (11th Grade, JP Stevens High School, Edison, NJ)  
 **Date:** June 25, 2026  
 
 Use these notes to review the core formulas, concepts, and SAT-specific tricks for Mean, Median, and Mode that we practiced. These are written in plain text for easy reading and quick review.

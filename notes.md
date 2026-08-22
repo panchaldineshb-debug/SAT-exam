@@ -1,4 +1,4 @@
-# Sameer's SAT Study Notes
+# Student's SAT Study Notes
 
 This notes file compiles the key concepts, formulas, and strategies from your practice sessions. Use this to review and reinforce your understanding.
 
@@ -154,7 +154,7 @@ Line 2: A2*x + B2*y = C2
 ---
 
 ## 7. Pacing & Fatigue Prevention Strategy (July 27, 2026)
-To avoid burnout and maintain high precision, Sameer's study schedule will follow a 3-Day Cycle instead of daily 40-minute sprints:
+To avoid burnout and maintain high precision, Student's study schedule will follow a 3-Day Cycle instead of daily 40-minute sprints:
 *   **Day 1 (Micro-Drill):** 5-minute intense drill targeting *only* the specific traps missed in the previous sprint.
 *   **Day 2 (Confidence Maintenance):** 5-10 minute review of recently mastered traps to keep them fresh and build confidence without fatigue.
 *   **Day 3 (Full Sprint):** 40-minute full Advanced Sprint (20 min Math, 20 min R&W) to test endurance and application.
@@ -216,7 +216,7 @@ To avoid burnout and maintain high precision, Sameer's study schedule will follo
 *   **Exponential vs. Linear Growth (Math):** 100% flawless execution. He perfectly identified that a multiplier of `(1.32)` means a 32% increase, not a flat addition of 32. This conceptual blindspot is officially closed!
 
 ### 🏆 Milestone Achieved: 10/10 (100% Reading Mastery)
-Sameer achieved a flawless 10/10 on the 30-Minute Reading Mastery Sprint across Foundations, Medium, and Module 2 Advanced levels, completely eliminating the extreme language / poison word habit.
+Student achieved a flawless 10/10 on the 30-Minute Reading Mastery Sprint across Foundations, Medium, and Module 2 Advanced levels, completely eliminating the extreme language / poison word habit.
 
 ### Key Rules Mastered:
 1.  **The Poison Word Scan (Automatic Reflex):**

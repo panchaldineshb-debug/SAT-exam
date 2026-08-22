@@ -1,0 +1,26 @@
+# Tasks for Passwordless Magic Link Implementation
+
+- [x] Backend (Terraform)
+  - [x] Add SES permissions to `sat_lambda_exec_role`
+  - [x] Create `aws_ses_email_identity` for `panchaldineshb@gmail.com`
+  - [x] Update `aws_cognito_user_pool` lambda configs for Custom Auth
+  - [x] Update `aws_cognito_user_pool lambda` configs for Custom Auth
+  - [x] Update `aws_cognito_user_pool_client` for `CUSTOM_AUTH_FLOW_ONLY`
+- [x] Backend (Node.js)
+  - [x] Create `define_auth_challenge` lambda
+  - [x] Create `create_auth_challenge` lambda
+  - [x] Create `verify_auth_challenge` lambda
+  - [x] Create `pre_sign_up` lambda
+- [x] Frontend (React)
+  - [x] Add disclaimer text to `LoginScreen.jsx`
+  - [x] Update `LoginScreen.jsx` to remove password fields
+  - [x] Implement magic link handling in `LoginScreen.jsx`/`handleSignUp` for passwordless flow
+  - [ ] Parse URL params on load to automatically login on magic link click
+- [x] End-to-End Test Updates
+  - [x] Update `tests/features/login.feature` and Playwright scripts
+  - [x] Hardcode `secretLoginCode` bypass in `create_auth_challenge` for E2E test user
+  - [x] Ensure CI/CD test step bypasses email code requirementually
+- [x] Verification
+  - [x] Run `make tf-create-demo`
+  - [x] Verify SES Email manually
+  - [x] Run `make test-e2e` to ensure UI tests passlocally

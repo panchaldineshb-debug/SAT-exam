@@ -1,6 +1,6 @@
 # 🎯 30-Minute Reading Mastery Sprint: The "Poison Word" Breakdown (August 6)
 
-Welcome to tonight's Reading Mastery Sprint, Sameer! 
+Welcome to tonight's Reading Mastery Sprint, Student! 
 
 Yesterday's drill showed huge progress: you effortlessly dodged the extreme decoys on Questions 2 and 3. But on Question 1, the shiny decoy with the word **"never"** slipped through. 
 

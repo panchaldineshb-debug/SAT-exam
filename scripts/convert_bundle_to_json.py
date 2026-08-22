@@ -82,13 +82,19 @@ def parse_bundle(bundle_dir):
             else:
                 prompt = prompt_content
                 
+            # Extract tags if present
+            tag_match = re.search(r'Tags:\s*(.+)', q_content, re.IGNORECASE)
+            tags_list = [t.strip() for t in tag_match.group(1).split(',')] if tag_match else []
+            prompt = re.sub(r'Tags:\s*(.+)', '', prompt, flags=re.IGNORECASE).strip()
+                
             question_data = {
                 "id": q_num,
                 "globalId": global_id,
                 "passage": "\n\n".join(texts) if texts else None,
                 "prompt": prompt,
                 "options": options_list,
-                "key": answers.get(q_num)
+                "key": answers.get(q_num),
+                "tags": tags_list
             }
                 
             section_data["questions"].append(question_data)

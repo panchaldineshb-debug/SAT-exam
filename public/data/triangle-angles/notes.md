@@ -20,7 +20,7 @@
 * **Question 9 (Hard):** Resolving a "bowtie" configuration using vertical angles and triangle angle sums.
 
 ### Questions He Was Unable to Answer Independently (3/10)
-Sameer was not able to solve the following questions on the first try and needed guidance:
+Student was not able to solve the following questions on the first try and needed guidance:
 
 1. **Question 2 (Easy - Exterior Angle & Linear Pairs):**
    * *Issue:* Answered B (55), then A (45), before correcting to C (80) after guidance.

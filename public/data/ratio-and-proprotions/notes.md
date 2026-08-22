@@ -21,7 +21,7 @@
 * **Question 10 (Hard):** Inverse-square proportion (calculating light intensity based on distance: `I = k / d^2`).
 
 ### Questions He Was Unable to Answer Independently (2/10)
-Sameer was not able to solve the following questions on the first try and needed guidance:
+Student was not able to solve the following questions on the first try and needed guidance:
 
 1. **Question 3 (Easy - Map Scale Drawing):**
    * *Issue:* Answered C (180) first, then corrected to B (160) after guidance.

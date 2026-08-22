@@ -1,6 +1,6 @@
 # SAT Prep: Trigonometry Personal Study & Improvement Notes
 
-**Student:** Sameer (11th Grade, JP Stevens High School, Edison, NJ)  
+**Student:** Student (11th Grade, JP Stevens High School, Edison, NJ)  
 **Date:** June 23, 2026  
 
 Use these notes to review the specific areas and SAT tricks you encountered during practice. These are formatted in plain text for easy reading.

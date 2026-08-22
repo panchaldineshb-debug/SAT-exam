@@ -108,7 +108,7 @@ def scrape_single_test(subject, test_id):
             })
             
         return {
-            "id": test_id,
+            "id": f"{subject}-{test_id}",
             "subject": subject,
             "title": clean_text(title),
             "questions": questions
@@ -163,8 +163,8 @@ def main():
     
     # Write to public/tests_data.json
     # Create the directory structure if it doesn't exist (inside the workspace)
-    os.makedirs("public", exist_ok=True)
-    out_path = "public/tests_data.json"
+    os.makedirs("data", exist_ok=True)
+    out_path = "data/master_tests.json"
     
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(all_tests, f, indent=2, ensure_ascii=False)

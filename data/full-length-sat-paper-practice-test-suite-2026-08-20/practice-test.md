@@ -1,6 +1,6 @@
 # 📝 SAT Practice Test Suite (August 20, 2026) - The Simulation Gauntlet
 
-Welcome to the Phase 4 Simulation, Sameer. This test is designed to target your known execution gaps without offering any real-time hints or support. Treat this like the real exam. 
+Welcome to the Phase 4 Simulation, Student. This test is designed to target your known execution gaps without offering any real-time hints or support. Treat this like the real exam. 
 
 **Instructions:**
 *   **Time Limit:** 40 Minutes total (20 minutes per section).

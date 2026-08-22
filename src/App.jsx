@@ -5,13 +5,31 @@ import TestPractice from './components/TestPractice';
 import ReviewMode from './components/ReviewMode';
 import MarkdownDrill from './components/MarkdownDrill';
 import LoginScreen from './components/LoginScreen';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfUse from './components/TermsOfUse';
+import AboutUs from './components/AboutUs';
+import CookieNotice from './components/CookieNotice';
+import Features from './components/Features';
+import Security from './components/Security';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [tests, setTests] = useState([]);
   const [drills, setDrills] = useState([]);
+  const [ratings, setRatings] = useState({});
+  const [globalPercentile, setGlobalPercentile] = useState("N/A");
   const [loading, setLoading] = useState(true);
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'practice', 'review', 'drill'
+  const [currentView, setCurrentView] = useState(() => {
+    const path = window.location.pathname;
+    const searchParams = new URLSearchParams(window.location.search);
+    const viewParam = searchParams.get('view');
+    if (path === '/terms' || viewParam === 'terms') return 'terms';
+    if (path === '/privacy' || viewParam === 'privacy') return 'privacy';
+    if (path === '/about' || viewParam === 'about') return 'about';
+    if (path === '/features' || viewParam === 'features') return 'features';
+    if (path === '/security' || viewParam === 'security') return 'security';
+    return 'dashboard';
+  }); // 'dashboard', 'practice', 'review', 'drill', 'privacy', 'terms', 'about', 'features', 'security'
   
   const [selectedTest, setSelectedTest] = useState(null);
   const [selectedDrill, setSelectedDrill] = useState(null);
@@ -21,81 +39,98 @@ function App() {
   const [completedTests, setCompletedTests] = useState({});
   const [inProgressTests, setInProgressTests] = useState({});
 
-  const checkUser = async () => {
-    try {
-      const user = await getCurrentUser();
-      setCurrentUser(user.username || user.signInDetails?.loginId || "Student");
-    } catch (err) {
-      setCurrentUser(null);
-    }
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      setCurrentUser(null);
-    } catch (error) {
-      console.error('Error signing out: ', error);
-    }
-  };
-
   // Load test data, student history, and drills registry
   useEffect(() => {
-    checkUser();
-    
-    const fetchPublicData = async () => {
+    const initApp = async () => {
+      let isAuth = false;
       try {
-        const testsData = await fetch('/tests_data.json').then(res => res.json());
-        const drillsData = await fetch('/data/drills_registry.json').then(res => res.ok ? res.json() : []).catch(() => []);
-        setTests(testsData);
-        setDrills(drillsData);
+        const user = await getCurrentUser();
+        setCurrentUser(user.username || user.signInDetails?.loginId || "Student");
+        isAuth = true;
       } catch (err) {
-        console.error('Error loading static data:', err);
+        setCurrentUser(null);
+        setLoading(false); // If not logged in, stop loading immediately to show LoginScreen
       }
-    };
-
-    const fetchDashboard = async () => {
-      try {
-        const session = await fetchAuthSession();
-        const token = session.tokens.idToken.toString();
-        
-        const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/dashboard`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        
-        const comp = {};
-        const inProg = {};
-        
-        if (data.progress) {
-           data.progress.forEach(p => {
-             const testKey = p.testId;
-             if (p.status === "COMPLETED") {
-               comp[testKey] = {
-                 score: p.score,
-                 totalQuestions: p.totalQuestions,
-                 answers: p.answers,
-                 date: p.date,
-                 gradedAnswers: p.gradedAnswers
-               };
-             } else {
-               inProg[testKey] = {
-                 answers: p.answers || {},
-                 remainingTime: p.remainingTime || 1200,
-                 activeQuestionIndex: p.activeQuestionIndex || 0
-               };
-             }
-           });
+      
+      const fetchPublicData = async () => {
+        try {
+          const testsData = await fetch('/tests_data.json?v=' + new Date().getTime()).then(res => res.json());
+          const drillsData = await fetch('/data/drills_registry.json').then(res => res.ok ? res.json() : []).catch(() => []);
+          // Static scores data not needed now, using API percentile
+          setTests(testsData);
+          setDrills(drillsData);
+        } catch (err) {
+          console.error('Error loading static data:', err);
         }
-        setCompletedTests(comp);
-        setInProgressTests(inProg);
-      } catch (err) {
-        console.error('Error fetching dashboard from cloud:', err);
+      };
+
+      const fetchDashboard = async () => {
+        try {
+          const session = await fetchAuthSession();
+          if (!session || !session.tokens || !session.tokens.idToken) return;
+          const token = session.tokens.idToken.toString();
+          
+          const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/dashboard`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await res.json();
+          
+          try {
+            const ratingsRes = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/ratings`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (ratingsRes.ok) setRatings(await ratingsRes.json());
+          } catch (err) {
+            console.error("Error fetching ratings:", err);
+          }
+          
+          const comp = {};
+          const inProg = {};
+          
+          if (data.progress) {
+             data.progress.forEach(p => {
+               const testKey = p.testId;
+               if (p.status === "COMPLETED") {
+                 comp[testKey] = {
+                   score: p.score,
+                   scaledScore: p.scaledScore || p.score, // Fallback for old tests
+                   totalQuestions: p.totalQuestions,
+                   answers: p.answers,
+                   date: p.completedAt || p.date, // Prefer ISO string so frontend formats to local timezone
+                   gradedAnswers: p.gradedAnswers,
+                   aiAdvice: p.aiAdvice
+                 };
+               } else {
+                 inProg[testKey] = {
+                   answers: p.answers || {},
+                   remainingTime: p.remainingTime || 1200,
+                   activeQuestionIndex: p.activeQuestionIndex || 0
+                 };
+               }
+             });
+          }
+          setCompletedTests(comp);
+          setInProgressTests(inProg);
+          if (data.percentile) {
+            setGlobalPercentile(data.percentile + "th");
+          }
+        } catch (err) {
+          console.error('Error fetching dashboard from cloud:', err);
+        }
+      };
+
+      // Only fetch dashboard if authenticated. We can fetch public data anytime.
+      const tasks = [fetchPublicData()];
+      if (isAuth) {
+        tasks.push(fetchDashboard());
       }
+      
+      await Promise.all(tasks);
+      setLoading(false);
     };
 
-    Promise.all([fetchPublicData(), fetchDashboard()]).finally(() => setLoading(false));
-  }, [currentUser]);
+    initApp();
+  }, []);
 
   const saveInProgressLocally = (newInProgress) => {
     setInProgressTests(newInProgress);
@@ -264,6 +299,16 @@ function App() {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setCurrentUser(null);
+      window.location.reload();
+    } catch (err) {
+      console.error('Error signing out:', err);
+    }
+  };
+
   const handleLogoClick = () => {
     if (currentView === 'practice') {
       if (confirm('Return to dashboard? Your current progress will be auto-saved.')) {
@@ -286,7 +331,34 @@ function App() {
   }
 
   if (!currentUser) {
-    return <LoginScreen onLoginSuccess={checkUser} />;
+    if (currentView === 'privacy') {
+      return (
+        <div className="app-container">
+          <main className="main-content">
+            <PrivacyPolicy onBack={() => window.location.href = '/'} />
+          </main>
+        </div>
+      );
+    }
+    if (currentView === 'terms') {
+      return (
+        <div className="app-container">
+          <main className="main-content">
+            <TermsOfUse onBack={() => window.location.href = '/'} />
+          </main>
+        </div>
+      );
+    }
+    if (currentView === 'about') {
+      return (
+        <div className="app-container">
+          <main className="main-content">
+            <AboutUs onBack={() => window.location.href = '/'} />
+          </main>
+        </div>
+      );
+    }
+    return <LoginScreen onLoginSuccess={() => window.location.reload()} />;
   }
 
   return (
@@ -307,8 +379,10 @@ function App() {
           <Dashboard 
             tests={tests}
             drills={drills}
+            ratings={ratings}
             completedTests={completedTests}
             inProgressTests={inProgressTests}
+            globalPercentile={globalPercentile}
             onStartTest={handleStartTest}
             onOpenReview={handleOpenReview}
             onStartDrill={handleStartDrill}
@@ -343,7 +417,43 @@ function App() {
             onBack={handleReturnToDashboard}
           />
         )}
+
+        {currentView === 'privacy' && (
+          <PrivacyPolicy onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'terms' && (
+          <TermsOfUse onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'about' && (
+          <AboutUs onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'features' && (
+          <Features onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'security' && (
+          <Security onBack={handleReturnToDashboard} />
+        )}
       </main>
+
+      {currentView === 'dashboard' && (
+        <footer style={{ textAlign: 'center', padding: '2rem', color: '#71717a', fontSize: '0.9rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.5rem', alignItems: 'center' }}>
+          <button onClick={() => setCurrentView('features')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Features</button>
+          <span>|</span>
+          <button onClick={() => setCurrentView('security')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Security Architecture</button>
+          <span>|</span>
+          <button onClick={() => setCurrentView('about')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>About Us</button>
+          <span>|</span>
+          <button onClick={() => setCurrentView('privacy')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Privacy Policy</button>
+          <span>|</span>
+          <button onClick={() => setCurrentView('terms')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Terms of Use</button>
+        </footer>
+      )}
+
+      <CookieNotice />
     </div>
   );
 }

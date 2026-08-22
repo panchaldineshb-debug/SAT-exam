@@ -14,8 +14,8 @@ import sys
 import os
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-TF_ENVIRONMENTS = ["bootstrap", "dev", "demo"]
-
+ENV_BASE = f"{REPO_ROOT}/terraform/environments"
+TF_ENVIRONMENTS = [d for d in os.listdir(ENV_BASE) if os.path.isdir(os.path.join(ENV_BASE, d)) and not d.startswith(".")]
 AWS_REGION = "us-east-1"
 NAME_PREFIX = "sat-exam"
 SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:618079239197:realtor-ui-alerts"
@@ -39,19 +39,20 @@ def tf_state_ids(env):
             text=True,
             check=True,
         )
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        return set()
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        return None
 
     show = run_json(["terraform", "-chdir=" + env_dir, "show", "-json"])
     if not show:
-        return set()
+        return {}
 
-    ids = set()
+    ids = {}
     for module in [show.get("values", {}).get("root_module", {})]:
         for resource in module.get("resources", []):
             rid = resource.get("values", {}).get("id")
-            if rid:
-                ids.add(rid)
+            address = resource.get("address")
+            if rid and address:
+                ids[rid] = address
     return ids
 
 
@@ -147,10 +148,22 @@ def main():
     lines = [f"SAT_Exams inventory - {AWS_REGION}\n"]
 
     state_ids_by_env = {env: tf_state_ids(env) for env in TF_ENVIRONMENTS}
-    all_state_ids = set().union(*state_ids_by_env.values())
+    all_state_ids = set()
+    missing_states = []
+    for env, ids in state_ids_by_env.items():
+        if ids is None:
+            missing_states.append(env)
+        else:
+            all_state_ids.update(ids.keys())
 
     for env, ids in state_ids_by_env.items():
-        lines.append(f"[terraform] {env}: {len(ids)} resources in state")
+        if ids is None:
+            lines.append(f"[terraform] {env}: missing state (could not read)")
+        else:
+            lines.append(f"[terraform] {env}: {len(ids)} resources in state")
+            if ids:
+                for rid, address in sorted(ids.items(), key=lambda item: item[1]):
+                    lines.append(f"  - {address}")
 
     live_resources = (
         aws_ec2_instances() + aws_vpcs() + aws_s3_buckets() + aws_dynamodb_tables()
@@ -159,24 +172,32 @@ def main():
     lines.append(f"\n[aws] {len(live_resources)} live resources matching '{NAME_PREFIX}*'\n")
 
     orphans = []
-    for res in live_resources:
-        tracked = res["id"] in all_state_ids
-        owner = next((env for env, ids in state_ids_by_env.items() if res["id"] in ids), None)
-        marker = f"tracked by {owner}" if tracked else "ORPHAN - no terraform state owns this"
-        lines.append(f"  {res['type']:<22} {res['id']:<24} {res['state']:<10} {res['name']:<35} {marker}")
-        if not tracked:
-            orphans.append(res)
-
-    if orphans:
-        lines.append(f"\n{len(orphans)} orphaned resource(s) found - live in AWS but untracked by any Terraform state.")
+    
+    if missing_states:
+        for res in live_resources:
+            lines.append(f"  {res['type']:<22} {res['id']:<24} {res['state']:<10} {res['name']:<35}")
     else:
-        lines.append("\nNo orphans found - every live resource is tracked by some Terraform state.")
+        for res in live_resources:
+            tracked = res["id"] in all_state_ids
+            owner = next((env for env, ids in state_ids_by_env.items() if ids and res["id"] in ids), None)
+            marker = f"tracked by {owner}" if tracked else "ORPHAN - no terraform state owns this"
+            lines.append(f"  {res['type']:<22} {res['id']:<24} {res['state']:<10} {res['name']:<35} {marker}")
+            if not tracked:
+                orphans.append(res)
+
+        if orphans:
+            lines.append(f"\n{len(orphans)} orphaned resource(s) found - live in AWS but untracked by any Terraform state.")
+        else:
+            lines.append("\nNo orphans found - every live resource is tracked by some Terraform state.")
 
     report = "\n".join(lines)
     print(report)
 
     if args.notify:
-        subject = f"SAT_Exams inventory - {len(orphans)} orphan(s)" if orphans else "SAT_Exams inventory - clean"
+        if missing_states:
+            subject = f"SAT_Exams inventory - missing state"
+        else:
+            subject = f"SAT_Exams inventory - {len(orphans)} orphan(s)" if orphans else "SAT_Exams inventory - clean"
         publish_report(subject, report)
         print(f"\nPublished report to {SNS_TOPIC_ARN}")
 

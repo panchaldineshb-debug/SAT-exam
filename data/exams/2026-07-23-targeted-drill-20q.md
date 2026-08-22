@@ -1,6 +1,6 @@
 # Digital SAT Targeted 20-Question Diagnostic Drill (2026-07-23)
 
-Welcome Sameer! Today's 20-question targeted drill directly focuses on your key growth areas in both Math and Reading & Writing:
+Welcome Student! Today's 20-question targeted drill directly focuses on your key growth areas in both Math and Reading & Writing:
 
 * **Math Focus Areas:** Target-Check Protocol (Trig & Similar Triangles), Systems of Linear Equations (No/Infinite Solutions), Grid-In Margin of Error Projections, Quadratic Vertex Form (`h * k`), Circle Equations, and Non-Linear Intersections.
 * **Reading & Writing Focus Areas:** Participle Clause Punctuation (`..., verbing`), Dangling/Misplaced Modifiers, Cross-Text Scope Traps, Verb Tense/Aspect, Subject-Verb Proximity, and Rhetorical Transitions.

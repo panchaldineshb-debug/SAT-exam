@@ -94,9 +94,9 @@ Common scenarios on the SAT:
 
 ---
 
-## 7. Sameer's Practice Performance & Recommendations
+## 7. Student's Practice Performance & Recommendations
 
-This section outlines observations from Sameer's practice session on 2026-07-10 and recommendations for his studies.
+This section outlines observations from Student's practice session on 2026-07-10 and recommendations for his studies.
 
 ### Areas to Watch & Practice:
 1.  **Confirm the Target Variable:** When solving a system, double-check the final line of the question to confirm if it asks for `x`, `y`, or a combination (like `x + y`). Avoid the trap of solving for `y` and immediately picking the value of `y` if the question asks for `x`.

@@ -1,0 +1,176 @@
+[
+    {
+        "Name": "realtoros-dev-demo_teardown-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-sentinel-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "sat_log_auth-1d79949f",
+        "Env": {
+            "ACTIVITY_TABLE": "sat_activity_log-1d79949f"
+        }
+    },
+    {
+        "Name": "realtoros-dev-comps-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-ceo-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-contractor-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-reputation-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-finance-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-property_management-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-board-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-mcp_server-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "sat_delete_account-1d79949f",
+        "Env": {
+            "USER_POOL_ID": "us-east-1_smjzCmGcX"
+        }
+    },
+    {
+        "Name": "sat_submit_test-1d79949f",
+        "Env": {
+            "TESTS_TABLE": "sat_tests-1d79949f",
+            "AGGREGATES_TABLE": "sat_aggregates-1d79949f",
+            "PROGRESS_TABLE": "sat_progress-1d79949f",
+            "ACTIVITY_TABLE": "sat_activity_log-1d79949f",
+            "AI_TUTOR_QUEUE_URL": "https://sqs.us-east-1.amazonaws.com/618079239197/sat_ai_tutor_queue-1d79949f"
+        }
+    },
+    {
+        "Name": "realtoros-dev-investor-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-selling-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "sat_daily_summary-1d79949f",
+        "Env": {
+            "PROGRESS_TABLE": "sat_progress-1d79949f",
+            "S3_BUCKET_NAME": "sat-exam-static-demo-1d79949f",
+            "ACTIVITY_TABLE": "sat_activity_log-1d79949f",
+            "SES_EMAIL": "panchaldineshb@gmail.com"
+        }
+    },
+    {
+        "Name": "sat_pre_sign_up-1d79949f",
+        "Env": null
+    },
+    {
+        "Name": "sat_fetch_dashboard-1d79949f",
+        "Env": {
+            "AGGREGATES_TABLE": "sat_aggregates-1d79949f",
+            "PROGRESS_TABLE": "sat_progress-1d79949f"
+        }
+    },
+    {
+        "Name": "realtoros-dev-mls_poller-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "sat_get_ratings-1d79949f",
+        "Env": {
+            "AGGREGATES_TABLE": "sat_aggregates-1d79949f"
+        }
+    },
+    {
+        "Name": "realtoros-dev-marketing-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "realtoros-dev-aggregator-agent",
+        "Env": {
+            "TABLE_NAME": "realtoros-dev-table",
+            "ENVIRONMENT": "dev"
+        }
+    },
+    {
+        "Name": "sat_ai_advice-1d79949f",
+        "Env": {
+            "PROGRESS_TABLE": "sat_progress-1d79949f"
+        }
+    },
+    {
+        "Name": "sat_submit_review-1d79949f",
+        "Env": {
+            "AGGREGATES_TABLE": "sat_aggregates-1d79949f",
+            "REVIEWS_TABLE": "sat_reviews-1d79949f"
+        }
+    },
+    {
+        "Name": "realtor_os_auth_api",
+        "Env": {
+            "AUTH_URL": "https://ui.resyncpropertysolutions.com/api/auth",
+            "AUTH_DYNAMODB_TABLE": "realtor_os_auth",
+            "AUTH_SECRET": "dev_secret_do_not_use_in_prod_12345!"
+        }
+    }
+]
