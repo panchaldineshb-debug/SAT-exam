@@ -151,6 +151,9 @@ def main():
 
     for env, ids in state_ids_by_env.items():
         lines.append(f"[terraform] {env}: {len(ids)} resources in state")
+        if ids:
+            for rid in sorted(ids):
+                lines.append(f"  - {rid}")
 
     live_resources = (
         aws_ec2_instances() + aws_vpcs() + aws_s3_buckets() + aws_dynamodb_tables()

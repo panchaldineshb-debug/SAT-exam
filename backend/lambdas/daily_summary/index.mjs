@@ -1,18 +1,22 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, QueryCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, QueryCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const dbClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(dbClient);
 const sesClient = new SESClient({});
+const s3Client = new S3Client({});
 
 export const handler = async (event) => {
   console.log("Daily summary cron triggered.");
 
   const ACTIVITY_TABLE = process.env.ACTIVITY_TABLE;
+  const PROGRESS_TABLE = process.env.PROGRESS_TABLE;
+  const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
   const SES_EMAIL = process.env.SES_EMAIL;
 
-  if (!ACTIVITY_TABLE || !SES_EMAIL) {
+  if (!ACTIVITY_TABLE || !SES_EMAIL || !PROGRESS_TABLE || !S3_BUCKET_NAME) {
     console.error("Missing required environment variables.");
     return { statusCode: 500, body: "Missing required environment variables." };
   }
@@ -84,7 +88,37 @@ export const handler = async (event) => {
 
     await sesClient.send(sendEmailCmd);
     console.log("Successfully sent daily summary email.");
-    return { statusCode: 200, body: "Successfully sent daily summary email." };
+
+    // Generate Percentile Data
+    try {
+      const scanCmd = new ScanCommand({
+        TableName: PROGRESS_TABLE,
+        FilterExpression: "#status = :statusVal",
+        ExpressionAttributeNames: {
+          "#status": "status"
+        },
+        ExpressionAttributeValues: {
+          ":statusVal": "COMPLETED"
+        }
+      });
+      const progressRes = await docClient.send(scanCmd);
+      const scores = (progressRes.Items || [])
+        .filter(i => typeof i.score === 'number' && i.totalQuestions)
+        .map(i => Math.round((i.score / i.totalQuestions) * 100));
+
+      const putObjCmd = new PutObjectCommand({
+        Bucket: S3_BUCKET_NAME,
+        Key: "data/scores_distribution.json",
+        Body: JSON.stringify(scores),
+        ContentType: "application/json"
+      });
+      await s3Client.send(putObjCmd);
+      console.log(`Successfully uploaded scores_distribution.json with ${scores.length} scores.`);
+    } catch (s3Err) {
+      console.error("Error generating percentile distribution: ", s3Err);
+    }
+
+    return { statusCode: 200, body: "Successfully processed daily summary and percentiles." };
 
   } catch (err) {
     console.error("Error generating daily summary: ", err);

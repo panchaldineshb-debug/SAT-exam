@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import TestReviewForm from './TestReviewForm';
 
 function ReviewMode({ test, completedInfo, onBack }) {
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiAdvice, setAiAdvice] = useState(null);
+  const [aiError, setAiError] = useState(null);
+
   if (!completedInfo) {
     return (
       <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
@@ -45,8 +50,77 @@ function ReviewMode({ test, completedInfo, onBack }) {
             </div>
           </div>
         </div>
+        
+        {/* AI Tutor Section */}
+        <div style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: 'var(--surface-active)', borderRadius: '12px', textAlign: 'left' }}>
+          <h3 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
+            <span style={{ fontSize: '1.5rem' }}>✨</span> AI Tutor Feedback
+          </h3>
+          
+          {!aiAdvice && !aiLoading && !aiError && (
+            <div>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem' }}>
+                Get personalized study advice based on your incorrect answers.
+              </p>
+              <button className="nav-btn primary" onClick={async () => {
+                setAiLoading(true);
+                setAiError(null);
+                try {
+                  const { fetchAuthSession } = await import('aws-amplify/auth');
+                  const session = await fetchAuthSession();
+                  const token = session.tokens.idToken.toString();
 
-        <div className="results-actions">
+                  const incorrectTopics = test.questions
+                    .filter(q => {
+                      const graded = completedInfo.gradedAnswers ? completedInfo.gradedAnswers[q.id] : null;
+                      return graded && !graded.isCorrect;
+                    })
+                    .map(q => q.topic || `Question ${q.id}`)
+                    .join(', ');
+
+                  const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/ai-advice`, {
+                    method: 'POST',
+                    headers: {
+                      'Authorization': `Bearer ${token}`,
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ score, totalQuestions, incorrectTopics })
+                  });
+
+                  if (!res.ok) throw new Error('API Error');
+                  const data = await res.json();
+                  setAiAdvice(data.advice);
+                } catch (err) {
+                  setAiError('Failed to load AI advice. Please try again later.');
+                } finally {
+                  setAiLoading(false);
+                }
+              }}>
+                Ask AI Tutor
+              </button>
+            </div>
+          )}
+
+          {aiLoading && (
+            <div style={{ color: 'var(--accent-indigo)' }}>
+              <strong>Analyzing your test... 🤖</strong>
+            </div>
+          )}
+
+          {aiError && (
+            <div style={{ color: 'var(--accent-rose)' }}>
+              {aiError}
+            </div>
+          )}
+
+          {aiAdvice && (
+            <div className="fade-in" style={{ color: 'var(--text-primary)', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
+              {aiAdvice}
+            </div>
+          )}
+        </div>
+
+        <div className="results-actions" style={{ marginTop: '2rem' }}>
           <button className="nav-btn primary" onClick={onBack}>
             ← Back to Dashboard
           </button>
@@ -145,6 +219,8 @@ function ReviewMode({ test, completedInfo, onBack }) {
             </div>
           );
         })}
+
+        <TestReviewForm testId={test.id} />
       </div>
     </div>
   );

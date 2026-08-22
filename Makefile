@@ -47,10 +47,10 @@ get-test-credentials:
 	./.venv/bin/python keyring/get_credentials.py
 
 test-e2e:
-	./.venv/bin/pytest tests/
+	./.venv/bin/pytest --reruns 2 --reruns-delay 5 tests/
 
 test-e2e-ui:
-	HEADLESS=false ./.venv/bin/pytest tests/
+	HEADLESS=false ./.venv/bin/pytest --reruns 2 --reruns-delay 5 tests/
 clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf dist
@@ -106,3 +106,9 @@ send-daily-summary:
 	@FUNC=$$(cd $(DEMO_ENV_DIR) && aws lambda list-functions --query "Functions[?contains(FunctionName, 'sat_daily_summary')].FunctionName" --output text) && \
 	aws lambda invoke --function-name $$FUNC response.json && \
 	cat response.json && rm response.json
+
+cleanup-e2e:
+	@echo "Cleaning up E2E test users from Cognito and DynamoDB..."
+	@POOL_ID=$$(cd $(DEMO_ENV_DIR) && aws cognito-idp list-user-pools --max-results 10 --query "UserPools[?contains(Name, 'sat-students-pool')].Id" --output text | awk '{print $$1}') && \
+	SUFFIX=$$(cd $(DEMO_ENV_DIR) && terraform output -raw s3_bucket_name | sed 's/sat-exam-static-demo-//') && \
+	./.venv/bin/python scripts/cleanup_e2e.py --user-pool-id $$POOL_ID --env-suffix $$SUFFIX

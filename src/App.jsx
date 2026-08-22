@@ -10,6 +10,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [tests, setTests] = useState([]);
   const [drills, setDrills] = useState([]);
+  const [ratings, setRatings] = useState({});
+  const [globalScores, setGlobalScores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard', 'practice', 'review', 'drill'
   
@@ -21,81 +23,94 @@ function App() {
   const [completedTests, setCompletedTests] = useState({});
   const [inProgressTests, setInProgressTests] = useState({});
 
-  const checkUser = async () => {
-    try {
-      const user = await getCurrentUser();
-      setCurrentUser(user.username || user.signInDetails?.loginId || "Student");
-    } catch (err) {
-      setCurrentUser(null);
-    }
-  };
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      setCurrentUser(null);
-    } catch (error) {
-      console.error('Error signing out: ', error);
-    }
-  };
-
   // Load test data, student history, and drills registry
   useEffect(() => {
-    checkUser();
-    
-    const fetchPublicData = async () => {
+    const initApp = async () => {
+      let isAuth = false;
       try {
-        const testsData = await fetch('/tests_data.json').then(res => res.json());
-        const drillsData = await fetch('/data/drills_registry.json').then(res => res.ok ? res.json() : []).catch(() => []);
-        setTests(testsData);
-        setDrills(drillsData);
+        const user = await getCurrentUser();
+        setCurrentUser(user.username || user.signInDetails?.loginId || "Student");
+        isAuth = true;
       } catch (err) {
-        console.error('Error loading static data:', err);
+        setCurrentUser(null);
+        setLoading(false); // If not logged in, stop loading immediately to show LoginScreen
       }
-    };
-
-    const fetchDashboard = async () => {
-      try {
-        const session = await fetchAuthSession();
-        const token = session.tokens.idToken.toString();
-        
-        const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/dashboard`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        
-        const comp = {};
-        const inProg = {};
-        
-        if (data.progress) {
-           data.progress.forEach(p => {
-             const testKey = p.testId;
-             if (p.status === "COMPLETED") {
-               comp[testKey] = {
-                 score: p.score,
-                 totalQuestions: p.totalQuestions,
-                 answers: p.answers,
-                 date: p.date,
-                 gradedAnswers: p.gradedAnswers
-               };
-             } else {
-               inProg[testKey] = {
-                 answers: p.answers || {},
-                 remainingTime: p.remainingTime || 1200,
-                 activeQuestionIndex: p.activeQuestionIndex || 0
-               };
-             }
-           });
+      
+      const fetchPublicData = async () => {
+        try {
+          const testsData = await fetch('/tests_data.json').then(res => res.json());
+          const drillsData = await fetch('/data/drills_registry.json').then(res => res.ok ? res.json() : []).catch(() => []);
+          const scoresData = await fetch('/data/scores_distribution.json').then(res => res.ok ? res.json() : []).catch(() => []);
+          setTests(testsData);
+          setDrills(drillsData);
+          setGlobalScores(scoresData);
+        } catch (err) {
+          console.error('Error loading static data:', err);
         }
-        setCompletedTests(comp);
-        setInProgressTests(inProg);
-      } catch (err) {
-        console.error('Error fetching dashboard from cloud:', err);
+      };
+
+      const fetchDashboard = async () => {
+        try {
+          const session = await fetchAuthSession();
+          if (!session || !session.tokens || !session.tokens.idToken) return;
+          const token = session.tokens.idToken.toString();
+          
+          const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/dashboard`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          const data = await res.json();
+          
+          try {
+            const ratingsRes = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/ratings`, {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (ratingsRes.ok) setRatings(await ratingsRes.json());
+          } catch (err) {
+            console.error("Error fetching ratings:", err);
+          }
+          
+          const comp = {};
+          const inProg = {};
+          
+          if (data.progress) {
+             data.progress.forEach(p => {
+               const testKey = p.testId;
+               if (p.status === "COMPLETED") {
+                 comp[testKey] = {
+                   score: p.score,
+                   totalQuestions: p.totalQuestions,
+                   answers: p.answers,
+                   date: p.date,
+                   gradedAnswers: p.gradedAnswers
+                 };
+               } else {
+                 inProg[testKey] = {
+                   answers: p.answers || {},
+                   remainingTime: p.remainingTime || 1200,
+                   activeQuestionIndex: p.activeQuestionIndex || 0
+                 };
+               }
+             });
+          }
+          setCompletedTests(comp);
+          setInProgressTests(inProg);
+        } catch (err) {
+          console.error('Error fetching dashboard from cloud:', err);
+        }
+      };
+
+      // Only fetch dashboard if authenticated. We can fetch public data anytime.
+      const tasks = [fetchPublicData()];
+      if (isAuth) {
+        tasks.push(fetchDashboard());
       }
+      
+      await Promise.all(tasks);
+      setLoading(false);
     };
 
-    Promise.all([fetchPublicData(), fetchDashboard()]).finally(() => setLoading(false));
-  }, [currentUser]);
+    initApp();
+  }, []);
 
   const saveInProgressLocally = (newInProgress) => {
     setInProgressTests(newInProgress);
@@ -264,6 +279,16 @@ function App() {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setCurrentUser(null);
+      window.location.reload();
+    } catch (err) {
+      console.error('Error signing out:', err);
+    }
+  };
+
   const handleLogoClick = () => {
     if (currentView === 'practice') {
       if (confirm('Return to dashboard? Your current progress will be auto-saved.')) {
@@ -286,7 +311,7 @@ function App() {
   }
 
   if (!currentUser) {
-    return <LoginScreen onLoginSuccess={checkUser} />;
+    return <LoginScreen onLoginSuccess={() => window.location.reload()} />;
   }
 
   return (
@@ -307,8 +332,10 @@ function App() {
           <Dashboard 
             tests={tests}
             drills={drills}
+            ratings={ratings}
             completedTests={completedTests}
             inProgressTests={inProgressTests}
+            globalScores={globalScores}
             onStartTest={handleStartTest}
             onOpenReview={handleOpenReview}
             onStartDrill={handleStartDrill}

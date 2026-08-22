@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import ScoreChart from './ScoreChart';
+import MistakeJournal from './MistakeJournal';
+import DailyChallenge from './DailyChallenge';
 
-function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest, onOpenReview, onStartDrill }) {
+function Dashboard({ tests, drills, ratings, completedTests, inProgressTests, globalScores, onStartTest, onOpenReview, onStartDrill }) {
   const [activeTab, setActiveTab] = useState('verbal'); // 'verbal', 'math', 'drills'
 
   // Calculate statistics
@@ -14,10 +17,18 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
   const completedMath = completedKeys.filter(k => tests.find(t => t.id === k)?.subject === 'math').length;
 
   const totalScore = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.score || 0), 0);
+  const totalQuestions = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.totalQuestions || 0), 0);
   const averageScore = totalCompleted > 0 ? (totalScore / totalCompleted).toFixed(1) : 'N/A';
 
   const inProgressKeys = Object.keys(inProgressTests);
   const totalInProgress = inProgressKeys.length;
+
+  let globalPercentile = "N/A";
+  if (globalScores && globalScores.length > 0 && totalQuestions > 0) {
+    const userPercent = Math.round((totalScore / totalQuestions) * 100);
+    const belowOrEqual = globalScores.filter(s => s <= userPercent).length;
+    globalPercentile = Math.round((belowOrEqual / globalScores.length) * 100) + 'th';
+  }
 
   // Filter tests for the active tab
   const displayTests = activeTab === 'verbal' ? verbalTests : mathTests;
@@ -54,7 +65,11 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
               {averageScore}
             </span>
           </div>
-          <div className="stat-item">
+          <div className="stat-item" style={{ marginTop: '0.75rem' }}>
+            <span className="stat-label">Global Percentile</span>
+            <span className="stat-value" style={{ color: 'var(--accent-purple)' }}>{globalPercentile}</span>
+          </div>
+          <div className="stat-item" style={{ marginTop: '0.75rem' }}>
             <span className="stat-label">Active (In-Progress)</span>
             <span className="stat-value" style={{ color: 'var(--accent-amber)' }}>{totalInProgress}</span>
           </div>
@@ -78,10 +93,18 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
             <div className="progress-bar-fill" style={{ width: `${mathProgressPercent}%` }}></div>
           </div>
         </div>
+        
+        <div style={{ marginTop: '1.5rem' }}>
+          <DailyChallenge />
+        </div>
       </aside>
 
       {/* Main Panel */}
       <section className="main-panel">
+        <div style={{ marginBottom: '1.5rem' }}>
+          <ScoreChart completedTests={completedTests} />
+        </div>
+
         <div className="tabs-container">
           <button 
             className={`tab-btn ${activeTab === 'verbal' ? 'active' : ''}`}
@@ -101,35 +124,68 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
           >
             Drills ({drills.length})
           </button>
+          <button 
+            className={`tab-btn ${activeTab === 'mistakes' ? 'active' : ''}`}
+            onClick={() => setActiveTab('mistakes')}
+          >
+            Mistake Journal
+          </button>
         </div>
 
-        {activeTab === 'drills' ? (
+        {activeTab === 'mistakes' ? (
+          <MistakeJournal completedTests={completedTests} tests={tests} />
+        ) : activeTab === 'drills' ? (
           <div className="test-cards-grid">
-            {drills.map((drill) => (
-              <div 
-                key={drill.id} 
-                className="test-card"
-                onClick={() => onStartDrill(drill.path)}
-              >
-                <div className="test-card-header">
-                  <span className="logo-badge" style={{ width: '1.75rem', height: '1.75rem', fontSize: '0.7rem' }}>
-                    DR
-                  </span>
-                  <span className="test-badge not-started">Markdown</span>
-                </div>
-                <div className="test-card-title">
-                  {drill.title}
-                </div>
-                <div className="test-card-footer">
-                  <div className="test-meta-info">
-                    <span>{drill.date}</span>
+            {drills.map((drill) => {
+              const testRating = ratings?.[drill.path];
+              return (
+                <div 
+                  key={drill.id} 
+                  className="test-card"
+                  onClick={() => onStartDrill(drill.path)}
+                >
+                  <div className="test-card-header">
+                    <span className="logo-badge" style={{ width: '1.75rem', height: '1.75rem', fontSize: '0.7rem' }}>
+                      DR
+                    </span>
+                    <span className="test-badge not-started">Markdown</span>
                   </div>
-                  <div style={{ color: 'var(--primary-color)', fontSize: '0.8rem', fontWeight: 600 }}>
-                    Start Drill →
+                  <div className="test-card-title">
+                    {drill.title}
+                  </div>
+                  {testRating && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.8rem', marginTop: '0.25rem', color: '#a1a1aa' }}>
+                      {testRating.studentCount > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.studentRating}</span>
+                          <span>Student ({testRating.studentCount})</span>
+                        </div>
+                      )}
+                      {testRating.teacherCount > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.teacherRating}</span>
+                          <span>Teacher ({testRating.teacherCount})</span>
+                        </div>
+                      )}
+                      {testRating.studentCount === 0 && testRating.teacherCount === 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.averageRating}</span>
+                          <span>({testRating.reviewCount} reviews)</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="test-card-footer">
+                    <div className="test-meta-info">
+                      <span>{drill.date}</span>
+                    </div>
+                    <div style={{ color: 'var(--primary-color)', fontSize: '0.8rem', fontWeight: 600 }}>
+                      Start Drill →
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="test-cards-grid">
@@ -138,6 +194,7 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
             const isCompleted = !!completedTests[testKey];
             const isInProgress = !!inProgressTests[testKey];
             const score = isCompleted ? completedTests[testKey].score : null;
+            const testRating = ratings?.[testKey];
 
             return (
               <div 
@@ -164,6 +221,29 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
                 <div className="test-card-title">
                   {test.title}
                 </div>
+
+                {testRating && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.8rem', marginTop: '0.25rem', color: '#a1a1aa' }}>
+                    {testRating.studentCount > 0 && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span style={{ color: '#fbbf24' }}>★ {testRating.studentRating}</span>
+                        <span>Student ({testRating.studentCount})</span>
+                      </div>
+                    )}
+                    {testRating.teacherCount > 0 && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span style={{ color: '#fbbf24' }}>★ {testRating.teacherRating}</span>
+                        <span>Teacher ({testRating.teacherCount})</span>
+                      </div>
+                    )}
+                    {testRating.studentCount === 0 && testRating.teacherCount === 0 && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span style={{ color: '#fbbf24' }}>★ {testRating.averageRating}</span>
+                        <span>({testRating.reviewCount} reviews)</span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="test-card-footer">
                   <div className="test-meta-info">
