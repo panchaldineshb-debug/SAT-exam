@@ -38,7 +38,7 @@ A cylinder is a 3D solid with two congruent circular bases and a curved side.
 
 ---
 
-## 📝 Practice Plan for Sameer
+## 📝 Practice Plan for Student
 1.  Draw the cylinder on your scratch paper.
 2.  Label the height (h) and radius (r).
 3.  Write out the formula `V = pi * r^2 * h` in plain text.

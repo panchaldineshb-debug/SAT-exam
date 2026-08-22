@@ -108,7 +108,7 @@ def scrape_single_test(subject, test_id):
             })
             
         return {
-            "id": test_id,
+            "id": f"{subject}-{test_id}",
             "subject": subject,
             "title": clean_text(title),
             "questions": questions

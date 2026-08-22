@@ -1,6 +1,6 @@
 # SAT Prep: Percent Change - Personal Study & Improvement Notes
 
-**Student:** Sameer (11th Grade, JP Stevens High School, Edison, NJ)  
+**Student:** Student (11th Grade, JP Stevens High School, Edison, NJ)  
 **Date:** June 24, 2026  
 
 Use these notes to review the specific percent-change rules and SAT shortcut tricks we used during practice. These are written in plain text for easy reading.

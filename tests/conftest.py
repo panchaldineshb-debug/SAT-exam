@@ -28,6 +28,6 @@ def context(browser):
 def page(context):
     """Create a new page in the isolated context."""
     page = context.new_page()
-    page.goto(BASE_URL)
+    page.goto(BASE_URL, wait_until="domcontentloaded")
     yield page
     page.close()

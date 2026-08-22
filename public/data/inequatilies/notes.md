@@ -22,7 +22,7 @@
 * **Question 10 (Hard):** Systems modeling with optimization boundary substitution
 
 ### Questions He Was Unable to Answer Independently (1/10)
-Sameer was not able to solve the following question on the first try and needed guidance:
+Student was not able to solve the following question on the first try and needed guidance:
 
 1. **Question 5 (Medium - Systems of Inequalities / Testing Coordinates):**
    * *Issue:* Tried options A, C, and D before finding the correct option B.
@@ -68,7 +68,7 @@ Sameer was not able to solve the following question on the first try and needed 
 * **Question 7 (Medium):** Translating business desk and chair constraints into a system.
 
 ### Questions He Was Unable to Answer Independently / Used Hints (6/10)
-Sameer needed guidance or hints to solve the following questions:
+Student needed guidance or hints to solve the following questions:
 
 1. **Question 2 (Easy - Testing Coordinates):**
    * *Issue:* Initially picked D (1, 5) without checking if it satisfied the second inequality (y < -x + 4).

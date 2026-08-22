@@ -1,6 +1,6 @@
 # SAT Prep: Grid In Problems - Practice Questions (Q.md)
 
-This file contains 10 practice grid-in questions for the SAT. Each question includes a description followed by hints and guided steps — **no answers or multiple-choice options are given**. Work through the hints to find the numerical solution yourself, Sameer!
+This file contains 10 practice grid-in questions for the SAT. Each question includes a description followed by hints and guided steps — **no answers or multiple-choice options are given**. Work through the hints to find the numerical solution yourself, Student!
 
 ---
 

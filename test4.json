@@ -1,0 +1,147 @@
+{
+    "Item": {
+        "subject": {
+            "S": "math"
+        },
+        "questions": {
+            "L": [
+                {
+                    "M": {
+                        "explanation": {
+                            "S": "Choice D is correct. In the given equation, s is the speed, in miles per hour, of a certain car t seconds after it began to accelerate. Therefore, the speed of the car, in miles per hour, 5 seconds after it began to accelerate can be found by substituting 5 for t in the given equation, which yields s=40+35, or s = 55. Thus, the speed of the car 5 seconds after it began to accelerate is 55 miles per hour. Choice A is incorrect and may result from conceptual or calculation errors. Choice B is incorrect and may result from conceptual or calculation errors. Choice C is incorrect and may result from conceptual or calculation errors."
+                        },
+                        "id": {
+                            "S": "1"
+                        },
+                        "key": {
+                            "S": "D"
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "explanation": {
+                            "S": "Choice D is correct. By the Pythagorean theorem, if a right triangle has a hypotenuse with length c and legs with lengths a and b, then c2=a2+b2. In the right triangle shown, the hypotenuse has length c and the legs have lengths a and b. It's given that a = 4 and b =5. Substituting 4 for a and 5 for b in the Pythagorean theorem yields c2=42+52. Taking the square root of both sides of this equation yields c=±42+52. Since the length of a side of a triangle must be positive, the value of c is 42+52. Choice A is incorrect and may result from conceptual or calculation errors. Choice B is incorrect and may result from conceptual or calculation errors. Choice C is incorrect and may result from conceptual or calculation errors."
+                        },
+                        "id": {
+                            "S": "2"
+                        },
+                        "key": {
+                            "S": "D"
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "explanation": {
+                            "S": "The correct answer is 40. Subtracting 5 from both sides of the given equation yields 4x=160. Dividing both sides of this equation by 4 yields x = 40. Therefore, the solution to the given equation is 40."
+                        },
+                        "key": {
+                            "S": "40"
+                        },
+                        "id": {
+                            "S": "3"
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "key": {
+                            "S": "7"
+                        },
+                        "explanation": {
+                            "S": "The correct answer is 7. It's given that the x-intercept of the graph shown is (x,0). The graph passes through the point (7,0). Therefore, the value of x is 7."
+                        },
+                        "id": {
+                            "S": "4"
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "id": {
+                            "S": "5"
+                        },
+                        "explanation": {
+                            "S": "Choice B is correct. The y-intercept of the graph of a function in the xy-plane is the point on the graph where x = 0. Itâ²s given that fx=110x-2. Substituting 0for x in this equation yields f0=1100-2, or f0=-2. Since itâ²s given that y=fx, it follows that y = -2 when x = 0. Therefore, the y-intercept of the graph of y=fx in the xy-plane is (0,-2). Choice A is incorrect and may result from conceptual or calculation errors. Choice C is incorrect and may result from conceptual or calculation errors. Choice D is incorrect and may result from conceptual or calculation errors."
+                        },
+                        "key": {
+                            "S": "B"
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "id": {
+                            "S": "6"
+                        },
+                        "key": {
+                            "S": "D"
+                        },
+                        "explanation": {
+                            "S": "Choice D is correct. If the graph of y=gx is the result of shifting the graph of y=fx down k units in the xy-plane, the function g can be defined by an equation of the form gx=fx-k. It's given that fx=7x3 and the graph of y=gx is the result of shifting the graph of y=fx down 2 units. Substituting 7x3 for fx and 2 for k in the equation gx=fx-k yields gx=7x3-2. Choice A is incorrect and may result from conceptual errors. Choice B is incorrect and may result from conceptual errors. Choice C is incorrect. This equation defines a function g for which the graph of y=gx is the result of shifting the graph of y=fx up, not down, 2 units."
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "explanation": {
+                            "S": "Choice A is correct. The solution to a system of equations is the ordered pair (x,y), that satisfies all equations in the system. It's given by the first equation in the system that x + 7 = 10. Substituting 10 for x +7 into the second equation yields 102 = y, or y =100. The x-coordinate of the solution to the system of equations can be found by subtracting 7 from both sides of the equation x + 7 = 10, which yields x = 3. Therefore, the ordered pair (3,100) is a solution to the given system of equations. Choice B is incorrect and may result from conceptual or calculation errors. Choice C is incorrect and may result from conceptual or calculation errors. Choice D is incorrect and may result from conceptual or calculation errors."
+                        },
+                        "key": {
+                            "S": "A"
+                        },
+                        "id": {
+                            "S": "7"
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "key": {
+                            "S": "A"
+                        },
+                        "id": {
+                            "S": "8"
+                        },
+                        "explanation": {
+                            "S": "Choice A is correct. Applying the distributive property, the given expression can be written as 7x3+7x-6x3+3x. Grouping like terms in this expression yields 7x3-6x3+7x+3x. Combining like terms in this expression yields x3+10x. Choice B is incorrect and may result from conceptual or calculation errors. Choice C is incorrect and may result from conceptual or calculation errors. Choice D is incorrect and may result from conceptual or calculation errors."
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "explanation": {
+                            "S": "Choice A is correct. It's given that pn=7n3. Substituting 56 for pn in this equation yields 56=7n3 . Dividing each side of this equation by 7 yields 8=n3. Taking the cube root of each side of this equation yields 2 = n. Therefore, when pn is equal to 56, the value of n is 2. Choice B is incorrect and may result from conceptual or calculation errors. Choice C is incorrect and may result from conceptual or calculation errors. Choice D is incorrect and may result from conceptual or calculation errors."
+                        },
+                        "id": {
+                            "S": "9"
+                        },
+                        "key": {
+                            "S": "A"
+                        }
+                    }
+                },
+                {
+                    "M": {
+                        "explanation": {
+                            "S": "The correct answer is 70. Based on the figure, the angle with measure 110Â° and the angle vertical to the angle with measure xÂ° are same side interior angles. Since vertical angles are congruent, the angle vertical to the angle with measure xÂ° also has measure xÂ°. It's given that lines s and t are parallel. Therefore, same side interior angles between lines s and t are supplementary. It follows that x + 110 = 180. Subtracting 110 from both sides of this equation yields x = 70."
+                        },
+                        "key": {
+                            "S": "70"
+                        },
+                        "id": {
+                            "S": "10"
+                        }
+                    }
+                }
+            ]
+        },
+        "testId": {
+            "S": "4"
+        },
+        "title": {
+            "S": "Digital SAT Math Test 4"
+        }
+    }
+}

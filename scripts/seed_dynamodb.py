@@ -26,12 +26,13 @@ def main():
             secure_q = {
                 "id": str(q['id']),
                 "key": q.get('key', ''),
-                "explanation": q.get('explanation', '')
+                "explanation": q.get('explanation', ''),
+                "tags": q.get('tags', [])
             }
             secure_questions.append(secure_q)
             
             # Public item (strip secure data)
-            pub_q = {k: v for k, v in q.items() if k not in ('key', 'explanation')}
+            pub_q = {k: v for k, v in q.items() if k not in ('key', 'explanation', 'tags')}
             public_questions.append(pub_q)
             
         # Write secure test to DynamoDB

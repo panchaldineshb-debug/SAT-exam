@@ -1,6 +1,6 @@
 # 🥊 The "Brutal Micro-Drill": Zero-Excuses Execution (August 4)
 
-Welcome back, Sameer! 
+Welcome back, Student! 
 No fluff today. We are attacking the exact 3 sloppy habits that have been costing you points:
 1. **The Extreme Language Reflex** (Falling for absolute words like *entirely*, *never*, *always*).
 2. **Calculator Laziness / Premature Rounding** (Rounding intermediate decimals instead of typing the whole expression in Desmos).

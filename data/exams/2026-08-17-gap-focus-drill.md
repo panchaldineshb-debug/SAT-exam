@@ -1,6 +1,6 @@
 # 🥊 The GAP Focus 60-Minute Mega-Drill (August 17)
 
-Welcome to the gauntlet, Sameer. Today we are not testing your general knowledge; we are testing your discipline. This entire 60-minute drill is mathematically formulated to attack your 4 specific execution gaps:
+Welcome to the gauntlet, Student. Today we are not testing your general knowledge; we are testing your discipline. This entire 60-minute drill is mathematically formulated to attack your 4 specific execution gaps:
 1. The Poison Word Reflex (Reading)
 2. Calculator Laziness / Premature Rounding (Math)
 3. Basic Arithmetic Failures (Math)
