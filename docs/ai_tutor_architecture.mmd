@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant User as User / Browser
+    participant Cognito as AWS Cognito
+    participant APIGW as API Gateway
+    participant Lambda as AI Advice Lambda
+    participant Bedrock as Amazon Bedrock (Claude 3 Haiku)
+
+    User->>Cognito: fetchAuthSession()
+    Cognito-->>User: Returns JWT Token
+    User->>APIGW: POST /ai-advice (with JWT Token & test data)
+    APIGW->>Cognito: Validate JWT Token
+    Cognito-->>APIGW: Validation Success
+    APIGW->>Lambda: Invoke Function (userId, score, incorrectTopics)
+    Lambda->>Bedrock: InvokeModel (Prompt string)
+    note right of Lambda: Uses anthropic.claude-3-haiku-20240307-v1:0
+    Bedrock-->>Lambda: Returns AI Advice Response (JSON)
+    Lambda-->>APIGW: Returns HTTP 200 with Advice text
+    APIGW-->>User: Displays AI feedback on screen

@@ -14,3 +14,8 @@ Feature: SAT Dashboard Login
     When I enter my valid username and password
     And I click the login button
     Then I should be successfully logged in and see the dashboard
+    
+  Scenario: Failed signup due to age restriction
+    Given I navigate to the SAT Dashboard homepage
+    When I try to sign up with an age under 13
+    Then I should see an error message indicating age restriction

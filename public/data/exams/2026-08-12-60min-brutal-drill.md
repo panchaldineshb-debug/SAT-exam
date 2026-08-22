@@ -1,6 +1,6 @@
 # 🥊 The 60-Minute "Brutal Mega-Drill": Zero-Excuses Execution (August 12)
 
-Welcome back, Sameer! Since it's been a few days, we are blowing out the cobwebs with a massive, high-intensity **60-Minute Brutal Drill** (30 Minutes Math, 30 Minutes Reading & Writing). 
+Welcome back, Student! Since it's been a few days, we are blowing out the cobwebs with a massive, high-intensity **60-Minute Brutal Drill** (30 Minutes Math, 30 Minutes Reading & Writing). 
 
 This drill is packed exclusively with the exact traps you've historically struggled with. There are no easy "warm-up" questions here. 
 

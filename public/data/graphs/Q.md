@@ -1,6 +1,6 @@
 # SAT Prep: Graphs - Practice Questions (Q.md)
 
-This file contains 10 practice questions on Graphs for the SAT. Each question includes a multiple-choice layout followed by hints and guided steps — **no answers are given**. Work through the hints to find the solution yourself, Sameer!
+This file contains 10 practice questions on Graphs for the SAT. Each question includes a multiple-choice layout followed by hints and guided steps — **no answers are given**. Work through the hints to find the solution yourself, Student!
 
 ---
 

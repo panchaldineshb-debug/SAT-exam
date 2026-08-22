@@ -1,6 +1,6 @@
 # 🥊 The 60-Minute "Brutal Mega-Drill" Part 2: Revenge of the Poison Words (August 13)
 
-Welcome back, Sameer! Yesterday, fatigue beat you. You had the knowledge, but you let your guard down and fell into the **Poison Word Trap** (Reading) and the **Premature Rounding Trap** (Math). 
+Welcome back, Student! Yesterday, fatigue beat you. You had the knowledge, but you let your guard down and fell into the **Poison Word Trap** (Reading) and the **Premature Rounding Trap** (Math). 
 
 Today, we are running the exact same format. Your ONLY goal today is to prove that you can maintain 100% execution discipline for the full 60 minutes.
 

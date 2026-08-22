@@ -1,6 +1,6 @@
 # 🎯 15-Minute Target Drill: "Poison Word" Scan & Math Discipline (August 5)
 
-Welcome to tonight's session, Sameer! 
+Welcome to tonight's session, Student! 
 Tonight's goal is simple: **Eliminate the final trap on Reading & Writing** while maintaining your 100% execution discipline on Math.
 
 ### 🚨 Core Execution Rules for Tonight:

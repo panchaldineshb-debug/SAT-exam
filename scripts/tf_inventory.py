@@ -39,19 +39,21 @@ def tf_state_ids(env):
             text=True,
             check=True,
         )
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        return set()
+    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+        print(f"Warning: Failed to read terraform state in '{env}' (perhaps 'terraform init' needs to be run?). Treating as 0 resources.", file=sys.stderr)
+        return {}
 
     show = run_json(["terraform", "-chdir=" + env_dir, "show", "-json"])
     if not show:
-        return set()
+        return {}
 
-    ids = set()
+    ids = {}
     for module in [show.get("values", {}).get("root_module", {})]:
         for resource in module.get("resources", []):
             rid = resource.get("values", {}).get("id")
-            if rid:
-                ids.add(rid)
+            address = resource.get("address")
+            if rid and address:
+                ids[rid] = address
     return ids
 
 
@@ -147,10 +149,15 @@ def main():
     lines = [f"SAT_Exams inventory - {AWS_REGION}\n"]
 
     state_ids_by_env = {env: tf_state_ids(env) for env in TF_ENVIRONMENTS}
-    all_state_ids = set().union(*state_ids_by_env.values())
+    all_state_ids = set()
+    for ids in state_ids_by_env.values():
+        all_state_ids.update(ids.keys())
 
     for env, ids in state_ids_by_env.items():
         lines.append(f"[terraform] {env}: {len(ids)} resources in state")
+        if ids:
+            for rid, address in sorted(ids.items(), key=lambda item: item[1]):
+                lines.append(f"  - {address}")
 
     live_resources = (
         aws_ec2_instances() + aws_vpcs() + aws_s3_buckets() + aws_dynamodb_tables()

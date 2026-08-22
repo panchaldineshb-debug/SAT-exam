@@ -1,0 +1,222 @@
+[
+  {
+    "testId": "verbal-12",
+    "questionId": "5",
+    "questionIndex": 4,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer because it describes data from the graph that support Taylor and colleagues' conclusion that spray coating holds promise for improving the power conversion efficiency of ETLs in perovskite solar cells. The text explains that perovskite solar cells' efficiency at converting light into electricity is diminished by their electron transport layer (ETL), which is applied through spin coating, but that Taylor's team devised a new spray coating method for applying the ETL that improves its power conversion efficiency. The graph displays data on the power conversion efficiency of solar cells in tests conducted by Taylor's team, with bars for both the highest- and lowest-performing ETLs in two data categories: spray coating and spin coating. According to the graph, the lowest-performing ETL applied through spray coating had a power conversion efficiency of between 14% and 16%, while the highest-performing ETL applied through spin coating had a power conversion efficiency of less than 14%. These data confirm that ETLs applied through novel spray coating are more efficient than those applied though traditional spin coating. Thus, the data support Taylor and colleagues' conclusion about spray coating's potential value. Choice A is incorrect. Although this claim correctly describes the data in the graph by stating that both the lowest-performing ETL applied through spin coating and the lowest-performing ETL applied through spray coating had a power conversion efficiency greater than 10%, this relationship in the data doesn't support or relate to Taylor and colleagues' conclusion that spray coating promises greater efficiency for solar cells than traditional spin coating does. Choice C is incorrect. This claim does address the greater power conversion efficiency of the highest-performing ETL applied through spray coating, compared with the highest-performing ETL applied through spin coating. However, it also incorrectly cites the value for the efficiency of the highest- performing ETL applied through spray coating as approximately 13%, instead of a value between 14% and 16%, and the value for the efficiency of the highest- performing ETL applied through spin coating as approximately 11%, instead of a value between 12% and 14%, as shown in the graph. Choice D is incorrect because Taylor and colleagues' conclusion is based on the difference in the power conversion efficiency of ETLs applied through spray coating and that of ETLs applied through spin coating, not on the difference between the highest- and lowest-performing ETLs applied through just spray coating."
+  },
+  {
+    "testId": "verbal-12",
+    "questionId": "6",
+    "questionIndex": 5,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer because it presents a finding that, if true, would most directly support the arts journalist's claim about Enwezor's work as a curator and art historian. In the text, the arts journalist asserts that Enwezor wished not just to focus on modern African artists but also to show \"how their work fits into the larger context of global modern art and art history,\" or how their work relates to artistic developments and work by other artists elsewhere in the world. The description of Postwar: Art Between the Pacific and the Atlantic, 1945\u00e2\u0080\u00931965 indicates that Enwezor and Siegel's exhibition brought works by African artists together with works by artists from other countries, thus supporting the arts journalist's claim that Enwezor sought to show works by African artists in a context of global modern art and art history. Choice A is incorrect because it describes a retrospective that wouldn't support the arts journalist's claim that Enwezor wanted to show how works by modern African artists fit into the larger context of global modern art and art history. The description of El Anatsui: Triumphant Scale indicates that the retrospective focused only on the work of a single African artist, El Anatsui. The description doesn't suggest that the exhibition showed how El Anatsui's works fit into a global artistic context. Choice C is incorrect because it describes an exhibition that wouldn't support the arts journalist's claim that Enwezor wanted to show how works by modern African artists relate to the larger context of global modern art and art history. The description of The Short Century: Independence and Liberation Movements in Africa, 1945\u00e2\u0080\u00931994 indicates that the exhibition showed how African artists were influenced by movements for independence from European colonial powers following the Second World War. Although this suggests that Enwezor intended the exhibition to place works by African artists in a political context, it doesn't indicate that the works were placed in a global artistic context. Choice D is incorrect because it describes an exhibition that wouldn't support the arts journalist's claim that Enwezor wanted to show how works by modern African artists relate to the larger context of global modern art and art history. The description of In/sight: African Photographers, 1940 to the Present indicates that the exhibition was intended to reveal the broad range of approaches taken by African photographers, not that the exhibition showed how photography by African artists fits into a global artistic context."
+  },
+  {
+    "testId": "verbal-22",
+    "questionId": "1",
+    "questionIndex": 0,
+    "subject": "verbal",
+    "key": "A",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice A is the best answer because it uses data from the graph to accurately complete the text. The graph shows the number of organic farms located in each of six US states in 2016: between 2,600 and 2,800 in California; between 1,200 and 1,400 in Wisconsin; between 1,000 and 1,200 in New York; approximately 800 in Pennsylvania; and between 600 and 800 in both Iowa and Washington. The last sentence of the text provides information about the number of organic farms in 2016, first describing the number in California. The best completion of the sentence is the choice that accurately describes the number of organic farms in 2016 in another state, which the assertion that Washington had between 600 and 800 organic farms provides. Choice B is incorrect because it doesn't accurately reflect the data from the graph. The graph indicates that there were between 1,000 and 1,200 organic farms in New York, not fewer than 800 organic farms. Choice C is incorrect because it doesn't accurately reflect the data from the graph. While the graph indicates that there were between 1,200 and 1,400 organic farms in Wisconsin in 2016, there were only between 600 and 800 in Iowa. Choice D is incorrect because it doesn't accurately reflect the data from the graph. The graph indicates that in 2016 there were approximately 800 organic farms in Pennsylvania, not more than 1,200."
+  },
+  {
+    "testId": "verbal-15",
+    "questionId": "6",
+    "questionIndex": 5,
+    "subject": "verbal",
+    "key": "C",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice C is the best answer because it uses data from the graph to effectively complete the example of Eludoyin and his colleagues' findings concerning female farmers in some regions of Ondo State, Nigeria. The graph presents values for the percentage of Ondo State small-scale farmers who are female, by type of crop and region. The graph shows that of the farmers mainly cultivating non- root vegetables, approximately 57% in north Ondo and approximately 54% in south Ondo are female; in other words, most of those farmers are female, which exemplifies the idea that female farmers make up the majority (more than half) of the farmers cultivating specific types of crops in some regions. Choice A is incorrect because it inaccurately cites data from the graph: the graph shows that in south Ondo, most of the farmers mainly cultivating non-root vegetables are women (approximately 54%), but that only about 35% (less than half) of the farmers mainly cultivating cereals are women. Choice B is incorrect because it inaccurately cites data from the graph: the graph shows that more women in central Ondo mainly cultivate cereals than mainly cultivate root crops (approximately 36% and 20%, respectively). Additionally, it doesn't effectively complete the example because the graph shows that female farmers don't make up the majority (more than half) of the farmers for any type of crop in central Ondo. Choice D is incorrect because it doesn't effectively complete the example; it simply states that a relatively equal proportion of women across the three regions mainly cultivate cereals, which doesn't address the value for that proportion and thus doesn't show that a majority (more than half) of the farmers cultivating certain crops are female."
+  },
+  {
+    "testId": "verbal-9",
+    "questionId": "2",
+    "questionIndex": 1,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer because it most logically completes the text's discussion of Zelda Fitzgerald's contributions to literature. The text begins by saying that many scholars view Zelda mainly in terms of her marriage to F. Scott Fitzgerald and \"don't recognize Zelda as a writer in her own right.\" The text then mentions a novel and \"numerous short stories\" that she wrote and that such scholars tend to ignore. Therefore, those scholars who focus on Zelda only as an inspiration for F. Scott's writings risk misrepresenting the full range of Zelda's contributions to literature. Choice A is incorrect. Although the text does mention that Zelda Fitzgerald \"likely influenced\" her husband's literary work, its focus is on Zelda's own writing, not on her husband's writing or factors that might have influenced it. Choice C is incorrect because the text does not discuss F. Scott and Zelda Fitzgerald's opinions of each other's works. Choice D is incorrect. Although the text does suggest that F. Scott Fitzgerald's works were \"likely influenced in part\" by his marriage to Zelda, it does not discuss autobiographical interpretations of the works of either F. Scott or Zelda."
+  },
+  {
+    "testId": "verbal-2",
+    "questionId": "3",
+    "questionIndex": 2,
+    "subject": "verbal",
+    "key": "A",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice A is the best answer because it presents a finding that, if true, would support the claim about Chambi's photographs. The text describes a student advancing the claim that Chambi's photographs \"have considerable ethnographic value\"\u00e2\u0080\u0094meaning that they are valuable as records of cultures\u00e2\u0080\u0094and that they \"capture diverse elements of Peruvian society\" in a respectful way. If it's true that Chambi carefully photographed people from a range of different communities in Peru as well as photographed the customs and sites of different communities, that would lend support to the claim that the photographs have ethnographic value as depictions of diverse elements of society in Peru. Choice B is incorrect because the student's claim is that Chambi's photographs have considerable ethnographic value because they depict diverse elements of Peruvian society; the student doesn't claim anything about the technical skill demonstrated in the photographs. Choice C is incorrect because neither Chambi's reputation nor the locations where his photographs may have been published would be relevant to the student's claim that his photographs are valuable as an ethnographic record of Peru's diverse society. Choice D is incorrect because the popularity among other photographers of the people and places that Chambi photographed would be irrelevant to the student's claim that Chambi's photographs are valuable as an ethnographic record of Peru's diverse society."
+  },
+  {
+    "testId": "verbal-25",
+    "questionId": "4",
+    "questionIndex": 3,
+    "subject": "verbal",
+    "key": "D",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice D is the best answer because it uses data from the graph to effectively illustrate the text's claim about general economic policy uncertainty in the United Kingdom. The graph presents values for economic policy uncertainty in tax and public spending policy, trade policy, and general economic policy in the UK from 2005 to 2010. The graph shows that in 2005, the value for general economic policy uncertainty (approximately 90) was substantially lower than the value for uncertainty about trade policy specifically (approximately 160). It also shows that in 2010, the value for general economic policy uncertainty (approximately 120) was substantially higher than the value for uncertainty about trade policy (approximately 70). The substantial differences between these values in 2005 and 2010 support the claim that a general measure may not fully reflect uncertainty about specific areas of policy. Choice A is incorrect because the graph shows that the level of general economic policy uncertainty was similar to the level of uncertainty about tax and public spending policy in both 2005 (with values of approximately 90 and 100, respectively) and 2009 (with values of approximately 80 and 75, respectively). Choice B is incorrect because the graph shows that general economic policy uncertainty was higher than uncertainty about tax and public spending policy in 2006, 2007, and 2009, not that it was lower each year from 2005 to 2010. Choice C is incorrect because the graph shows that general economic policy uncertainty reached its highest level in 2010, which was when uncertainty about tax and public spending policy also reached its highest level, not its lowest level."
+  },
+  {
+    "testId": "verbal-24",
+    "questionId": "7",
+    "questionIndex": 6,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer because it most logically and precisely completes the text's discussion of Jeyifous's series of images for the 2020 exhibition. In this context, \"created\" means produced. The text explains that Jeyifous, a photographer and neurobiologist, photographed adults who had appeared as children in posters from the 1970s, then combined those photographs with magnified images of the adults' cells\u00e2\u0080\u0094a process that resulted in what he called \"micro and macro portraiture.\" This context suggests that Jeyifous drew on his dual interests in photography and neurobiology to produce the images for display in the exhibition. Choice A is incorrect because there's nothing in the text to suggest that Jeyifous \"validated,\" or corroborated, the series of images. The text describes Jeyifous's process for composing the images but doesn't describe Jeyifous making an effort to evaluate the images for their artistic or scientific legitimacy. Choice C is incorrect because there's nothing in the text to suggest that Jeyifous \"challenged,\" or disputed, an aspect of the images; rather, the focus of the text is on the inspiration behind the images and the method Jeyifous used to achieve them. Choice D is incorrect because the text indicates that Jeyifous made the images himself using a combination of photography and magnified pictures of cells, not that he \"restored,\" or reconditioned, the images from a deteriorated state."
+  },
+  {
+    "testId": "verbal-11",
+    "questionId": "1",
+    "questionIndex": 0,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['yields']"
+    ],
+    "explanation": "Choice B is the best answer because it most logically completes the text's discussion about recycling plastics. In this context, \"inadequate\" means not satisfactory. The text indicates that the mechanical plastic-recycling process affects the environment and causes \"the loss of material quality.\" The text contrasts that with Chazovachii's chemical plastic-recycling process, which is cleaner and produces a desirable product. The text's emphasis on the negative aspects of mechanical recycling suggests that it is inadequate in terms of environmental impact and the quality of the material the process yields. Choice A is incorrect because in this context \"resilient\" would mean able to withstand difficulty and the text does not characterize the plastic-recycling process as having this quality or describe any difficulties that these processes might need to overcome. Choice C is incorrect because in this context \"dynamic\" would mean constantly changing. Although the text suggests that there have been changes in the field of recycling, as is the case with the advent of Chazovachii's chemical recycling process, there is nothing to suggest that the mechanical process itself has changed or is prone to change. Choice D is incorrect because in this context \"satisfactory\" would mean acceptable but not perfect. The text mentions only shortcomings of the mechanical process (environmental effects and lower material quality), so the text more strongly supports a negative view of this process and provides no evidence that it would be considered satisfactory."
+  },
+  {
+    "testId": "verbal-11",
+    "questionId": "9",
+    "questionIndex": 8,
+    "subject": "verbal",
+    "key": "A",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice A is the best answer because it uses data from the graph to effectively support Charles and Stephens's claim about how level of information affects voters. The graph shows the probability of voting for both high- and low- information voters in seven categories of political orientation. Charles and Stephens claim that \"the more informed voters are about politics\u00e2\u0080\u00a6the more likely they are to vote.\" This statement correctly asserts that the graph shows a higher probability of voting for high-information voters than for low-information voters at each of the seven political orientations. Thus, this statement accurately cites data from the graph that support Charles and Stephens's claim about how level of information affects voters. Choice B is incorrect. Although this statement is correct that the only probability in the graph below 50% is for low-information voters categorized as independent (orientation 4), the claim in question is about the relative likelihood that low- and high-information voters will vote, and without some reference to high-information voters, this statement cannot help support such a comparison. Choice C is incorrect. Although this statement is correct that the highest probabilities of voting for low-information voters are at the ends of the orientation scale (1 and 7), the claim in question is about the relative likelihood that low- and high-information voters will vote, and without some reference to high-information voters, this statement cannot help support such a comparison. Choice D is incorrect because the graph does not give any information about how many people are represented in any of the categories, so this statement is not based on data from the graph. Furthermore, even if we did have this information, the claim is about how level of information affects voters' probability of voting, not whether they're likely to strongly identify with a particular political party."
+  },
+  {
+    "testId": "verbal-11",
+    "questionId": "10",
+    "questionIndex": 9,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer because it describes data from the graph that weaken the student's conclusion about the reduction in the spider population in the enclosure with lizards. The graph shows that the enclosure with lizards and the enclosure without lizards each began with about 85 spiders, and that the number of spiders in each enclosure fell over the 30 days of the study. The student's claim is that the reduction in spiders in the enclosure with lizards is \"entirely attributable to the presence of the lizards,\" meaning that the spider population wouldn't have declined except for the presence of the lizards. This claim is weakened, however, by the fact that the enclosure without lizards also saw a substantial reduction in the number of spiders. Since the number of spiders fell in the enclosure without lizards as well as in the enclosure with lizards, there must be some other factor than just the presence of the lizards that contributed to the reduction in the spider population. Choice A is incorrect because the fact that the two enclosures started with the same number of spiders is irrelevant to the claim that the reduction in spider population by day 30 in the enclosure with lizards can be entirely attributed to the lizards. Choice C is incorrect because the fact that the spider population in the enclosure with lizards fell more between days 1 and 10 than in other periods has nothing to do with the student's claim that the reduction in spiders in that enclosure by day 30 can be entirely attributed to the lizards. Choice D is incorrect. Although it's true that on day 30 the spider population was lower in the enclosure with lizards than in the enclosure without lizards, this fact doesn't weaken the student's claim that the reduction in the spider population in the enclosure with lizards can be entirely attributed to the lizards. Indeed, the lower spider population in the enclosure with lizards suggests that the lizards are contributing to the reduction in the spider population, though the fact that the spider population also fell substantially in the other enclosure means that the lizards aren't the only cause of the reduction."
+  },
+  {
+    "testId": "verbal-3",
+    "questionId": "7",
+    "questionIndex": 6,
+    "subject": "verbal",
+    "key": "A",
+    "reasons": [
+      "Math words found in verbal explanation: ['equation']"
+    ],
+    "explanation": "Choice A is the best answer. The convention being tested is the use of punctuation to mark boundaries between supplements and clauses. The comma after \"equations\" is used to separate the independent clause (\"Hopper's\u00e2\u0080\u00a6 equation\") from the supplementary adverb phrase \"though.\" The colon after \"though\" is used to mark the boundary between the clause ending with \"though\" and the following clause (\"as\u00e2\u0080\u00a6age\"). A colon used in this way introduces information that illustrates or explains information that has come before it. In this case, the colon after \"though\" introduces the following explanation of how Hopper's subsequent career would involve more than just solving equations: she would become a pioneering computer programmer. Choice B is incorrect because it results in a comma splice. A comma can't be used in this way to join two independent clauses (\"Hopper's\u00e2\u0080\u00a6though\" and \"as\u00e2\u0080\u00a6age\") such as these. Choice C is incorrect because it results in an illogical sequence of sentences. Placing the period after \"equations\" and beginning the next sentence with \"Though\" illogically suggests that the following information (that Hopper would help usher in the digital age) is contrary to the information in the previous sentence (Hopper's subsequent career would involve more than just solving equations). Instead, the information that follows supports the information from the previous sentence by explaining how her work and influence extended beyond solely solving equations. Choice D is incorrect because it results in a run-on sentence. The two independent clauses (\"Hopper's\u00e2\u0080\u00a6though\" and \"as\u00e2\u0080\u00a6age\") are fused without punctuation."
+  },
+  {
+    "testId": "verbal-13",
+    "questionId": "5",
+    "questionIndex": 4,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer. The convention being tested is the punctuation of items in a complex series (a series including internal punctuation). In this choice, the semicolon after \"Lagos\" is conventionally used to separate the first item (\" The Joys\u00e2\u0080\u00a6Lagos\") and the second item (\"A Kind \u00e2\u0080\u00a6Nigeria\") in the series. Further, the comma after \"Marriage\" correctly separates the title \"A Kind of Marriage\" from the supplementary phrase (\"a television\u00e2\u0080\u00a6Nigeria\") that describes it. Choice A is incorrect because the comma after \"Lagos\" doesn't match the semicolon used later in the series to separate the second item (\"A Kind \u00e2\u0080\u00a6Nigeria\") from the third item (\"and\u00e2\u0080\u00a6autobiography\"). Choice C is incorrect because the comma after \"Lagos\" doesn't match the semicolon used later in the series to separate the second item (\"A Kind \u00e2\u0080\u00a6Nigeria\") from the third item (\"and\u00e2\u0080\u00a6 autobiography\"). Additionally, a colon can't be used in this way to separate the title \"A Kind of Marriage\" from the supplementary phrase (\"a television\u00e2\u0080\u00a6 Nigeria\") that describes it. Choice D is incorrect because it fails to use appropriate punctuation to separate the title \"A Kind of Marriage\" from the supplementary phrase (\"a television\u00e2\u0080\u00a6Nigeria\") that describes it."
+  },
+  {
+    "testId": "verbal-21",
+    "questionId": "3",
+    "questionIndex": 2,
+    "subject": "verbal",
+    "key": "A",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice A is the best answer because it most accurately describes the main purpose of the text. The text begins by stating that the new picture \"failed to fit in\" with the other items that the shop owner has. The text goes on to illustrate that point by describing the other pictures the shop owner has, indicating that the shop owner is fuming because he doesn't think the new picture belongs in the store. In the second paragraph, however, the text indicates that the shop owner is \"secretly proud of his acquisition.\" The main purpose of the text is thus to reveal the shop owner's conflicted feelings about the new picture. Choice B is incorrect because the text doesn't suggest that the shop owner resents the young man who sold him the new picture; in fact, the text gives no indication of the owner's feelings about the young man at all. Choice C is incorrect. Although the text indicates that the new picture is different from the other items in the shop, there's no suggestion that the shop owner prizes either the new picture or the pictures of the city, pets, and landscapes more than he prizes any other items. Choice D is incorrect because the text doesn't describe what the new picture looks like; rather, the text identifies some of the other kinds of images that the shop owner has and states that they're different from the new picture without explaining how they're different."
+  },
+  {
+    "testId": "verbal-18",
+    "questionId": "5",
+    "questionIndex": 4,
+    "subject": "verbal",
+    "key": "D",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice D is the best answer because it states why Wang and his team's discovery of the Terropterus xiushanensis fossil was significant. The text explains that up until Wang and his team's discovery, the only fossil evidence of mixopterids came from the paleocontinent of Laurussia. Wang and his team, however, identified fossil remains of a mixopterid species from the paleocontinent Gondwana. Therefore, the team's discovery was significant because the fossil remains of a mixopterid species were outside of the paleocontinent Laurussia. Choice A is incorrect. Although the text states that Wang and his team identified fossilized remains of a mixopterid species that lived more than 400 million years ago, it doesn't indicate that mixopterid fossils previously found by scientists dated to a more recent period than that. Choice B is incorrect. Although the text states that mixopterids are related to modern arachnids and horseshoe crabs, it doesn't suggest that the fossil discovered by Wang and his team confirmed that this relationship is closer than scientists had previously thought. Choice C is incorrect because the team's fossil established the presence of mixopterids on Gondwana, not on Laurussia. Moreover, the text only discusses the fossil in relation to the geographical distribution of mixopterids, not in relation to their evolution."
+  },
+  {
+    "testId": "verbal-8",
+    "questionId": "9",
+    "questionIndex": 8,
+    "subject": "verbal",
+    "key": "A",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice A is the best answer because it most accurately states the main idea of the text. According to the text, Eugene Wigner hypothesized that a crystal could exist that would be composed of electrons and have a honeycomb-like shape. The text goes on to say that the existence of the Wigner crystal remained unconfirmed until Feng Wang and colleagues were able to make an impression of one using two semiconductors and an ultrathin sheet of graphene. Thus, the main idea is that researchers have obtained the most definitive evidence to date of the existence of the Wigner crystal. Choice B is incorrect because the text focuses on one kind of crystal\u00e2\u0080\u0094the Wigner crystal\u00e2\u0080\u0094and doesn't discuss crystalline structures in general. And although the text conveys that Wang and colleagues figured out a way to capture an image of a Wigner crystal, it doesn't address the idea of applying this approach to other types of crystals. Choice C is incorrect because the text describes in general the process Wang and colleagues followed to obtain an impression of the Wigner crystal; it doesn't address the relative importance of each component in that process. Choice D is incorrect because the text doesn't state that researchers had a hard time getting an impression of the Wigner crystal because of its honeycomb structure. Nothing in the text indicates why it took so long to prove the existence of this crystal or take an impression of it."
+  },
+  {
+    "testId": "verbal-8",
+    "questionId": "10",
+    "questionIndex": 9,
+    "subject": "verbal",
+    "key": "D",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice D is the best answer because it describes data from the graph that support the researchers' conclusion that there is a growing interest among CEOs in connecting with more departments in their companies. The graph shows the average number of individuals reporting directly to CEOs during three different time periods: the individuals are divided into managers and department leaders. The average number of department leaders directly reporting to their CEO during the 1991\u00e2\u0080\u00931995 period was slightly more than three, during the 1996\u00e2\u0080\u00932001 period it was four, and during the 2001\u00e2\u0080\u00932008 period it was almost seven. Thus, the average number of department leaders reporting directly to their CEO rose over the three periods studied, which suggests that CEOs were connecting with more departments. Choice A is incorrect because the average number of managers and department leaders reporting directly to their CEO rose for both categories between the 1991\u00e2\u0080\u00931995 and 2001\u00e2\u0080\u00932008 periods; thus, it isn't true that the average numbers didn't fluctuate. Choice B is incorrect because the average number of managers reporting directly to their CEO was highest in the 2001\u00e2\u0080\u00932008 period, not in the 1996\u00e2\u0080\u00932001 period. Choice C is incorrect. Although it correctly describes a feature of the graph, the observation that more department leaders than managers are reporting to CEOs does not by itself address the question of whether CEOs are connecting with more departments over time\u00e2\u0080\u0094to address that question, one needs to know whether the number of department leaders reporting to CEOs is increasing over time."
+  },
+  {
+    "testId": "verbal-33",
+    "questionId": "2",
+    "questionIndex": 1,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer. When Methane (CH4) sinks lower in the atmosphere, it breaks down into Ethylene (C2H4) and Acetylene (C2H2). On the graph, the point at which Methane and the other compounds intersect represents the formation of the hydrocarbon hazes, which occurs between 30-60 miles above the surface. Choice A is incorrect because the passage indicates that scientists \"previously theorized\" that hydrocarbon hazes could only form at 20 miles above the surface or lower. The \"however\" signals we need a fact to contradict this theory, meaning a statement that indicates the hazes can form at higher altitudes. Choice C is incorrect because Methane breaks down into Ethylene and Acetylene at points of intersection on the graph, which happens between 30-60 miles above the surface. Choice D is incorrect because the graph does not indicate a point of intersection anywhere near 90 miles above the surface."
+  },
+  {
+    "testId": "verbal-20",
+    "questionId": "3",
+    "questionIndex": 2,
+    "subject": "verbal",
+    "key": "A",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice A is the best answer. \"Currently\" logically signals that the archaeologists' use of drones (a current technology) to photograph the lines is the present-day continuation of the ongoing archaeological research described in the previous sentence. Choice B is incorrect because \"in comparison\" illogically signals that the action described in this sentence offers a comparison to the ongoing archaeological research described in the previous sentence. Instead, the use of drones is the present-day continuation of that research. Choice C is incorrect because \"still\" illogically signals that the action described in this sentence occurs despite the ongoing archaeological research described in the previous sentence. Instead, the use of drones is the present-day continuation of that research. Choice D is incorrect because \"however\" illogically signals that the action described in this sentence occurs either despite or in contrast to the ongoing archaeological research described in the previous sentence. Instead, the use of drones is the present-day continuation of that research."
+  },
+  {
+    "testId": "verbal-17",
+    "questionId": "7",
+    "questionIndex": 6,
+    "subject": "verbal",
+    "key": "B",
+    "reasons": [
+      "Math words found in verbal explanation: ['graph']"
+    ],
+    "explanation": "Choice B is the best answer because it most logically completes the text's discussion of Cole's book Blind Spot. In this context, \"enthusiasm for\" means excitement about. The text explains that Blind Spot consists of original photographs as well as poetic prose\u00e2\u0080\u0094two elements that correspond to Cole's passions, identified in the text, for photography and the written word. This context suggests that Cole's excitement about photography and writing led him to create a book that successfully combines the two mediums. Choice A is incorrect because describing Cole as feeling \"indifference to\" his two passions wouldn't make sense in context. If Cole is indifferent to his passions, that would mean he doesn't care about photography or writing\u00e2\u0080\u0094in which case they wouldn't be his passions at all. Choice C is incorrect because there's nothing in the text to suggest that Cole feels \"concern about,\" or uneasiness about, his passions. The text's use of the word \"culminates\" indicates that Blind Spot represents a triumphant climax of Cole's passions, not a work that results from his sense of discomfort with photography and writing. Choice D is incorrect because there's nothing in the text to suggest that Cole feels \"surprise at,\" or astonished by, his passions. The text indicates that Cole's feeling about his passions \"culminates\" in a book that \"evocatively\" combines photographs and writing, suggesting that Cole has a long-standing and skillful relationship to his passions, not that he is startled by them."
+  }
+]

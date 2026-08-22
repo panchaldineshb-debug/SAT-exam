@@ -72,7 +72,7 @@ This domain tests how effectively you can transition between ideas and synthesiz
 
 ---
 
-## 5. Sameer's Practice Performance & Recommendations (2026-07-12)
+## 5. Student's Practice Performance & Recommendations (2026-07-12)
 
 ### Observations:
 *   **Excellent First-Try Performance:** 15 out of 20 questions correct on the first attempt.

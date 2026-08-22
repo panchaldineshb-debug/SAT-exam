@@ -46,7 +46,7 @@ We will remove the answer keys from the frontend (`public/tests_data.json`) to p
 
 > [!IMPORTANT]
 > **Existing Data Migration**
-> Does Sameer have existing test scores saved in his local browser that we need to manually extract and migrate to the new cloud database, or is it okay to start fresh?
+> Does Student have existing test scores saved in his local browser that we need to manually extract and migrate to the new cloud database, or is it okay to start fresh?
 
 ## Verification Plan
 

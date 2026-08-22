@@ -1,0 +1,47 @@
+[
+  {
+    "id": "q1",
+    "subject": "math",
+    "topic": "Algebra",
+    "text": "If 3x - y = 12 and y = 3, what is the value of x?",
+    "options": ["3", "4", "5", "6"],
+    "correctAnswer": "5",
+    "explanation": "Substitute y=3 into the equation: 3x - 3 = 12. Add 3 to both sides: 3x = 15. Divide by 3: x = 5."
+  },
+  {
+    "id": "q2",
+    "subject": "verbal",
+    "topic": "Grammar",
+    "text": "The committee ________ decided to postpone the meeting until next week.",
+    "options": ["have", "has", "are", "were"],
+    "correctAnswer": "has",
+    "explanation": "'Committee' is a singular collective noun in this context, so it takes the singular verb 'has'."
+  },
+  {
+    "id": "q3",
+    "subject": "math",
+    "topic": "Geometry",
+    "text": "What is the area of a circle with a diameter of 10?",
+    "options": ["10π", "20π", "25π", "100π"],
+    "correctAnswer": "25π",
+    "explanation": "The radius is half the diameter (5). Area = π * r^2 = π * (5^2) = 25π."
+  },
+  {
+    "id": "q4",
+    "subject": "verbal",
+    "topic": "Reading",
+    "text": "The author's tone in the passage can best be described as:",
+    "options": ["Objective", "Cynical", "Enthusiastic", "Melancholic"],
+    "correctAnswer": "Objective",
+    "explanation": "The passage relies heavily on facts, statistics, and neutral language, indicating an objective tone."
+  },
+  {
+    "id": "q5",
+    "subject": "math",
+    "topic": "Data Analysis",
+    "text": "If a data set has a mean of 50 and a standard deviation of 5, what value is exactly two standard deviations above the mean?",
+    "options": ["55", "60", "65", "70"],
+    "correctAnswer": "60",
+    "explanation": "Two standard deviations is 2 * 5 = 10. The value is 50 + 10 = 60."
+  }
+]

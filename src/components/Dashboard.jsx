@@ -1,20 +1,57 @@
 import React, { useState } from 'react';
+import { fetchAuthSession, signOut } from 'aws-amplify/auth';
+import ScoreChart from './ScoreChart';
+import MistakeJournal from './MistakeJournal';
+import DailyChallenge from './DailyChallenge';
 
-function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest, onOpenReview, onStartDrill }) {
+function Dashboard({ tests, drills, ratings, completedTests, inProgressTests, globalPercentile, onStartTest, onOpenReview, onStartDrill }) {
   const [activeTab, setActiveTab] = useState('verbal'); // 'verbal', 'math', 'drills'
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your account? This action is permanent and will erase all your test progress."
+    );
+    if (!confirmDelete) return;
+
+    setIsDeleting(true);
+    try {
+      const session = await fetchAuthSession();
+      if (!session || !session.tokens || !session.tokens.idToken) throw new Error("No session");
+      const token = session.tokens.idToken.toString();
+
+      const res = await fetch(`${import.meta.env.VITE_API_ENDPOINT}/account`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete account");
+      }
+
+      await signOut();
+      window.location.reload();
+    } catch (err) {
+      console.error("Error deleting account:", err);
+      alert("Failed to delete account. Please try again later.");
+      setIsDeleting(false);
+    }
+  };
 
   // Calculate statistics
   const completedKeys = Object.keys(completedTests);
   const totalCompleted = completedKeys.length;
-  
+
   const verbalTests = tests.filter((t) => t.subject === 'verbal');
   const mathTests = tests.filter((t) => t.subject === 'math');
-  
+
   const completedVerbal = completedKeys.filter(k => tests.find(t => t.id === k)?.subject === 'verbal').length;
   const completedMath = completedKeys.filter(k => tests.find(t => t.id === k)?.subject === 'math').length;
 
-  const totalScore = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.score || 0), 0);
-  const averageScore = totalCompleted > 0 ? (totalScore / totalCompleted).toFixed(1) : 'N/A';
+  const totalScore = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.scaledScore || 0), 0);
+  const totalQuestions = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.totalQuestions || 0), 0);
+  // Average score using scaled scores now
+  const averageScore = totalCompleted > 0 ? Math.round(totalScore / totalCompleted) : 'N/A';
 
   const inProgressKeys = Object.keys(inProgressTests);
   const totalInProgress = inProgressKeys.length;
@@ -33,7 +70,7 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
       {/* Sidebar with Stats */}
       <aside className="stats-sidebar">
         <div className="stats-card">
-          <h3 className="stats-header">Sameer's Progress</h3>
+          <h3 className="stats-header">Student's Progress</h3>
           <div className="stat-item">
             <span className="stat-label">Total Tests Completed</span>
             <span className="stat-value highlight">{totalCompleted} / {tests.length}</span>
@@ -54,7 +91,11 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
               {averageScore}
             </span>
           </div>
-          <div className="stat-item">
+          <div className="stat-item" style={{ marginTop: '0.75rem' }}>
+            <span className="stat-label">Global Percentile</span>
+            <span className="stat-value" style={{ color: 'var(--accent-purple)' }}>{globalPercentile}</span>
+          </div>
+          <div className="stat-item" style={{ marginTop: '0.75rem' }}>
             <span className="stat-label">Active (In-Progress)</span>
             <span className="stat-value" style={{ color: 'var(--accent-amber)' }}>{totalInProgress}</span>
           </div>
@@ -69,7 +110,7 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
           <div className="progress-bar-container">
             <div className="progress-bar-fill" style={{ width: `${verbalProgressPercent}%` }}></div>
           </div>
-          
+
           <div className="stat-item" style={{ marginTop: '1rem' }}>
             <span className="stat-label">Math</span>
             <span className="stat-value">{completedMath} / {mathTests.length}</span>
@@ -78,120 +119,196 @@ function Dashboard({ tests, drills, completedTests, inProgressTests, onStartTest
             <div className="progress-bar-fill" style={{ width: `${mathProgressPercent}%` }}></div>
           </div>
         </div>
+
+        <div style={{ marginTop: '1.5rem' }}>
+          <DailyChallenge />
+        </div>
+
+        <div style={{ marginTop: 'auto', paddingTop: '2rem' }}>
+          <button 
+            className="nav-btn" 
+            style={{ width: '100%', backgroundColor: 'transparent', color: '#ef4444', border: '1px solid #ef4444' }}
+            onClick={handleDeleteAccount}
+            disabled={isDeleting}
+          >
+            {isDeleting ? 'Deleting...' : 'Delete Account'}
+          </button>
+        </div>
       </aside>
 
       {/* Main Panel */}
       <section className="main-panel">
+        <div style={{ marginBottom: '1.5rem' }}>
+          <ScoreChart completedTests={completedTests} />
+        </div>
+
         <div className="tabs-container">
-          <button 
+          <button
             className={`tab-btn ${activeTab === 'verbal' ? 'active' : ''}`}
             onClick={() => setActiveTab('verbal')}
           >
             Reading & Writing ({verbalTests.length})
           </button>
-          <button 
+          <button
             className={`tab-btn ${activeTab === 'math' ? 'active' : ''}`}
             onClick={() => setActiveTab('math')}
           >
             Math ({mathTests.length})
           </button>
-          <button 
+          <button
             className={`tab-btn ${activeTab === 'drills' ? 'active' : ''}`}
             onClick={() => setActiveTab('drills')}
           >
             Drills ({drills.length})
           </button>
+          <button
+            className={`tab-btn ${activeTab === 'mistakes' ? 'active' : ''}`}
+            onClick={() => setActiveTab('mistakes')}
+          >
+            Mistake Journal
+          </button>
         </div>
 
-        {activeTab === 'drills' ? (
+        {activeTab === 'mistakes' ? (
+          <MistakeJournal completedTests={completedTests} tests={tests} />
+        ) : activeTab === 'drills' ? (
           <div className="test-cards-grid">
-            {drills.map((drill) => (
-              <div 
-                key={drill.id} 
-                className="test-card"
-                onClick={() => onStartDrill(drill.path)}
-              >
-                <div className="test-card-header">
-                  <span className="logo-badge" style={{ width: '1.75rem', height: '1.75rem', fontSize: '0.7rem' }}>
-                    DR
-                  </span>
-                  <span className="test-badge not-started">Markdown</span>
-                </div>
-                <div className="test-card-title">
-                  {drill.title}
-                </div>
-                <div className="test-card-footer">
-                  <div className="test-meta-info">
-                    <span>{drill.date}</span>
+            {drills.map((drill) => {
+              const testRating = ratings?.[drill.path];
+              return (
+                <div
+                  key={drill.id}
+                  className="test-card"
+                  onClick={() => onStartDrill(drill.path)}
+                >
+                  <div className="test-card-header">
+                    <span className="logo-badge" style={{ width: '1.75rem', height: '1.75rem', fontSize: '0.7rem' }}>
+                      DR
+                    </span>
+                    <span className="test-badge not-started">Markdown</span>
                   </div>
-                  <div style={{ color: 'var(--primary-color)', fontSize: '0.8rem', fontWeight: 600 }}>
-                    Start Drill →
+                  <div className="test-card-title">
+                    {drill.title}
+                  </div>
+                  {testRating && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.8rem', marginTop: '0.25rem', color: '#a1a1aa' }}>
+                      {testRating.studentCount > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.studentRating}</span>
+                          <span>Student ({testRating.studentCount})</span>
+                        </div>
+                      )}
+                      {testRating.teacherCount > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.teacherRating}</span>
+                          <span>Teacher ({testRating.teacherCount})</span>
+                        </div>
+                      )}
+                      {testRating.studentCount === 0 && testRating.teacherCount === 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.averageRating}</span>
+                          <span>({testRating.reviewCount} reviews)</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="test-card-footer">
+                    <div className="test-meta-info">
+                      <span>{drill.date}</span>
+                    </div>
+                    <div style={{ color: 'var(--primary-color)', fontSize: '0.8rem', fontWeight: 600 }}>
+                      Start Drill →
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="test-cards-grid">
             {displayTests.map((test) => {
               const testKey = test.id;
-            const isCompleted = !!completedTests[testKey];
-            const isInProgress = !!inProgressTests[testKey];
-            const score = isCompleted ? completedTests[testKey].score : null;
+              const isCompleted = !!completedTests[testKey];
+              const isInProgress = !!inProgressTests[testKey];
+              const score = isCompleted ? (completedTests[testKey].scaledScore || completedTests[testKey].score) : null;
+              const testRating = ratings?.[testKey];
 
-            return (
-              <div 
-                key={testKey} 
-                className={`test-card ${isCompleted ? 'completed' : ''} ${isInProgress ? 'in-progress' : ''}`}
-                onClick={() => isCompleted ? onOpenReview(test) : onStartTest(test)}
-              >
-                <div className="test-card-header">
-                  <span className="logo-badge" style={{ width: '1.75rem', height: '1.75rem', fontSize: '0.7rem' }}>
-                    {test.subject === 'verbal' ? 'RW' : 'M'}
-                  </span>
-                  
-                  {isCompleted && (
-                    <span className="test-badge completed">Completed</span>
-                  )}
-                  {isInProgress && (
-                    <span className="test-badge in-progress">In Progress</span>
-                  )}
-                  {!isCompleted && !isInProgress && (
-                    <span className="test-badge not-started">Not Started</span>
-                  )}
-                </div>
+              return (
+                <div
+                  key={testKey}
+                  className={`test-card ${isCompleted ? 'completed' : ''} ${isInProgress ? 'in-progress' : ''}`}
+                  onClick={() => isCompleted ? onOpenReview(test) : onStartTest(test)}
+                >
+                  <div className="test-card-header">
+                    <span className="logo-badge" style={{ width: '1.75rem', height: '1.75rem', fontSize: '0.7rem' }}>
+                      {test.subject === 'verbal' ? 'RW' : 'M'}
+                    </span>
 
-                <div className="test-card-title">
-                  {test.title}
-                </div>
-
-                <div className="test-card-footer">
-                  <div className="test-meta-info">
-                    <span>{test.questions?.length || 0} Questions</span>
-                    <span>•</span>
-                    <span>20 Mins</span>
+                    {isCompleted && (
+                      <span className="test-badge completed">Completed</span>
+                    )}
+                    {isInProgress && (
+                      <span className="test-badge in-progress">In Progress</span>
+                    )}
+                    {!isCompleted && !isInProgress && (
+                      <span className="test-badge not-started">Not Started</span>
+                    )}
                   </div>
 
-                  {isCompleted && (
-                    <div className="test-score-display">
-                      Score: {score} / {test.questions?.length || 0}
+                  <div className="test-card-title">
+                    {test.title}
+                  </div>
+
+                  {testRating && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.8rem', marginTop: '0.25rem', color: '#a1a1aa' }}>
+                      {testRating.studentCount > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.studentRating}</span>
+                          <span>Student ({testRating.studentCount})</span>
+                        </div>
+                      )}
+                      {testRating.teacherCount > 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.teacherRating}</span>
+                          <span>Teacher ({testRating.teacherCount})</span>
+                        </div>
+                      )}
+                      {testRating.studentCount === 0 && testRating.teacherCount === 0 && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <span style={{ color: '#fbbf24' }}>★ {testRating.averageRating}</span>
+                          <span>({testRating.reviewCount} reviews)</span>
+                        </div>
+                      )}
                     </div>
                   )}
-                  {isInProgress && (
-                    <div style={{ color: 'var(--accent-amber)', fontSize: '0.8rem', fontWeight: 600 }}>
-                      Resume →
+
+                  <div className="test-card-footer">
+                    <div className="test-meta-info">
+                      <span>{test.questions?.length || 0} Questions</span>
+                      <span>•</span>
+                      <span>20 Mins</span>
                     </div>
-                  )}
-                  {!isCompleted && !isInProgress && (
-                    <div style={{ color: 'var(--primary-color)', fontSize: '0.8rem', fontWeight: 600 }}>
-                      Start Practice →
-                    </div>
-                  )}
+
+                    {isCompleted && (
+                      <div className="test-score-display">
+                        Score: {score}
+                      </div>
+                    )}
+                    {isInProgress && (
+                      <div style={{ color: 'var(--accent-amber)', fontSize: '0.8rem', fontWeight: 600 }}>
+                        Resume →
+                      </div>
+                    )}
+                    {!isCompleted && !isInProgress && (
+                      <div style={{ color: 'var(--primary-color)', fontSize: '0.8rem', fontWeight: 600 }}>
+                        Start Practice →
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
         )}
       </section>
     </div>
