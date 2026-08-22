@@ -30,7 +30,7 @@ These questions ask you to choose the most logical word or phrase to connect two
 
 ---
 
-## 📝 Practice Plan for Sameer
+## 📝 Practice Plan for Student
 1.  Open the web application at **`http://localhost:5173/`**.
 2.  Practice **Reading & Writing Tests 7, 8, and 9**.
 3.  For every question, highlight transition words and write down the function of the sentences in your scratchpad.

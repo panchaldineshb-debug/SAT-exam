@@ -1,6 +1,6 @@
 # 5-Minute Micro-Drill: The "Boss-Level" Traps (July 30)
 
-Welcome back, Sameer! 
+Welcome back, Student! 
 You conquered 80% of the advanced material yesterday. Today, we are spending exactly 5 minutes hunting down the last two traps that caught you: **Extreme Language** and **Premature Rounding**.
 
 ### 🚨 Core Execution Rules for Today:

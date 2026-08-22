@@ -30,4 +30,4 @@ Remember your protocols:
 - **Math:** Avoid premature rounding. Write out your steps. Check the target variable before answering.
 - **Reading:** Scan for and physically mentally flag those poison words (always, never, entirely, completely).
 
-Good luck, Sameer! Let me know when you've finished and we'll review the results.
+Good luck, Student! Let me know when you've finished and we'll review the results.

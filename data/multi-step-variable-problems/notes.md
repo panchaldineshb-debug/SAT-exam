@@ -20,7 +20,7 @@
 * **Question 9 (Hard):** Two-step function evaluation ($f(3)=12 \implies f(-2)=17$)
 
 ### Questions He Was Unable to Answer Independently (3/10)
-Sameer was not able to solve the following questions without assistance or initially got them incorrect:
+Student was not able to solve the following questions without assistance or initially got them incorrect:
 
 1. **Question 5 (Medium - Word Problem / Systems of Equations):**
    * *Issue:* Needed help setting up/solving the system of equations.

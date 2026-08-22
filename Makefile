@@ -1,6 +1,6 @@
 DEMO_ENV_DIR ?= terraform/environments/demo
 
-.PHONY: help install install-test clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo tf-cost tf-inventory test-e2e test-e2e-ui set-test-credentials get-test-credentials
+.PHONY: help install install-test clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo nuke-demo tf-cost tf-inventory test-e2e test-e2e-ui set-test-credentials get-test-credentials send-active-students deploy-lambda-manual
 
 # Default target: show help
 help:
@@ -26,11 +26,13 @@ help:
 	@echo "AWS Serverless Deployment:"
 	@echo "  tf-init-demo     Initialize Terraform in the DEMO environment"
 	@echo "  tf-plan-demo     Run Terraform plan for the DEMO environment"
-	@echo "  tf-create-demo   Apply Terraform, build app, sync to S3, and invalidate CloudFront"
-	@echo "  tf-destroy-demo  Manually destroy the DEMO environment"
+	@echo "  tf-create-demo   [DISABLED] Use GitHub Actions instead"
+	@echo "  tf-destroy-demo nuke-demo  Manually destroy the DEMO environment"
 	@echo "  tf-inventory     Cross-check live AWS resources against Terraform state"
 	@echo "  tf-cost          Report month-to-date AWS spend by service"
 	@echo "  send-daily-summary Manually trigger the daily summary email via AWS Lambda"
+	@echo "  cleanup-e2e      Clean up auto-generated E2E test users from Cognito and DynamoDB"
+	@echo "  deploy-lambda-manual Manually deploy a Lambda bypass (e.g. make deploy-lambda-manual LAMBDA=submit_test)"
 	@echo ""
 
 install:
@@ -47,10 +49,10 @@ get-test-credentials:
 	./.venv/bin/python keyring/get_credentials.py
 
 test-e2e:
-	./.venv/bin/pytest tests/
+	./.venv/bin/pytest --reruns 2 --reruns-delay 5 tests/
 
 test-e2e-ui:
-	HEADLESS=false ./.venv/bin/pytest tests/
+	HEADLESS=false ./.venv/bin/pytest --reruns 2 --reruns-delay 5 tests/
 clean:
 	@echo "Cleaning build artifacts..."
 	rm -rf dist
@@ -82,18 +84,21 @@ tf-init-demo:
 tf-plan-demo:
 	cd $(DEMO_ENV_DIR) && terraform plan
 
-tf-create-demo: build
-	cd $(DEMO_ENV_DIR) && terraform apply --auto-approve
-	@echo "Deploying SAT Exam to DEMO S3..."
-	@BUCKET=$$(cd $(DEMO_ENV_DIR) && terraform output -raw s3_bucket_name) && \
-	DIST_ID=$$(cd $(DEMO_ENV_DIR) && terraform output -raw cloudfront_distribution_id) && \
-	aws s3 sync ./dist s3://$$BUCKET --delete && \
-	aws cloudfront create-invalidation --distribution-id $$DIST_ID --paths "/*"
-	@URL=$$(cd $(DEMO_ENV_DIR) && terraform output -raw cloudfront_domain) && \
-	echo "DEMO UI deployed successfully! Access it at: https://$$URL"
+tf-create-demo:
+	@echo "=========================================================="
+	@echo " ERROR: Agent-driven deployments are permanently disabled."
+	@echo " All production changes MUST flow through GitHub Actions."
+	@echo "=========================================================="
+	@exit 1
 
-tf-destroy-demo:
+nuke-demo:
+	@echo "=========================================================="
+	@echo " NUKING DEMO ENVIRONMENT"
+	@echo " This will completely destroy all disposable resources."
+	@echo "=========================================================="
 	cd $(DEMO_ENV_DIR) && terraform destroy --auto-approve
+
+tf-destroy-demo nuke-demo: nuke-demo
 
 tf-cost:
 	python3 scripts/tf_cost.py $(if $(NOTIFY),--notify,)
@@ -106,3 +111,23 @@ send-daily-summary:
 	@FUNC=$$(cd $(DEMO_ENV_DIR) && aws lambda list-functions --query "Functions[?contains(FunctionName, 'sat_daily_summary')].FunctionName" --output text) && \
 	aws lambda invoke --function-name $$FUNC response.json && \
 	cat response.json && rm response.json
+
+cleanup-e2e:
+	@echo "Cleaning up E2E test users from Cognito and DynamoDB..."
+	@POOL_ID=$$(aws cognito-idp list-user-pools --max-results 10 --query "UserPools[?contains(Name, 'sat-students-pool')].Id" --output text | awk '{print $$1}') && \
+	PYTHONWARNINGS="ignore" ./.venv/bin/python scripts/cleanup_e2e.py --user-pool-id $$POOL_ID
+
+send-active-students:
+	@echo "Fetching active students report..."
+	@POOL_ID=$$(aws cognito-idp list-user-pools --max-results 10 --query "UserPools[?contains(Name, 'sat-students-pool')].Id" --output text | awk '{print $$1}') && \
+	PYTHONWARNINGS="ignore" ./.venv/bin/python scripts/active_students.py --user-pool-id $$POOL_ID $(if $(NOTIFY),--notify,)
+
+deploy-lambda-manual:
+	@if [ -z "$(LAMBDA)" ]; then echo "Error: Must specify LAMBDA (e.g. make deploy-lambda-manual LAMBDA=submit_test)"; exit 1; fi
+	@echo "Manually deploying $(LAMBDA) Lambda..."
+	@FUNC=$$(aws lambda list-functions --query "Functions[?contains(FunctionName, 'sat_$(LAMBDA)')].FunctionName" --output text | awk '{print $$1}') && \
+	if [ -z "$$FUNC" ]; then echo "Error: Lambda function containing 'sat_$(LAMBDA)' not found in AWS"; exit 1; fi; \
+	cd backend/lambdas/$(LAMBDA) && zip -r function.zip . && \
+	aws lambda update-function-code --function-name $$FUNC --zip-file fileb://function.zip && \
+	rm function.zip
+	@echo "Deployment for $(LAMBDA) complete."

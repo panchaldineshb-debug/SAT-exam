@@ -16,7 +16,7 @@ We will create a new DynamoDB table `sat_activity_log` (Provisioned at 1 RCU/1 W
 ### 2. Daily Summary Generation (AWS EventBridge + Lambda)
 - We will create a new Lambda function (`sat_daily_summary`).
 - We will attach an **EventBridge Cron Rule** to trigger this Lambda every night at `8:00 PM EST` (`cron(0 0 * * ? *)`).
-- The Lambda will scan the `sat_activity_log` for the past 24 hours, generate a clean HTML summary report ("3 students logged in today. Sameer finished Practice Test 1 with a score of 1450"), and send it to you.
+- The Lambda will scan the `sat_activity_log` for the past 24 hours, generate a clean HTML summary report ("3 students logged in today. Student finished Practice Test 1 with a score of 1450"), and send it to you.
 
 ### 3. Email Delivery (Amazon SES)
 - The Lambda will use the AWS SDK to send the email via Amazon Simple Email Service (SES). 

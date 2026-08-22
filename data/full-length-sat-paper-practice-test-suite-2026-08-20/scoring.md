@@ -45,4 +45,4 @@ To estimate your scaled score (out of 1600):
 ## 3. Calculate Your Total Composite Score
 **Total Score = (R&W Scaled Score) + (Math Scaled Score)**
 
-*Target Goal for Sameer: 1400+ (Requires approx. 12/15 on R&W and 12/15 on Math in this specific high-difficulty gauntlet).*
+*Target Goal for Student: 1400+ (Requires approx. 12/15 on R&W and 12/15 on Math in this specific high-difficulty gauntlet).*

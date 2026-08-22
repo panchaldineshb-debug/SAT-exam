@@ -1,6 +1,6 @@
 # 20-Minute Trap Resolution Sprint: Reading & Writing and Math
 
-Welcome back, Sameer! 
+Welcome back, Student! 
 This sprint is specifically designed to test whether you have mastered the 7 traps we identified from your last session. You have **20 minutes for Reading & Writing** (14 questions) and **20 minutes for Math** (12 questions). 
 
 ### 🚨 Core Execution Rules (The Trap-Breaker Protocol):

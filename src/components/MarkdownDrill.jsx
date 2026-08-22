@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import 'katex/dist/katex.min.css';
+import TestReviewForm from './TestReviewForm';
 
 function MarkdownDrill({ drillPath, onBack }) {
   const [content, setContent] = useState('');
@@ -145,6 +146,9 @@ function MarkdownDrill({ drillPath, onBack }) {
         ) : (
           <p>No questions detected.</p>
         )}
+        <div style={{ marginTop: '2rem' }}>
+          <TestReviewForm testId={drillPath} />
+        </div>
       </div>
     </div>
   );

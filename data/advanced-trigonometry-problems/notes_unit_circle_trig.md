@@ -46,7 +46,7 @@ Since a full circle is 360 degrees or 2*pi radians:
 
 ---
 
-## 📝 Practice Plan for Sameer
+## 📝 Practice Plan for Student
 1.  Always convert large angles into mixed fractions to separate the full 2*pi revolutions.
 2.  Sketch the 4 quadrants on your paper and write "ASTC" (All Students Take Calculus) to remember which functions are positive in which quadrant:
     *   **Quadrant I (All):** sin, cos, tan are positive.

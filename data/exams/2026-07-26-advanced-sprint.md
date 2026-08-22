@@ -1,6 +1,6 @@
 # 20-Minute Advanced SAT Sprint: Reading & Writing and Math
 
-Welcome to your 20-Minute Advanced Sprint, Sameer! 
+Welcome to your 20-Minute Advanced Sprint, Student! 
 This exam is designed to push your limits with harder concepts from **Part V: Harder SAT Modules**. You have **20 minutes for Reading & Writing** (14 questions) and **20 minutes for Math** (12 questions). 
 
 ### 🚨 Core Execution Rules (Do Not Ignore):

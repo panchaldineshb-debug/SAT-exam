@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import TestReviewForm from './TestReviewForm';
 
 function ReviewMode({ test, completedInfo, onBack }) {
+
   if (!completedInfo) {
     return (
       <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
@@ -23,9 +25,9 @@ function ReviewMode({ test, completedInfo, onBack }) {
           <div className="results-score-num">{score}</div>
           <div className="results-score-total">/ {totalQuestions}</div>
         </div>
-        
+
         <h2 className="results-heading">
-          {score === totalQuestions ? 'Perfect Score!' : isPassing ? 'Excellent Work, Sameer!' : 'Keep Practicing, Sameer!'}
+          {score === totalQuestions ? 'Perfect Score!' : isPassing ? 'Excellent Work, Student!' : 'Keep Practicing, Student!'}
         </h2>
         <p className="results-sub">
           You completed this test on {date}. Your J.P. Stevens tutor notes have been updated.
@@ -46,7 +48,26 @@ function ReviewMode({ test, completedInfo, onBack }) {
           </div>
         </div>
 
-        <div className="results-actions">
+        {/* AI Tutor Section (Asynchronous) */}
+        <div style={{ marginTop: '2rem', padding: '1.5rem', backgroundColor: 'var(--surface-active)', borderRadius: '12px', textAlign: 'left' }}>
+          <h3 style={{ marginTop: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)' }}>
+            <span style={{ fontSize: '1.5rem' }}>✨</span> AI Tutor Feedback
+          </h3>
+
+          {completedInfo.aiAdvice ? (
+            <div className="fade-in" style={{ color: 'var(--text-primary)', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
+              {completedInfo.aiAdvice}
+            </div>
+          ) : (
+            <div className="fade-in">
+              <p style={{ color: 'var(--text-secondary)' }}>
+                Your AI Tutor is currently analyzing your test in the background. Check back here in a few minutes to read your personalized study advice!
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="results-actions" style={{ marginTop: '2rem' }}>
           <button className="nav-btn primary" onClick={onBack}>
             ← Back to Dashboard
           </button>
@@ -66,7 +87,7 @@ function ReviewMode({ test, completedInfo, onBack }) {
           const correctKey = graded ? graded.correctKey : "N/A";
           const isCorrect = graded ? graded.isCorrect : false;
           const explanation = graded ? graded.explanation : "Complete the test online to receive the explanation.";
-          
+
           const isMultipleChoice = q.options && q.options.length > 0;
 
           return (
@@ -95,10 +116,10 @@ function ReviewMode({ test, completedInfo, onBack }) {
                     const letter = opt.trim().substring(0, 1);
                     const isUserChoice = chosen === letter;
                     const isCorrectChoice = correctKey === letter;
-                    
+
                     let cardClass = '';
                     let showIndicator = false;
-                    
+
                     if (isCorrectChoice) {
                       cardClass = 'correct';
                       showIndicator = true;
@@ -145,6 +166,8 @@ function ReviewMode({ test, completedInfo, onBack }) {
             </div>
           );
         })}
+
+        <TestReviewForm testId={test.id} />
       </div>
     </div>
   );
