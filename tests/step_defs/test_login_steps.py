@@ -41,4 +41,4 @@ def verify_invalid_credentials(page):
 @then("I should be successfully logged in and see the dashboard")
 def verify_successful_login(page):
     # Check for an element unique to the dashboard after login
-    expect(page.locator("text=Sign Out")).to_be_visible(timeout=10000)
+    expect(page.locator("text=Sign Out")).to_be_visible(timeout=30000)

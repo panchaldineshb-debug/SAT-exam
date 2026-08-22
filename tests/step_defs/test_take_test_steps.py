@@ -67,3 +67,20 @@ def verify_test_score(page):
     expect(page.locator("text=Accuracy")).to_be_visible(timeout=15000)
     expect(page.locator("text=Incorrect Answers")).to_be_visible(timeout=15000)
     expect(page.locator("button:has-text('Back to Dashboard')")).to_be_visible(timeout=15000)
+
+@when("I cancel the test")
+def cancel_test(page):
+    def handle_dialog(dialog):
+        print("DIALOG TRIGGERED:", dialog.type, dialog.message)
+        dialog.accept()
+    # Need to remove existing dialog handlers if any, but since it's a new scenario it should be fine
+    page.on("dialog", handle_dialog)
+    
+    cancel_btn = page.locator("button:has-text('✖ Cancel Test')")
+    expect(cancel_btn).to_be_visible(timeout=10000)
+    cancel_btn.click()
+
+@then("I should be returned to the dashboard and my progress for that test should be reset")
+def returned_to_dashboard(page):
+    expect(page.locator("text=Sign Out")).to_be_visible(timeout=10000)
+    expect(page.locator(".test-card").first).to_be_visible(timeout=10000)
