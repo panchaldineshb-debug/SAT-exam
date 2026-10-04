@@ -19,3 +19,9 @@ Feature: SAT Dashboard Login
     Given I navigate to the SAT Dashboard homepage
     When I try to sign up with an age under 13
     Then I should see an error message indicating age restriction
+
+  Scenario: Request password reset
+    Given I navigate to the SAT Dashboard homepage
+    When I click on the forgot password link
+    And I submit my email for password reset
+    Then I should see a prompt to enter the verification code

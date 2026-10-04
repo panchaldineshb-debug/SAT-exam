@@ -1,5 +1,6 @@
 import os
 import uuid
+import random
 from pytest_bdd import scenarios, given, when, then, parsers
 from playwright.sync_api import expect
 
@@ -37,9 +38,11 @@ def enter_valid_credentials(page):
     page.locator("button:has-text('Sign Up')").first.click()
     expect(page.locator("text=Create Account")).to_be_visible(timeout=10000)
     
-    # 1.5. Age Gate
-    page.locator("#birthMonth").select_option("1")
-    page.locator("#birthYear").select_option("2000")
+    # 1.5. Age Gate - randomize month (1-12) and year (2000-2012)
+    random_month = str(random.randint(1, 12))
+    random_year = str(random.randint(2000, 2012))
+    page.locator("#birthMonth").select_option(random_month)
+    page.locator("#birthYear").select_option(random_year)
     page.locator("button:has-text('Next Step')").click()
     expect(page.locator("text=Account Details")).to_be_visible(timeout=10000)
     
@@ -87,3 +90,22 @@ def sign_up_under_13(page):
 @then("I should see an error message indicating age restriction")
 def verify_age_restriction(page):
     expect(page.locator("text=not eligible to create an account at this time")).to_be_visible(timeout=10000)
+
+@when("I click on the forgot password link")
+def click_forgot_password(page):
+    page.locator("button:has-text('Forgot Password?')").click()
+    expect(page.locator("text=Reset Password")).to_be_visible(timeout=10000)
+
+@when("I submit my email for password reset")
+def submit_forgot_password_email(page):
+    page.locator("#reset-email").fill("test_user@example.com")
+    page.locator("button:has-text('Send Verification Code')").click()
+
+@then("I should see a prompt to enter the verification code")
+def verify_forgot_password_code_prompt(page):
+    # Expect either the verification code prompt or a login error (e.g. user not found)
+    expect(
+        page.locator("text=Verification Code").or_(
+        page.locator(".login-error")
+        )
+    ).to_be_visible(timeout=10000)

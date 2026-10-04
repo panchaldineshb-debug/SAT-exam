@@ -18,9 +18,11 @@ def logged_in_dashboard(page):
     page.locator("button:has-text('Sign Up')").first.click()
     expect(page.locator("text=Create Account")).to_be_visible(timeout=10000)
     
-    # Age Gate
-    page.locator("#birthMonth").select_option("1")
-    page.locator("#birthYear").select_option("2000")
+    # Age Gate - randomize month (1-12) and year (2000-2012)
+    random_month = str(random.randint(1, 12))
+    random_year = str(random.randint(2000, 2012))
+    page.locator("#birthMonth").select_option(random_month)
+    page.locator("#birthYear").select_option(random_year)
     page.locator("button:has-text('Next Step')").click()
     expect(page.locator("text=Account Details")).to_be_visible(timeout=10000)
     
@@ -61,27 +63,23 @@ def start_random_test(page):
 @when("I complete the test by selecting answers and navigating to the end")
 def complete_test_answers(page):
     # Determine the number of questions in this module
-    # The question navigation has buttons for each question
-    question_buttons = page.locator(".question-navigation button").all()
+    question_buttons = page.locator(".question-bubbles-container .question-bubble").all()
     num_questions = len(question_buttons)
     
     assert num_questions > 0, "No questions found in test"
     
     # Loop through each question
     for i in range(num_questions):
-        # Click the question button in navigation to jump to it
-        # The selector here needs to match the buttons in your navigation.
-        # Since they are just numbers, we can click by index.
-        page.locator(".question-navigation button").nth(i).click()
+        # Click the question bubble to jump to it
+        page.locator(".question-bubbles-container .question-bubble").nth(i).click()
+        page.wait_for_selector(".option-card, .grid-in-input", timeout=5000)
+        mc_options = page.locator(".option-card")
+        grid_input = page.locator(".grid-in-input")
         
-        # Select a random option for the current question
-        # Wait for options to render
-        expect(page.locator(".option-btn").first).to_be_visible(timeout=5000)
-        options = page.locator(".option-btn").all()
-        assert len(options) > 0, f"No options found for question {i+1}"
-        
-        # Click a random option
-        random.choice(options).click()
+        if mc_options.count() > 0:
+            random.choice(mc_options.all()).click()
+        elif grid_input.count() > 0:
+            grid_input.fill(str(random.randint(1, 99)))
 
 @when("I submit the test")
 def submit_test(page):
@@ -130,11 +128,26 @@ def verify_async_ai_loading(page):
 def return_to_dashboard_and_wait(page):
     page.locator("text=Back to Dashboard").click()
     expect(page.locator("h3:has-text(\"Student's Progress\")")).to_be_visible(timeout=10000)
-    # Wait for SQS and Bedrock to finish processing (can take 20-30s in test env)
-    page.wait_for_timeout(35000)
-    # Reload the page to fetch fresh progress from DynamoDB
-    page.reload()
-    expect(page.locator("h3:has-text(\"Student's Progress\")")).to_be_visible(timeout=10000)
+    
+    # Poll until Bedrock / SQS background task completes (max 40s, checking every 5s)
+    import time
+    start_time = time.time()
+    while time.time() - start_time < 40:
+        time.sleep(5)
+        page.reload()
+        expect(page.locator("h3:has-text(\"Student's Progress\")")).to_be_visible(timeout=10000)
+        # Quick check if completed test card has generated advice by clicking into it
+        page.locator(".test-card.completed").first.click()
+        expect(page.locator("text=Back to Dashboard")).to_be_visible(timeout=10000)
+        
+        is_ready = page.locator("text=AI Tutor Feedback").is_visible() and not page.locator("text=Your AI Tutor is currently analyzing your test in the background").is_visible()
+        
+        # Click back to dashboard so scenario step state remains consistent
+        page.locator("text=Back to Dashboard").click()
+        expect(page.locator("h3:has-text(\"Student's Progress\")")).to_be_visible(timeout=10000)
+        
+        if is_ready:
+            break
 
 @when("I review the completed test")
 def review_completed_test(page):

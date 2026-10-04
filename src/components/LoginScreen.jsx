@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { signIn, signUp, confirmSignUp } from 'aws-amplify/auth';
+import { signIn, signUp, confirmSignUp, resetPassword, confirmResetPassword } from 'aws-amplify/auth';
 
 function LoginScreen({ onLoginSuccess }) {
-  const [mode, setMode] = useState('SIGN_IN'); // 'SIGN_IN', 'SIGN_UP_AGE_GATE', 'SIGN_UP_DETAILS', 'SIGN_UP_STOP', 'VERIFY'
+  const [mode, setMode] = useState('SIGN_IN'); // 'SIGN_IN', 'SIGN_UP_AGE_GATE', 'SIGN_UP_DETAILS', 'SIGN_UP_STOP', 'VERIFY', 'FORGOT_PASSWORD_REQUEST', 'FORGOT_PASSWORD_SUBMIT'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [code, setCode] = useState('');
+  const [forgotCode, setForgotCode] = useState('');
   
   const [birthMonth, setBirthMonth] = useState('');
   const [birthYear, setBirthYear] = useState('');
@@ -124,6 +126,53 @@ function LoginScreen({ onLoginSuccess }) {
     setLoading(false);
   };
 
+  const handleResetPasswordRequest = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      setError('Please enter your email address.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    setMessage('');
+    try {
+      const output = await resetPassword({ username: email });
+      const { nextStep } = output;
+      if (nextStep.resetPasswordStep === 'CONFIRM_RESET_PASSWORD_WITH_CODE') {
+        setMessage(`Verification code sent to ${nextStep.codeDeliveryDetails?.destination || email}`);
+        setMode('FORGOT_PASSWORD_SUBMIT');
+      } else if (nextStep.resetPasswordStep === 'DONE') {
+        setMessage('Password reset complete. Please sign in.');
+        setMode('SIGN_IN');
+      }
+    } catch (err) {
+      setError(err.message || 'Error requesting password reset. Please check your email.');
+    }
+    setLoading(false);
+  };
+
+  const handleConfirmResetPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setMessage('');
+    try {
+      await confirmResetPassword({
+        username: email,
+        confirmationCode: forgotCode,
+        newPassword
+      });
+      setMessage('Password reset successfully! Please sign in with your new password.');
+      setPassword('');
+      setNewPassword('');
+      setForgotCode('');
+      setMode('SIGN_IN');
+    } catch (err) {
+      setError(err.message || 'Error resetting password. Please check your code and try again.');
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="login-wrapper">
       {/* Background Shapes */}
@@ -150,7 +199,16 @@ function LoginScreen({ onLoginSuccess }) {
             </div>
             
             <div className="input-group" style={{ marginTop: '1rem' }}>
-              <label htmlFor="password">Password</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <label htmlFor="password">Password</label>
+                <button 
+                  type="button" 
+                  onClick={() => { setMode('FORGOT_PASSWORD_REQUEST'); setError(''); setMessage(''); }} 
+                  style={{ background: 'none', border: 'none', color: 'var(--primary-color)', fontSize: '0.85rem', textDecoration: 'underline', cursor: 'pointer' }}
+                >
+                  Forgot Password?
+                </button>
+              </div>
               <input 
                 id="password"
                 type="password" 
@@ -355,6 +413,91 @@ function LoginScreen({ onLoginSuccess }) {
                 style={{ background: 'none', border: 'none', color: '#a1a1aa', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.9rem' }}
               >
                 Go back to Sign In
+              </button>
+            </div>
+          </form>
+        )}
+
+        {mode === 'FORGOT_PASSWORD_REQUEST' && (
+          <form onSubmit={handleResetPasswordRequest} className="login-form fade-in">
+            <h2>Reset Password</h2>
+            <p className="login-subtitle">Enter your email to receive a verification code</p>
+
+            <div className="input-group">
+              <label htmlFor="reset-email">Email</label>
+              <input 
+                id="reset-email"
+                type="email" 
+                placeholder="sameer@example.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            {error && <div className="login-error">{error}</div>}
+            {message && !error && <div style={{ color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', padding: '10px', borderRadius: '4px', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{message}</div>}
+
+            <button type="submit" disabled={loading} className="login-btn" style={{ marginTop: '1rem' }}>
+              {loading ? 'Sending Code...' : 'Send Verification Code'}
+            </button>
+            
+            <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+              <button 
+                type="button" 
+                onClick={() => { setMode('SIGN_IN'); setError(''); setMessage(''); }} 
+                style={{ background: 'none', border: 'none', color: '#a1a1aa', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.9rem' }}
+              >
+                Back to Sign In
+              </button>
+            </div>
+          </form>
+        )}
+
+        {mode === 'FORGOT_PASSWORD_SUBMIT' && (
+          <form onSubmit={handleConfirmResetPassword} className="login-form fade-in">
+            <h2>Set New Password</h2>
+            <p className="login-subtitle">Enter the verification code sent to {email}</p>
+
+            <div className="input-group">
+              <label htmlFor="forgot-code">Verification Code</label>
+              <input 
+                id="forgot-code"
+                type="text" 
+                placeholder="123456" 
+                value={forgotCode}
+                onChange={(e) => setForgotCode(e.target.value)}
+                required
+                style={{ letterSpacing: '0.2rem', textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold' }}
+              />
+            </div>
+
+            <div className="input-group" style={{ marginTop: '1rem' }}>
+              <label htmlFor="new-password">New Password</label>
+              <input 
+                id="new-password"
+                type="password" 
+                placeholder="New 8+ character password" 
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            {error && <div className="login-error">{error}</div>}
+            {message && !error && <div style={{ color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', padding: '10px', borderRadius: '4px', marginBottom: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>{message}</div>}
+
+            <button type="submit" disabled={loading || forgotCode.length < 5} className="login-btn" style={{ marginTop: '1rem' }}>
+              {loading ? 'Resetting Password...' : 'Reset Password & Sign In'}
+            </button>
+            
+            <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+              <button 
+                type="button" 
+                onClick={() => { setMode('SIGN_IN'); setError(''); setMessage(''); setForgotCode(''); setNewPassword(''); }} 
+                style={{ background: 'none', border: 'none', color: '#a1a1aa', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.9rem' }}
+              >
+                Back to Sign In
               </button>
             </div>
           </form>

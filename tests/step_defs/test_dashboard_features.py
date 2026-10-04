@@ -17,9 +17,11 @@ def logged_in_dashboard(page):
     page.locator("button:has-text('Sign Up')").first.click()
     expect(page.locator("text=Create Account")).to_be_visible(timeout=10000)
     
-    # Age Gate
-    page.locator("#birthMonth").select_option("1")
-    page.locator("#birthYear").select_option("2000")
+    # Age Gate - randomize month (1-12) and year (2000-2012)
+    random_month = str(random.randint(1, 12))
+    random_year = str(random.randint(2000, 2012))
+    page.locator("#birthMonth").select_option(random_month)
+    page.locator("#birthYear").select_option(random_year)
     page.locator("button:has-text('Next Step')").click()
     expect(page.locator("text=Account Details")).to_be_visible(timeout=10000)
     
