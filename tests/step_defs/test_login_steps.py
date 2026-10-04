@@ -94,7 +94,7 @@ def verify_age_restriction(page):
 @when("I click on the forgot password link")
 def click_forgot_password(page):
     page.locator("button:has-text('Forgot Password?')").click()
-    expect(page.locator("text=Reset Password")).to_be_visible(timeout=10000)
+    expect(page.locator("h2:has-text('Reset Password')")).to_be_visible(timeout=10000)
 
 @when("I submit my email for password reset")
 def submit_forgot_password_email(page):
@@ -103,9 +103,9 @@ def submit_forgot_password_email(page):
 
 @then("I should see a prompt to enter the verification code")
 def verify_forgot_password_code_prompt(page):
-    # Expect either the verification code prompt or a login error (e.g. user not found)
+    # Expect either the "Set New Password" form heading or a login error message
     expect(
-        page.locator("text=Verification Code").or_(
+        page.locator("h2:has-text('Set New Password')").or_(
         page.locator(".login-error")
         )
     ).to_be_visible(timeout=10000)
