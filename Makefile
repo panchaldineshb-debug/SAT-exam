@@ -1,6 +1,6 @@
 DEMO_ENV_DIR ?= terraform/environments/demo
 
-.PHONY: help install install-test clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo nuke-demo tf-cost tf-inventory test-e2e test-e2e-ui set-test-credentials get-test-credentials send-active-students deploy-lambda-manual
+.PHONY: help install install-test clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo nuke-demo tf-cost tf-inventory brain-validate brain-sync test-e2e test-e2e-ui set-test-credentials get-test-credentials send-active-students deploy-lambda-manual
 
 # Default target: show help
 help:
@@ -22,6 +22,10 @@ help:
 	@echo "  kill-local-demo  Kill any running local dev server on port 5173"
 	@echo "  expose-local     Generate a temporary public URL for local server via localtunnel"
 	@echo "  share-demo       Start dev server and localtunnel simultaneously"
+	@echo ""
+	@echo "SAT Brain Knowledge Wiki:"
+	@echo "  brain-validate   Run Gate 1 (deterministic) & Gate 2 (semantic) validators"
+	@echo "  brain-sync       Run staging sync, quarantine, and changelog audit promotion"
 	@echo ""
 	@echo "AWS Serverless Deployment:"
 	@echo "  tf-init-demo     Initialize Terraform in the DEMO environment"
@@ -105,6 +109,13 @@ tf-cost:
 
 tf-inventory:
 	-python3 scripts/tf_inventory.py $(if $(NOTIFY),--notify,)
+
+brain-validate:
+	./.venv/bin/python scripts/validate_brain_deterministic.py
+	./.venv/bin/python scripts/validate_brain_semantic.py
+
+brain-sync:
+	./.venv/bin/python scripts/sync_brain.py
 
 send-daily-summary:
 	@echo "Triggering the SAT Exam Daily Summary Email..."
