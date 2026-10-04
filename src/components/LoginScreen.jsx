@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { signIn, signUp, confirmSignUp, resetPassword, confirmResetPassword } from 'aws-amplify/auth';
 
-function LoginScreen({ onLoginSuccess }) {
+function LoginScreen({ onLoginSuccess, onNavigate }) {
   const [mode, setMode] = useState('SIGN_IN'); // 'SIGN_IN', 'SIGN_UP_AGE_GATE', 'SIGN_UP_DETAILS', 'SIGN_UP_STOP', 'VERIFY', 'FORGOT_PASSWORD_REQUEST', 'FORGOT_PASSWORD_SUBMIT'
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -181,6 +181,22 @@ function LoginScreen({ onLoginSuccess }) {
       <div className="shape shape-3"></div>
 
       <div className="login-glass-card">
+        <div style={{ textAlign: 'center', marginBottom: '1.25rem' }}>
+          <span style={{ 
+            display: 'inline-block',
+            padding: '4px 12px', 
+            borderRadius: '20px', 
+            backgroundColor: 'rgba(56, 189, 248, 0.12)', 
+            border: '1px solid rgba(56, 189, 248, 0.25)',
+            color: '#38bdf8', 
+            fontSize: '0.75rem', 
+            fontWeight: 600,
+            letterSpacing: '0.04em'
+          }}>
+            Skill Diagnostics • Controlled Assistance • Parent Reports
+          </span>
+        </div>
+
         {mode === 'SIGN_IN' && (
           <form onSubmit={handleSignIn} className="login-form fade-in">
             <h2>Welcome Back</h2>
@@ -359,7 +375,7 @@ function LoginScreen({ onLoginSuccess }) {
                 style={{ marginTop: '0.2rem', cursor: 'pointer' }}
               />
               <label htmlFor="terms" style={{ fontSize: '0.85rem', color: '#a1a1aa', lineHeight: '1.4', cursor: 'pointer' }}>
-                I agree to the <a href="#" onClick={(e) => { e.preventDefault(); window.open('/?view=terms', '_blank'); }} style={{ color: 'var(--primary-color)' }}>Terms of Use</a> and acknowledge the <a href="#" onClick={(e) => { e.preventDefault(); window.open('/?view=privacy', '_blank'); }} style={{ color: 'var(--primary-color)' }}>Privacy Policy</a>.
+                I agree to the <a href="/terms" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('terms', '/terms'); else window.open('/terms', '_blank'); }} style={{ color: 'var(--primary-color)' }}>Terms of Use</a> and acknowledge the <a href="/privacy" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('privacy', '/privacy'); else window.open('/privacy', '_blank'); }} style={{ color: 'var(--primary-color)' }}>Privacy Notice</a>. Users under 18 must have <a href="/parent-guide" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('parent-guide', '/parent-guide'); else window.open('/parent-guide', '_blank'); }} style={{ color: 'var(--primary-color)' }}>parent/guardian permission</a>.
               </label>
             </div>
 
@@ -504,8 +520,22 @@ function LoginScreen({ onLoginSuccess }) {
         )}
 
         <div style={{ marginTop: '1.5rem', fontSize: '0.8rem', color: '#a1a1aa', textAlign: 'left', lineHeight: '1.5' }}>
-          <strong>Disclaimer:</strong> This is an independent educational tool for SAT practice. We are not affiliated with or endorsed by the College Board. Results are for educational purposes only and do not guarantee actual SAT scores. You must be 13 or older to use this service, and users under 18 must have parent or guardian permission.<br /><br />
-          By using this service, you agree to our <a href="/terms" style={{color: '#60a5fa', textDecoration: 'none'}} target="_blank" rel="noopener noreferrer">Terms of Use</a> and acknowledge our <a href="/privacy" style={{color: '#60a5fa', textDecoration: 'none'}} target="_blank" rel="noopener noreferrer">Privacy Policy</a>. Learn more <a href="/about" style={{color: '#60a5fa', textDecoration: 'none'}} target="_blank" rel="noopener noreferrer">About Us</a>. For support or data requests, contact us at <a href="mailto:panchaldineshb@gmail.com" style={{color: '#60a5fa', textDecoration: 'none'}}>panchaldineshb@gmail.com</a>.
+          <strong>Disclaimer:</strong> This is an independent educational practice tool. We do not promise score increases or college admission, do not claim infallible AI answers, do not replace tutors or classroom teachers, and do not diagnose clinical learning problems. We are not affiliated with or endorsed by the College Board. You must be 13 or older to register, and users under 18 must have parent or guardian permission.<br /><br />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.5rem', fontSize: '0.82rem' }}>
+            <a href="/trust" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('trust', '/trust'); else window.location.href = '/trust'; }} style={{ color: '#60a5fa', textDecoration: 'none' }}>🛡️ Trust Center</a>
+            <span>•</span>
+            <a href="/parent-guide" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('parent-guide', '/parent-guide'); else window.location.href = '/parent-guide'; }} style={{ color: '#60a5fa', textDecoration: 'none' }}>👨‍👩‍👦 Parent Guide</a>
+            <span>•</span>
+            <a href="/student-support" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('student-support', '/student-support'); else window.location.href = '/student-support'; }} style={{ color: '#60a5fa', textDecoration: 'none' }}>💚 Student Support</a>
+            <span>•</span>
+            <a href="/privacy" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('privacy', '/privacy'); else window.location.href = '/privacy'; }} style={{ color: '#60a5fa', textDecoration: 'none' }}>Privacy Notice</a>
+            <span>•</span>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('terms', '/terms'); else window.location.href = '/terms'; }} style={{ color: '#60a5fa', textDecoration: 'none' }}>Terms of Use</a>
+            <span>•</span>
+            <a href="/data-rights" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('data-rights', '/data-rights'); else window.location.href = '/data-rights'; }} style={{ color: '#60a5fa', textDecoration: 'none' }}>Data Rights</a>
+            <span>•</span>
+            <a href="/contact" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('contact', '/contact'); else window.location.href = '/contact'; }} style={{ color: '#60a5fa', textDecoration: 'none' }}>Contact & Concerns</a>
+          </div>
         </div>
       </div>
     </div>

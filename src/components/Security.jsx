@@ -13,7 +13,7 @@ const Security = ({ onBack }) => {
       </div>
 
       <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '3rem', lineHeight: '1.6' }}>
-        Student safety and platform security are treated with absolute zero-trust brutality. Here is how we guarantee a safe environment for your educational journey.
+        Student safety and platform security are treated with rigorous defense-in-depth principles. Here is our engineering approach to maintaining a hardened, isolated environment for your educational journey.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>

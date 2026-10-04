@@ -1,0 +1,116 @@
+flowchart TB
+    %% SAT-EXAM Local Brain Architecture
+    %% Security principle:
+    %% Browser never calls Cloudflare Access, Local Brain Gateway, or Ollama directly.
+    %% Ollama remains bound to localhost/private network only.
+
+    Student["Student / Parent Browser<br/>React SAT-exam App"]
+
+    subgraph APP["SAT-exam Application"]
+        direction TB
+
+        Frontend["React Frontend<br/>Practice · Tutor · Progress · Support"]
+        AppAPI["Application Backend / API<br/>Authentication · Authorization · Quotas"]
+
+        QuestionBank[("Canonical SAT Data<br/>Questions · Answer Keys · Vetted Explanations")]
+        StudentData[("Student Data<br/>Profiles · Attempts · Progress")]
+        AuditLog[("Privacy-Minimized Audit Log<br/>Request ID · Model/Prompt Version · Latency · Safety Action")]
+
+        Frontend -->|"HTTPS: questionId, mode, student attempt"| AppAPI
+        AppAPI -->|"Read trusted context"| QuestionBank
+        AppAPI -->|"Read/write permitted study data"| StudentData
+    end
+
+    subgraph CF["Cloudflare Security Boundary"]
+        direction TB
+
+        CFEdge["Cloudflare Tunnel<br/>Outbound-only connection"]
+        Access["Cloudflare Access<br/>Service Token + Signed Access JWT"]
+    end
+
+    subgraph APPLIANCE["Local Brain Fixed Appliance"]
+        direction TB
+
+        subgraph HOST["Ubuntu Server Hardening"]
+            direction LR
+            UFW["UFW Default-Deny Firewall"]
+            Disk["Full-Disk Encryption"]
+            Systemd["systemd Services<br/>Restart · Resource Limits"]
+            Ops["Monitoring · Alerts · Encrypted Backups"]
+        end
+
+        subgraph GATEWAY["Local Brain Gateway — FastAPI"]
+            direction TB
+
+            JWT["Validate Cloudflare Access JWT<br/>Signature · Issuer · Audience · Expiry"]
+            Signature["Validate App Request<br/>HMAC · Timestamp · Nonce · Replay Protection"]
+            Authorization["Authorize Context<br/>Tenant · Student · Entitlement · Quota"]
+            Validation["Validate Schema<br/>Pydantic · Size Limits · Unknown Fields Rejected"]
+            AllowList["Task / Model Allow-list<br/>No Arbitrary Prompts · Models · Tools"]
+            Safety["Student Safety Guardrails<br/>Support Level · Output Policy Filter"]
+            ResponseGuard["Response Guard<br/>Strict JSON · Token Limit · Answer-Key Check"]
+
+            JWT --> Signature --> Authorization --> Validation --> AllowList --> Safety
+        end
+
+        subgraph RUNTIME["Intelligence Runtime — Private Only"]
+            direction TB
+
+            Ollama["Ollama<br/>127.0.0.1:11434 only"]
+            Models["Pinned Local Models<br/>Tutor · Rewrite · Summary"]
+            Eval["Evaluation Harness<br/>Verified SAT Cases · Safety Tests"]
+            Telemetry["Operational Telemetry<br/>Latency · Errors · Queue Depth"]
+
+            Ollama --> Models
+            Eval -. "Approve / reject model versions" .-> Models
+            Ollama --> Telemetry
+        end
+
+        GatewayHealth["GET /healthz<br/>No student data"]
+
+        AllowList -->|"Only approved task payloads"| Ollama
+        Ollama -->|"Structured model response"| ResponseGuard
+        GatewayHealth --> Systemd
+        UFW --- GATEWAY
+        Disk --- HOST
+        Ops --- HOST
+    end
+
+    Student -->|"HTTPS + normal app login"| Frontend
+
+    AppAPI -->|"Private service request only<br/>Signed payload + Access credential"| CFEdge
+    CFEdge --> Access
+    Access -->|"Cf-Access-Jwt-Assertion"| JWT
+
+    ResponseGuard -->|"Safe structured response only"| AppAPI
+    AppAPI -->|"Log minimal metadata"| AuditLog
+    AppAPI -->|"Verified student-facing result"| Frontend
+
+    subgraph BLOCKED["Explicitly Blocked"]
+        direction TB
+        Block1["Browser → Ollama"]
+        Block2["Public Ollama Port 11434"]
+        Block3["Arbitrary Model Selection"]
+        Block4["Arbitrary System Prompts"]
+        Block5["Shell · Filesystem · Browser · Email Tools"]
+        Block6["Model Overrides Canonical Answer Key"]
+    end
+
+    BlockedNote["Blocked paths are never implemented<br/>or rejected by the gateway"]
+    BLOCKED --- BlockedNote
+
+    classDef browser fill:#E3F2FD,stroke:#1565C0,color:#0D47A1;
+    classDef app fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20;
+    classDef security fill:#FFF3E0,stroke:#EF6C00,color:#E65100;
+    classDef gateway fill:#F3E5F5,stroke:#7B1FA2,color:#4A148C;
+    classDef runtime fill:#ECEFF1,stroke:#455A64,color:#263238;
+    classDef data fill:#FFFDE7,stroke:#F9A825,color:#6D4C41;
+    classDef blocked fill:#FFEBEE,stroke:#C62828,color:#B71C1C;
+
+    class Student,Frontend browser;
+    class AppAPI app;
+    class QuestionBank,StudentData,AuditLog data;
+    class CFEdge,Access,UFW,Disk,Systemd,Ops security;
+    class JWT,Signature,Authorization,Validation,AllowList,Safety,ResponseGuard,GatewayHealth gateway;
+    class Ollama,Models,Eval,Telemetry runtime;
+    class Block1,Block2,Block3,Block4,Block5,Block6,BlockedNote blocked;

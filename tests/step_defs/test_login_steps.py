@@ -98,7 +98,7 @@ def click_forgot_password(page):
 
 @when("I submit my email for password reset")
 def submit_forgot_password_email(page):
-    page.locator("#reset-email").fill("test_user@example.com")
+    page.locator("#reset-email").fill("panchaldineshb@gmail.com")
     page.locator("button:has-text('Send Verification Code')").click()
 
 @then("I should see a prompt to enter the verification code")

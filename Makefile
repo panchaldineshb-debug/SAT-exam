@@ -1,6 +1,6 @@
 DEMO_ENV_DIR ?= terraform/environments/demo
 
-.PHONY: help install install-test clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo nuke-demo tf-cost tf-inventory test-e2e test-e2e-ui set-test-credentials get-test-credentials send-active-students deploy-lambda-manual
+.PHONY: help install install-test clean build local-demo kill-local-demo expose-local share-demo tf-init-demo tf-plan-demo tf-create-demo tf-destroy-demo nuke-demo tf-cost tf-inventory brain-validate brain-sync test-e2e test-e2e-ui set-test-credentials get-test-credentials send-active-students deploy-lambda-manual cleanup-e2e clean-e2e
 
 # Default target: show help
 help:
@@ -23,6 +23,10 @@ help:
 	@echo "  expose-local     Generate a temporary public URL for local server via localtunnel"
 	@echo "  share-demo       Start dev server and localtunnel simultaneously"
 	@echo ""
+	@echo "SAT Brain Knowledge Wiki:"
+	@echo "  brain-validate   Run Gate 1 (deterministic) & Gate 2 (semantic) validators"
+	@echo "  brain-sync       Run staging sync, quarantine, and changelog audit promotion"
+	@echo ""
 	@echo "AWS Serverless Deployment:"
 	@echo "  tf-init-demo     Initialize Terraform in the DEMO environment"
 	@echo "  tf-plan-demo     Run Terraform plan for the DEMO environment"
@@ -39,6 +43,7 @@ install:
 	npm install
 
 install-test:
+	test -d .venv || python3 -m venv .venv
 	./.venv/bin/pip install -r requirements-test.txt
 	./.venv/bin/playwright install --with-deps chromium
 
@@ -106,11 +111,20 @@ tf-cost:
 tf-inventory:
 	-python3 scripts/tf_inventory.py $(if $(NOTIFY),--notify,)
 
+brain-validate:
+	./.venv/bin/python scripts/validate_brain_deterministic.py
+	./.venv/bin/python scripts/validate_brain_semantic.py
+
+brain-sync:
+	./.venv/bin/python scripts/sync_brain.py
+
 send-daily-summary:
 	@echo "Triggering the SAT Exam Daily Summary Email..."
 	@FUNC=$$(cd $(DEMO_ENV_DIR) && aws lambda list-functions --query "Functions[?contains(FunctionName, 'sat_daily_summary')].FunctionName" --output text) && \
 	aws lambda invoke --function-name $$FUNC response.json && \
 	cat response.json && rm response.json
+
+clean-e2e: cleanup-e2e
 
 cleanup-e2e:
 	@echo "Cleaning up E2E test users from Cognito and DynamoDB..."

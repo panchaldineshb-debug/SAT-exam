@@ -11,6 +11,29 @@ import AboutUs from './components/AboutUs';
 import CookieNotice from './components/CookieNotice';
 import Features from './components/Features';
 import Security from './components/Security';
+import TrustCenter from './components/TrustCenter';
+import StudentSupport from './components/StudentSupport';
+import ParentGuide from './components/ParentGuide';
+import DataRights from './components/DataRights';
+import ContactSafety from './components/ContactSafety';
+import Footer from './components/Footer';
+
+const resolveViewFromLocation = () => {
+  const path = window.location.pathname.replace(/^\//, '').toLowerCase();
+  const searchParams = new URLSearchParams(window.location.search);
+  const viewParam = (searchParams.get('view') || '').toLowerCase();
+  const target = path || viewParam;
+
+  const validPublicViews = [
+    'trust', 'privacy', 'terms', 'student-support', 'parent-guide',
+    'data-rights', 'contact', 'about', 'features', 'security'
+  ];
+
+  if (validPublicViews.includes(target)) {
+    return target;
+  }
+  return 'dashboard';
+};
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -19,17 +42,7 @@ function App() {
   const [ratings, setRatings] = useState({});
   const [globalPercentile, setGlobalPercentile] = useState("N/A");
   const [loading, setLoading] = useState(true);
-  const [currentView, setCurrentView] = useState(() => {
-    const path = window.location.pathname;
-    const searchParams = new URLSearchParams(window.location.search);
-    const viewParam = searchParams.get('view');
-    if (path === '/terms' || viewParam === 'terms') return 'terms';
-    if (path === '/privacy' || viewParam === 'privacy') return 'privacy';
-    if (path === '/about' || viewParam === 'about') return 'about';
-    if (path === '/features' || viewParam === 'features') return 'features';
-    if (path === '/security' || viewParam === 'security') return 'security';
-    return 'dashboard';
-  }); // 'dashboard', 'practice', 'review', 'drill', 'privacy', 'terms', 'about', 'features', 'security'
+  const [currentView, setCurrentView] = useState(resolveViewFromLocation);
   
   const [selectedTest, setSelectedTest] = useState(null);
   const [selectedDrill, setSelectedDrill] = useState(null);
@@ -38,6 +51,21 @@ function App() {
   const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
   const [completedTests, setCompletedTests] = useState({});
   const [inProgressTests, setInProgressTests] = useState({});
+
+  const navigateTo = (view, path) => {
+    setCurrentView(view);
+    const targetPath = path || (view === 'dashboard' ? '/' : `/${view}`);
+    window.history.pushState({ view }, '', targetPath);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentView(resolveViewFromLocation());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Load test data, student history, and drills registry
   useEffect(() => {
@@ -56,7 +84,6 @@ function App() {
         try {
           const testsData = await fetch('/tests_data.json?v=' + new Date().getTime()).then(res => res.json());
           const drillsData = await fetch('/data/drills_registry.json').then(res => res.ok ? res.json() : []).catch(() => []);
-          // Static scores data not needed now, using API percentile
           setTests(testsData);
           setDrills(drillsData);
         } catch (err) {
@@ -93,10 +120,10 @@ function App() {
                if (p.status === "COMPLETED") {
                  comp[testKey] = {
                    score: p.score,
-                   scaledScore: p.scaledScore || p.score, // Fallback for old tests
+                   scaledScore: p.scaledScore || p.score,
                    totalQuestions: p.totalQuestions,
                    answers: p.answers,
-                   date: p.completedAt || p.date, // Prefer ISO string so frontend formats to local timezone
+                   date: p.completedAt || p.date,
                    gradedAnswers: p.gradedAnswers,
                    aiAdvice: p.aiAdvice
                  };
@@ -119,7 +146,6 @@ function App() {
         }
       };
 
-      // Only fetch dashboard if authenticated. We can fetch public data anytime.
       const tasks = [fetchPublicData()];
       if (isAuth) {
         tasks.push(fetchDashboard());
@@ -214,7 +240,7 @@ function App() {
     const updatedInProgress = { ...inProgressTests, [testKey]: currentProgress };
     saveInProgressLocally(updatedInProgress);
     
-    setCurrentView('dashboard');
+    navigateTo('dashboard', '/');
     setSelectedTest(null);
   };
 
@@ -276,7 +302,7 @@ function App() {
   };
 
   const handleReturnToDashboard = () => {
-    setCurrentView('dashboard');
+    navigateTo('dashboard', '/');
     setSelectedTest(null);
     setSelectedDrill(null);
     setUserAnswers({});
@@ -293,7 +319,7 @@ function App() {
         saveInProgressLocally(updatedInProgress);
       }
       
-      setCurrentView('dashboard');
+      navigateTo('dashboard', '/');
       setSelectedTest(null);
       setUserAnswers({});
     }
@@ -330,51 +356,92 @@ function App() {
     );
   }
 
+  // Unauthenticated routing: public informational pages + login screen
   if (!currentUser) {
-    if (currentView === 'privacy') {
-      return (
-        <div className="app-container">
-          <main className="main-content">
-            <PrivacyPolicy onBack={() => window.location.href = '/'} />
-          </main>
-        </div>
-      );
+    let publicContent = null;
+    if (currentView === 'trust') {
+      publicContent = <TrustCenter onNavigate={navigateTo} onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'student-support') {
+      publicContent = <StudentSupport onNavigate={navigateTo} onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'parent-guide') {
+      publicContent = <ParentGuide onNavigate={navigateTo} onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'data-rights') {
+      publicContent = <DataRights onNavigate={navigateTo} onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'contact') {
+      publicContent = <ContactSafety onNavigate={navigateTo} onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'privacy') {
+      publicContent = <PrivacyPolicy onNavigate={navigateTo} onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'terms') {
+      publicContent = <TermsOfUse onNavigate={navigateTo} onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'about') {
+      publicContent = <AboutUs onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'features') {
+      publicContent = <Features onBack={() => navigateTo('dashboard', '/')} />;
+    } else if (currentView === 'security') {
+      publicContent = <Security onBack={() => navigateTo('dashboard', '/')} />;
+    } else {
+      publicContent = <LoginScreen onLoginSuccess={() => window.location.reload()} onNavigate={navigateTo} />;
     }
-    if (currentView === 'terms') {
-      return (
-        <div className="app-container">
-          <main className="main-content">
-            <TermsOfUse onBack={() => window.location.href = '/'} />
-          </main>
-        </div>
-      );
-    }
-    if (currentView === 'about') {
-      return (
-        <div className="app-container">
-          <main className="main-content">
-            <AboutUs onBack={() => window.location.href = '/'} />
-          </main>
-        </div>
-      );
-    }
-    return <LoginScreen onLoginSuccess={() => window.location.reload()} />;
+
+    return (
+      <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <header className="app-header">
+          <div className="logo-section" style={{ cursor: 'pointer' }} onClick={() => navigateTo('dashboard', '/')}>
+            <div className="logo-badge">SP</div>
+            <span className="logo-text">SAT Prep Suite</span>
+          </div>
+          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <button 
+              onClick={() => navigateTo('trust', '/trust')}
+              className="nav-btn"
+              style={{ background: 'transparent', border: '1px solid #3f3f46', color: '#d4d4d8', padding: '0.4rem 0.85rem', fontSize: '0.85rem' }}
+            >
+              🛡️ Trust Center
+            </button>
+            <button 
+              onClick={() => navigateTo('dashboard', '/')}
+              className="nav-btn primary"
+              style={{ padding: '0.4rem 0.85rem', fontSize: '0.85rem' }}
+            >
+              Sign In
+            </button>
+          </div>
+        </header>
+
+        <main className="main-content" style={{ flex: 1 }}>
+          {publicContent}
+        </main>
+
+        <Footer onNavigate={navigateTo} />
+        <CookieNotice />
+      </div>
+    );
   }
 
+  // Authenticated routing
   return (
-    <div className="app-container">
+    <div className="app-container" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <header className="app-header">
         <div className="logo-section" style={{ cursor: 'pointer' }} onClick={handleLogoClick}>
           <div className="logo-badge">SP</div>
           <span className="logo-text">SAT Prep Suite</span>
         </div>
-        <div className="user-badge" style={{ cursor: 'pointer' }} onClick={handleSignOut} title="Click to log out">
-          <span className="user-indicator"></span>
-          <span className="user-name">{currentUser} | Sign Out</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <button 
+            onClick={() => navigateTo('trust', '/trust')}
+            className="nav-btn"
+            style={{ background: 'transparent', border: '1px solid #3f3f46', color: '#d4d4d8', padding: '0.4rem 0.85rem', fontSize: '0.85rem' }}
+          >
+            🛡️ Trust Center
+          </button>
+          <div className="user-badge" style={{ cursor: 'pointer' }} onClick={handleSignOut} title="Click to log out">
+            <span className="user-indicator"></span>
+            <span className="user-name">{currentUser} | Sign Out</span>
+          </div>
         </div>
       </header>
       
-      <main className="main-content">
+      <main className="main-content" style={{ flex: 1 }}>
         {currentView === 'dashboard' && (
           <Dashboard 
             tests={tests}
@@ -386,6 +453,7 @@ function App() {
             onStartTest={handleStartTest}
             onOpenReview={handleOpenReview}
             onStartDrill={handleStartDrill}
+            onNavigate={navigateTo}
           />
         )}
         
@@ -408,6 +476,7 @@ function App() {
             test={selectedTest}
             completedInfo={completedTests[selectedTest.id]}
             onBack={handleReturnToDashboard}
+            onNavigate={navigateTo}
           />
         )}
         
@@ -418,12 +487,32 @@ function App() {
           />
         )}
 
+        {currentView === 'trust' && (
+          <TrustCenter onNavigate={navigateTo} onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'student-support' && (
+          <StudentSupport onNavigate={navigateTo} onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'parent-guide' && (
+          <ParentGuide onNavigate={navigateTo} onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'data-rights' && (
+          <DataRights onNavigate={navigateTo} onBack={handleReturnToDashboard} />
+        )}
+
+        {currentView === 'contact' && (
+          <ContactSafety onNavigate={navigateTo} onBack={handleReturnToDashboard} />
+        )}
+
         {currentView === 'privacy' && (
-          <PrivacyPolicy onBack={handleReturnToDashboard} />
+          <PrivacyPolicy onNavigate={navigateTo} onBack={handleReturnToDashboard} />
         )}
 
         {currentView === 'terms' && (
-          <TermsOfUse onBack={handleReturnToDashboard} />
+          <TermsOfUse onNavigate={navigateTo} onBack={handleReturnToDashboard} />
         )}
 
         {currentView === 'about' && (
@@ -439,20 +528,7 @@ function App() {
         )}
       </main>
 
-      {currentView === 'dashboard' && (
-        <footer style={{ textAlign: 'center', padding: '2rem', color: '#71717a', fontSize: '0.9rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '0.5rem', alignItems: 'center' }}>
-          <button onClick={() => setCurrentView('features')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Features</button>
-          <span>|</span>
-          <button onClick={() => setCurrentView('security')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Security Architecture</button>
-          <span>|</span>
-          <button onClick={() => setCurrentView('about')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>About Us</button>
-          <span>|</span>
-          <button onClick={() => setCurrentView('privacy')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Privacy Policy</button>
-          <span>|</span>
-          <button onClick={() => setCurrentView('terms')} style={{ background: 'none', border: 'none', color: '#71717a', textDecoration: 'underline', cursor: 'pointer' }}>Terms of Use</button>
-        </footer>
-      )}
-
+      <Footer onNavigate={navigateTo} />
       <CookieNotice />
     </div>
   );

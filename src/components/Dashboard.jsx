@@ -4,7 +4,7 @@ import ScoreChart from './ScoreChart';
 import MistakeJournal from './MistakeJournal';
 import DailyChallenge from './DailyChallenge';
 
-function Dashboard({ tests, drills, ratings, completedTests, inProgressTests, globalPercentile, onStartTest, onOpenReview, onStartDrill }) {
+function Dashboard({ tests, drills, ratings, completedTests, inProgressTests, globalPercentile, onStartTest, onOpenReview, onStartDrill, onNavigate }) {
   const [activeTab, setActiveTab] = useState('verbal'); // 'verbal', 'math', 'drills'
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -49,7 +49,7 @@ function Dashboard({ tests, drills, ratings, completedTests, inProgressTests, gl
   const completedMath = completedKeys.filter(k => tests.find(t => t.id === k)?.subject === 'math').length;
 
   const totalScore = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.scaledScore || 0), 0);
-  const totalQuestions = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.totalQuestions || 0), 0);
+  const _totalQuestions = completedKeys.reduce((acc, key) => acc + (completedTests[key]?.totalQuestions || 0), 0);
   // Average score using scaled scores now
   const averageScore = totalCompleted > 0 ? Math.round(totalScore / totalCompleted) : 'N/A';
 
@@ -124,7 +124,17 @@ function Dashboard({ tests, drills, ratings, completedTests, inProgressTests, gl
           <DailyChallenge />
         </div>
 
-        <div style={{ marginTop: 'auto', paddingTop: '2rem' }}>
+        <div style={{ marginTop: 'auto', paddingTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ padding: '0.85rem', backgroundColor: 'var(--bg-tertiary)', borderRadius: '8px', fontSize: '0.82rem', border: '1px solid var(--border-color)', lineHeight: '1.5' }}>
+            <div style={{ fontWeight: 600, color: '#f4f4f5', marginBottom: '0.35rem' }}>Family & Privacy Controls</div>
+            <a href="/parent-guide" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('parent-guide', '/parent-guide'); else window.location.href = '/parent-guide'; }} style={{ color: '#38bdf8', textDecoration: 'none', display: 'block', marginBottom: '0.25rem' }}>
+              👨‍👩‍👦 Parent/Guardian Guide
+            </a>
+            <a href="/data-rights" onClick={(e) => { e.preventDefault(); if (onNavigate) onNavigate('data-rights', '/data-rights'); else window.location.href = '/data-rights'; }} style={{ color: '#34d399', textDecoration: 'none', display: 'block' }}>
+              📋 Data Rights & Requests
+            </a>
+          </div>
+
           <button 
             className="nav-btn" 
             style={{ width: '100%', backgroundColor: 'transparent', color: '#ef4444', border: '1px solid #ef4444' }}

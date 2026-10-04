@@ -1205,3 +1205,101 @@ h1, h2, h3, h4, h5, h6 {
 .password-toggle:hover {
   color: var(--primary-color);
 }
+
+/* ==========================================================================
+.footer-link {
+  transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff !important;
+  text-decoration: underline !important;
+}
+
+.trust-card {
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trust-card:hover {
+  transform: translateY(-2px);
+  border-color: #6366f1 !important;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+/* ==========================================================================
+   Parent-Ready Progress Report & Policy Print Styles
+   ========================================================================== */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #18181b !important;
+  }
+
+  .app-header,
+  .public-footer,
+  .app-container > footer,
+  .results-card,
+  .review-header-text,
+  .review-item-card,
+  .review-modal-actions,
+  .review-modal-close-btn,
+  .back-to-dash-btn,
+  .nav-btn,
+  .cookie-notice,
+  .tabs-container {
+    display: none !important;
+  }
+
+  .practice-container,
+  .trust-page-container,
+  .support-page-container,
+  .parent-guide-container,
+  .data-rights-container,
+  .contact-page-container {
+    background: #ffffff !important;
+    color: #18181b !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .practice-container *,
+  .trust-page-container *,
+  .support-page-container *,
+  .parent-guide-container *,
+  .data-rights-container *,
+  .contact-page-container * {
+    color: #18181b !important;
+    border-color: #d4d4d8 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .parent-report-modal-backdrop {
+    position: static !important;
+    background: transparent !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  .parent-report-card {
+    background: #ffffff !important;
+    color: #18181b !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .parent-report-card * {
+    color: #18181b !important;
+    border-color: #d4d4d8 !important;
+  }
+
+  .parent-report-card h2,
+  .parent-report-card h4 {
+    color: #09090b !important;
+  }
+}
+
+
